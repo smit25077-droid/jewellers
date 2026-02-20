@@ -88,7 +88,7 @@ class _PremiumAnimatedBannerState extends State<PremiumAnimatedBanner>
               margin: AppDesignConstants.marginCard,
               decoration: BoxDecoration(
                 borderRadius: AppDesignConstants.borderRadius,
-                boxShadow: AppDesignConstants.getShadow(context, size: 'L'),
+                boxShadow: AppDesignConstants.getShadow(size: 'L'),
               ),
               child: ClipRRect(
                 borderRadius: AppDesignConstants.borderRadius,
@@ -190,7 +190,7 @@ class _PremiumAnimatedBannerState extends State<PremiumAnimatedBanner>
                                 SizedBox(height: AppDesignConstants.spaceS),
                               Text(
                                 widget.title,
-                                style: AppDesignConstants.displayMedium(context)
+                                style: AppDesignConstants.displayMedium()
                                     .copyWith(
                                       color: Colors.black87,
                                       shadows: [
@@ -207,7 +207,7 @@ class _PremiumAnimatedBannerState extends State<PremiumAnimatedBanner>
                                 Expanded(
                                   child: Text(
                                     widget.subtitle!,
-                                    style: AppDesignConstants.bodyLarge(context)
+                                    style: AppDesignConstants.bodyLarge()
                                         .copyWith(
                                           color: Colors.black54,
                                           shadows: [
@@ -310,14 +310,15 @@ class _AnimatedStatsCardState extends State<AnimatedStatsCard>
             // SizedBox(height: AppDesignConstants.spaceS),
             Text(
               widget.value,
-              style: AppDesignConstants.headlineMedium(
-                context,
-              ).copyWith(color: color, fontWeight: FontWeight.bold),
+              style: AppDesignConstants.headlineMedium().copyWith(
+                color: color,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             SizedBox(height: AppDesignConstants.spaceXS),
             Text(
               widget.label,
-              style: AppDesignConstants.bodySmall(context),
+              style: AppDesignConstants.bodySmall(),
               textAlign: TextAlign.center,
             ),
           ],
@@ -392,7 +393,7 @@ class _GradientParticleBannerState extends State<GradientParticleBanner>
       decoration: BoxDecoration(
         borderRadius: AppDesignConstants.borderRadius,
         gradient: AppColors.getPremiumGradient(context),
-        boxShadow: AppDesignConstants.getShadow(context, size: 'XL'),
+        boxShadow: AppDesignConstants.getShadow(size: 'XL'),
       ),
       child: ClipRRect(
         borderRadius: AppDesignConstants.borderRadius,
@@ -435,17 +436,17 @@ class _GradientParticleBannerState extends State<GradientParticleBanner>
                       children: [
                         Text(
                           widget.title,
-                          style: AppDesignConstants.displayMedium(
-                            context,
-                          ).copyWith(color: Colors.black87),
+                          style: AppDesignConstants.displayMedium().copyWith(
+                            color: Colors.black87,
+                          ),
                         ),
                         if (widget.subtitle != null) ...[
                           SizedBox(height: AppDesignConstants.spaceS),
                           Text(
                             widget.subtitle!,
-                            style: AppDesignConstants.bodyLarge(
-                              context,
-                            ).copyWith(color: Colors.black54),
+                            style: AppDesignConstants.bodyLarge().copyWith(
+                              color: Colors.black54,
+                            ),
                           ),
                         ],
                       ],

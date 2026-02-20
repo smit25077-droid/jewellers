@@ -3,6 +3,7 @@ import 'package:digital_jeweller/core/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'core/theme/app_colors.dart';
 import 'core/theme/app_theme.dart';
 import 'core/routes/app_pages.dart';
 import 'core/constants/app_routes.dart';
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
       case 'super_admin':
         return AppRoutes.masterAdminDashboard;
       case 'customer':
-        return AppRoutes.userDashboard;
+        return AppRoutes.userHomeScreen;
       default:
         return AppRoutes.login;
     }
@@ -51,6 +52,7 @@ class MyApp extends StatelessWidget {
         FocusScope.of(context).unfocus();
       },
       child: GetMaterialApp(
+        navigatorKey: navigatorKey,
         title: 'Digital Jeweller',
         theme: AppTheme.light,
         darkTheme: AppTheme.dark,

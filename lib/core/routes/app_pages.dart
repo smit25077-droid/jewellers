@@ -1,4 +1,5 @@
 import 'package:digital_jeweller/core/bindings/add_banner_binding.dart';
+import 'package:digital_jeweller/core/widgets/common_profile_page.dart';
 import 'package:digital_jeweller/features/admin/presentation/customer_add_update/admin_customer_list_page.dart';
 import 'package:digital_jeweller/features/admin/presentation/customer_add_update/binding/admin_customer_list_binding.dart';
 import 'package:digital_jeweller/features/admin/presentation/customer_add_update/customer_add_update_page.dart';
@@ -11,8 +12,11 @@ import 'package:digital_jeweller/features/admin/presentation/schemes/pages/admin
 import 'package:digital_jeweller/features/admin/presentation/schemes/pages/admin_scheme_add_update.dart';
 import 'package:digital_jeweller/features/auth/presentation/binding/auth_biniding.dart';
 import 'package:digital_jeweller/features/master_admin/presentation/binding/master_admin_binding.dart';
+import 'package:digital_jeweller/features/user/presentation/bindings/user_dashboard_binding.dart';
+import 'package:digital_jeweller/features/user/presentation/pages/user_dashboard.dart';
 import 'package:get/get.dart';
 import '../../features/admin/presentation/customer_add_update/binding/admin_add_update_binding.dart';
+import 'package:digital_jeweller/features/user/presentation/bindings/user_binding.dart';
 import '../constants/app_routes.dart';
 
 // Auth Feature
@@ -29,7 +33,6 @@ import '../../features/admin/presentation/pages/banner_management_page.dart';
 
 // User Feature
 import '../../features/user/presentation/pages/customer_home_page.dart';
-import '../../features/user/presentation/pages/user_profile_page.dart';
 
 /// GetX Pages Configuration with all routes
 class AppPages {
@@ -156,14 +159,30 @@ class AppPages {
 
     // ==================== USER ROUTES ====================
     GetPage(
-      name: AppRoutes.userDashboard,
+      name: AppRoutes.userHomeScreen,
       page: () => const CustomerHomePage(),
+      binding: UserBinding(),
+      transition: Transition.fadeIn,
+      transitionDuration: const Duration(milliseconds: 300),
+    ),
+    GetPage(
+      name: AppRoutes.userDashboard,
+      page: () => const UserDashboard(),
+      binding: UserDashboardBinding(),
+      transition: Transition.fadeIn,
+      transitionDuration: const Duration(milliseconds: 300),
+    ),
+    GetPage(
+      name: AppRoutes.userDashboardHome,
+      page: () => const UserDashboard(),
+      binding: UserDashboardBinding(),
       transition: Transition.fadeIn,
       transitionDuration: const Duration(milliseconds: 300),
     ),
     GetPage(
       name: AppRoutes.userProfile,
-      page: () => const UserProfilePage(),
+      page: () => const CommonProfilePage(),
+      binding: AuthBinding(),
       transition: Transition.rightToLeft,
       transitionDuration: const Duration(milliseconds: 300),
     ),

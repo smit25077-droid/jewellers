@@ -7,6 +7,8 @@ class ClassicCard extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
   final EdgeInsetsGeometry? margin;
   final VoidCallback? onTap;
+  final double? width;
+  final Colors? colors;
 
   const ClassicCard({
     super.key,
@@ -14,6 +16,8 @@ class ClassicCard extends StatelessWidget {
     this.padding,
     this.margin,
     this.onTap,
+    this.width,
+    this.colors,
   });
 
   @override
@@ -25,10 +29,11 @@ class ClassicCard extends StatelessWidget {
         : Colors.grey.shade200;
 
     Widget cardContent = Container(
+      width: width,
       padding: padding ?? const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
         color: cardBackground,
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
             color: isDark
@@ -51,15 +56,9 @@ class ClassicCard extends StatelessWidget {
       );
     }
 
-    return Row(
-      children: [
-        Container(
-          margin:
-              margin ??
-              const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-          child: cardContent,
-        ),
-      ],
+    return Container(
+      margin: margin ?? const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      child: cardContent,
     );
   }
 }

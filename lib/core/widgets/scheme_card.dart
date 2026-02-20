@@ -30,14 +30,14 @@ class SchemeCard extends StatelessWidget {
               children: [
                 Text(
                   scheme.name,
-                  style: AppDesignConstants.titleLarge(context),
+                  style: AppDesignConstants.titleLarge(),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
                 SizedBox(height: AppDesignConstants.spaceS),
                 Text(
                   scheme.description,
-                  style: AppDesignConstants.bodyMedium(context),
+                  style: AppDesignConstants.bodyMedium(),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -47,7 +47,7 @@ class SchemeCard extends StatelessWidget {
                   children: [
                     Text(
                       '₹${scheme.emiAmount}/month',
-                      style: AppDesignConstants.titleMedium(context).copyWith(
+                      style: AppDesignConstants.titleMedium().copyWith(
                         color: AppColors.primary,
                         fontWeight: FontWeight.bold,
                       ),
@@ -55,7 +55,6 @@ class SchemeCard extends StatelessWidget {
                     Text(
                       '${scheme.durationMonths} Months',
                       style: AppDesignConstants.bodySmall(
-                        context,
                         // color: AppColors.getTextColor(context, secondary: true),
                       ),
                     ),

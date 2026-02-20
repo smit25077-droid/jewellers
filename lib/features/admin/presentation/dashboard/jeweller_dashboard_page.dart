@@ -32,13 +32,12 @@ class JewellerDashboardPage extends GetView<AdminDashboardController> {
                           children: [
                             Text(
                               'Welcome Back',
-                              style: AppDesignConstants.bodyMedium(context),
+                              style: AppDesignConstants.bodyMedium(),
                             ),
                             SizedBox(height: AppDesignConstants.spaceXS),
                             Text(
                               'Jeweller Dashboard',
                               style: AppDesignConstants.displayLarge(
-                                context,
                               ).copyWith(color: AppColors.primary),
                             ),
                           ],
@@ -69,7 +68,7 @@ class JewellerDashboardPage extends GetView<AdminDashboardController> {
                     SizedBox(height: AppDesignConstants.spaceL),
                     Text(
                       'Promotional Banners',
-                      style: AppDesignConstants.headlineMedium(context),
+                      style: AppDesignConstants.headlineMedium(),
                     ),
                     SizedBox(height: AppDesignConstants.spaceM),
                   ],
@@ -91,7 +90,7 @@ class JewellerDashboardPage extends GetView<AdminDashboardController> {
                     SizedBox(height: AppDesignConstants.spaceL),
                     Text(
                       'Quick Stats',
-                      style: AppDesignConstants.headlineMedium(context),
+                      style: AppDesignConstants.headlineMedium(),
                     ),
                     SizedBox(height: AppDesignConstants.spaceM),
                   ],
@@ -165,7 +164,7 @@ class AnimatedStatsCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.getCardColor(context),
         borderRadius: AppDesignConstants.borderRadiusM,
-        boxShadow: AppDesignConstants.getShadow(context),
+        boxShadow: AppDesignConstants.getShadow(),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -174,11 +173,11 @@ class AnimatedStatsCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(label, style: AppDesignConstants.bodyMedium(context)),
+              Text(label, style: AppDesignConstants.bodyMedium()),
               Icon(icon, color: color, size: AppDesignConstants.iconS),
             ],
           ),
-          Text(value, style: AppDesignConstants.displayMedium(context)),
+          Text(value, style: AppDesignConstants.displayMedium()),
         ],
       ),
     );

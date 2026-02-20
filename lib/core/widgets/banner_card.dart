@@ -17,7 +17,7 @@ class BannerCard extends StatelessWidget {
         margin: const EdgeInsets.symmetric(vertical: 8.0),
         decoration: BoxDecoration(
           borderRadius: AppDesignConstants.borderRadiusM,
-          boxShadow: AppDesignConstants.getShadow(context),
+          boxShadow: AppDesignConstants.getShadow(),
         ),
         child: ClipRRect(
           borderRadius: AppDesignConstants.borderRadiusM,

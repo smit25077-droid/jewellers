@@ -1,6 +1,7 @@
 import '../../../../core/base/base_repository.dart';
 import '../../domain/entities/scheme.dart';
 import '../../domain/repositories/scheme_repository.dart';
+import 'package:digital_jeweller/features/user/domain/entities/joined_scheme.dart';
 import '../datasources/scheme_remote_datasource.dart';
 
 class SchemeRepositoryImpl extends BaseRepository implements SchemeRepository {
@@ -57,6 +58,20 @@ class SchemeRepositoryImpl extends BaseRepository implements SchemeRepository {
   Future<void> deleteScheme(String id) async {
     return execute(() async {
       await remoteDataSource.deleteScheme(id);
+    });
+  }
+
+  @override
+  Future<void> joinScheme(String schemeId) async {
+    return execute(() async {
+      await remoteDataSource.joinScheme(schemeId);
+    });
+  }
+
+  @override
+  Future<List<JoinedScheme>> getJoinedSchemes() async {
+    return execute(() async {
+      return await remoteDataSource.getJoinedSchemes();
     });
   }
 }

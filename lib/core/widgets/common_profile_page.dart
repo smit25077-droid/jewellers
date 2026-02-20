@@ -4,87 +4,88 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/classic_card.dart';
-import '../../../core/widgets/common_app_bar.dart';
 import '../../../core/widgets/common_dialogs.dart';
 import '../../../core/constants/app_routes.dart';
+import 'common_appbar.dart';
 
 /// Common profile page for all user types (Admin, Jeweller, Customer)
-class CommonProfilePage extends StatelessWidget {
-  final String name;
-  final String email;
-  final String phone;
-  final String role;
-  final String? profilePicture;
-  final String? jewellerCode;
-
-  const CommonProfilePage({
-    super.key,
-    required this.name,
-    required this.email,
-    required this.phone,
-    required this.role,
-    this.profilePicture,
-    this.jewellerCode,
-  });
+class CommonProfilePage extends GetWidget<AuthController> {
+  const CommonProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final authController = Get.find<AuthController>();
+    final userData = controller.user.value;
 
     return Scaffold(
       backgroundColor: AppColors.getBackgroundColor(context),
-      appBar: const CommonAppBar(title: 'Profile'),
+      // appBar: const CommonAppBar(title: 'Profile'),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(0),
         child: Column(
           children: [
             // Profile Header Card
-            ClassicCard(
-              child: Column(
-                children: [
-                  // Profile Picture
-                  Container(
-                    width: 100,
-                    height: 100,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      gradient: AppColors.getPremiumGradient(context),
-                      border: Border.all(color: AppColors.primary, width: 3),
-                    ),
-                    child: profilePicture != null
-                        ? ClipOval(
-                            child: Image.network(
-                              profilePicture!,
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) =>
-                                  _buildInitialsAvatar(),
+            CommonAppBar(title: 'Profile',isLeading: false,),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                Expanded(
+                  child: Row(
+                    children: [
+                      // Profile Picture
+                      const SizedBox(width: 16),
+                      Container(
+                        width: 80,
+                        height: 80,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          gradient: AppColors.getPremiumGradient(context),
+                          border: Border.all(
+                            color: AppColors.primary,
+                            width: 3,
+                          ),
+                        ),
+                        child:
+                            // profilePicture != null
+                            // ? ClipOval(
+                            //     child: Image.network(
+                            //       profilePicture!,
+                            //       fit: BoxFit.cover,
+                            //       errorBuilder:
+                            //           (context, error, stackTrace) =>
+                            //               _buildInitialsAvatar(),
+                            //     ),
+                            //   ) :
+                            _buildInitialsAvatar(),
+                      ),
+                      const SizedBox(width: 16),
+
+                      // Name
+                      Column(
+                        children: [
+                          Text(
+                            userData?.name ?? '-',
+                            style: TextStyle(
+                              fontSize: 28,
+                              fontWeight: FontWeight.w400,
+                              color: ClassicTheme.getTextPrimary(context),
+                              fontFamily: 'Serif',
                             ),
-                          )
-                        : _buildInitialsAvatar(),
-                  ),
-                  const SizedBox(height: 16),
+                          ),
+                          const SizedBox(height: 8),
 
-                  // Name
-                  Text(
-                    name,
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.w400,
-                      color: ClassicTheme.getTextPrimary(context),
-                      fontFamily: 'Serif',
-                    ),
+                          // Role Badge
+                          ClassicStatusBadge(
+                            text: _getRoleDisplayName(userData?.role ?? '-'),
+                            color: AppColors.primary,
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 8),
-
-                  // Role Badge
-                  ClassicStatusBadge(
-                    text: _getRoleDisplayName(role),
-                    color: _getRoleColor(role),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-
+            Divider(color: AppColors.getDividerColor(context),),
             // const SizedBox(height: 20),
 
             // Profile Details Card
@@ -104,18 +105,24 @@ class CommonProfilePage extends StatelessWidget {
                   const SizedBox(height: 20),
 
                   // Phone
-                  ClassicInfoRow(icon: Icons.phone_outlined, value: phone),
+                  ClassicInfoRow(
+                    icon: Icons.phone_outlined,
+                    value: userData?.phone ?? '-',
+                  ),
                   const SizedBox(height: 16),
 
                   // Email
-                  ClassicInfoRow(icon: Icons.email_outlined, value: email),
+                  ClassicInfoRow(
+                    icon: Icons.email_outlined,
+                    value: userData?.email ?? '-',
+                  ),
 
                   // Jeweller Code (only for jewellers)
-                  if (jewellerCode != null) ...[
+                  if (userData?.jeweller?.code != null) ...[
                     const SizedBox(height: 16),
                     ClassicInfoRow(
                       icon: Icons.qr_code,
-                      value: 'Code: $jewellerCode',
+                      value: 'Code: ${userData?.jeweller?.code}',
                     ),
                   ],
                 ],
@@ -184,7 +191,7 @@ class CommonProfilePage extends StatelessWidget {
               onPressed: () async {
                 final confirmed = await CommonDialogs.showLogoutDialog(context);
                 if (confirmed) {
-                  authController.logout();
+                  controller.logout();
                   Get.offAllNamed(AppRoutes.login);
                 }
               },
@@ -209,7 +216,7 @@ class CommonProfilePage extends StatelessWidget {
   Widget _buildInitialsAvatar() {
     return Center(
       child: Text(
-        _getInitials(name),
+        _getInitials(controller.user.value?.name ?? '-'),
         style: const TextStyle(
           fontSize: 36,
           fontWeight: FontWeight.bold,
@@ -249,7 +256,7 @@ class CommonProfilePage extends StatelessWidget {
       case 'jewellers_admin':
         return AppColors.primary;
       case 'customer':
-        return AppColors.info;
+        return AppColors.primary;
       default:
         return AppColors.primary;
     }

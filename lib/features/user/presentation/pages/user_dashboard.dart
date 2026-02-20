@@ -1,230 +1,270 @@
-import 'package:digital_jeweller/core/service_locator.dart';
+import 'package:digital_jeweller/core/constants/app_design_constants.dart';
 import 'package:digital_jeweller/core/theme/app_colors.dart';
+import 'package:digital_jeweller/core/widgets/classic_card.dart';
 import 'package:digital_jeweller/core/widgets/premium_banner_carousel.dart';
-import 'package:digital_jeweller/features/admin/domain/usecases/get_banners_use_case.dart';
 import 'package:digital_jeweller/features/admin/domain/entities/scheme.dart';
-import 'package:digital_jeweller/features/admin/domain/usecases/get_schemes_usecase.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
 import '../controllers/user_controller.dart';
 
-class UserDashboard extends StatelessWidget {
+class UserDashboard extends GetWidget<UserController> {
   const UserDashboard({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final userController = Get.put(
-      UserController(
-        getSchemesUseCase: sl<GetSchemesUseCase>(),
-        getBannersUseCase: sl<GetBannersUseCase>(),
-      ),
-    );
-    // final adminController = Get.find<AdminController>();
-
     return Scaffold(
-      appBar: AppBar(title: const Text('Digital Jeweller')),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 16),
-            // Promotional Banner Carousel
-            Obx(
-              () => PremiumBannerCarousel(
-                banners: userController.banners,
-                isLoading: userController.isLoadingBanners.value,
-              ),
-            ),
+      body: SafeArea(
+        child: RefreshIndicator(
+          onRefresh: () {
+            controller.fetchBanners();
+            controller.joinedScheme();
+            return controller.fetchSchemes();
+          },
 
-            const SizedBox(height: 8),
-            // Stats Grid
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Obx(
-                () => GridView.count(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 16,
-                  mainAxisSpacing: 16,
-                  childAspectRatio: 1.5,
-                  children: [
-                    _buildStatTile(
-                      'Total Savings',
-                      '₹${userController.totalAmount.value}',
-                      Icons.account_balance_wallet,
-                    ),
-                    _buildStatTile(
-                      'Paid EMIs',
-                      '${userController.totalEmiPaid.value}',
-                      Icons.check_circle,
-                    ),
-                    _buildStatTile(
-                      'Active Schemes',
-                      '${userController.userSchemes.length}',
-                      Icons.list_alt,
-                    ),
-                    _buildStatTile('Jeweller', 'ABC Shop', Icons.store),
-                  ],
-                ),
-              ),
-            ),
+          child: SingleChildScrollView(
+            child: RefreshIndicator(
+              onRefresh: () {
+                controller.fetchBanners();
+                controller.joinedScheme();
+                return controller.fetchSchemes();
+              },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Welcome To,', style: AppDesignConstants.displaySmall()),
+                  Text('Digital Jeweller', style: AppDesignConstants.displayLarge()),
 
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text(
-                'Featured Schemes',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-              ),
-            ),
-            const SizedBox(height: 12),
+                  const SizedBox(height: 16),
+                  // Promotional Banner Carousel
+                  Obx(
+                    () => PremiumBannerCarousel(
+                      banners: controller.banners,
+                      isLoading: controller.isLoadingBanners.value,
+                    ),
+                  ),
 
-            // Horizontal Available Schemes
-            SizedBox(
-              height: 180,
-              child: Obx(() {
-                if (userController.isLoading.value &&
-                    userController.schemes.isEmpty) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-                if (userController.schemes.isEmpty) {
-                  return const Center(
-                    child: Text('No featured schemes available'),
-                  );
-                }
-                return ListView.builder(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  scrollDirection: Axis.horizontal,
-                  itemCount: userController.schemes.length,
-                  itemBuilder: (context, index) {
-                    final scheme = userController.schemes[index];
-                    return Container(
-                      width: 280,
-                      margin: const EdgeInsets.symmetric(horizontal: 8),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            AppColors.primary,
-                            AppColors.primaryDark
-                          ],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                        borderRadius: BorderRadius.circular(16),
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppColors.primary.withOpacity(0.3),
-                            blurRadius: 8,
-                            offset: const Offset(0, 4),
+                  const SizedBox(height: 8),
+                  // Stats Grid
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Obx(
+                      () => GridView.count(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 16,
+                        mainAxisSpacing: 16,
+                        childAspectRatio: 1.5,
+                        children: [
+                          _buildStatTile(
+                            context,
+                            'Total Savings',
+                            '₹${controller.totalAmount.value}',
+                            Icons.account_balance_wallet,
                           ),
+                          _buildStatTile(context, 'Paid EMIs', '${controller.totalEmiPaid.value}', Icons.check_circle),
+                          _buildStatTile(context, 'Active Schemes', '${controller.userSchemes.length}', Icons.list_alt),
+                          _buildStatTile(context, 'Jeweller', 'ABC Shop', Icons.store),
                         ],
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              scheme.name,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                _buildSchemeInfoMini(
-                                  'EMI',
-                                  '₹${scheme.emiAmount}',
-                                ),
-                                _buildSchemeInfoMini(
-                                  'DUR',
-                                  '${scheme.durationMonths}m',
-                                ),
-                                _buildSchemeInfoMini(
-                                  'TOTAL',
-                                  '₹${scheme.totalAmount}',
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 12),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 4,
-                                horizontal: 12,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.2),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: const Text(
-                                'Join Plan',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
+                    ),
+                  ),
+
+                  // Horizontal Available Schemes
+                  Obx(() {
+                    if (controller.isLoading.value) {
+                      return SizedBox(
+                        height: 180,
+                        child: ListView.builder(
+                          itemCount: 3,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            return SizedBox(
+                              height: 200,
+                              width: 280,
+                              child: Shimmer.fromColors(
+                                baseColor: Colors.grey.shade300,
+                                highlightColor: Colors.grey.shade100,
+                                child: Container(
+                                  margin: const EdgeInsets.symmetric(horizontal: 12),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            );
+                          },
                         ),
+                      );
+                    }
+                    if (controller.schemes.isNotEmpty) {
+                      final isDark = Theme.of(context).brightness == Brightness.dark;
+                      final cardBackground = isDark ? const Color(0xFF2C2C2C) : Colors.white;
+                      final borderColor = isDark ? Colors.white.withOpacity(0.1) : Colors.grey.shade200;
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 16.0),
+                            child: Text(
+                              'Featured Schemes',
+                              style: AppDesignConstants.displayMedium(primaryColor: true),
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          GestureDetector(
+                            onTapDown: (_) => controller.isPressed.value = true,
+                            onTapUp: (_) => controller.isPressed.value = false,
+                            child: AnimatedContainer(
+                              duration: Duration(milliseconds: 200),
+                              transform: Matrix4.identity()..scale(controller.isPressed.value ? 0.95 : 1.0),
+                              child: SizedBox(
+                                height: 180,
+                                child: ListView.builder(
+                                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: controller.schemes.length,
+                                  itemBuilder: (context, index) {
+                                    final scheme = controller.schemes[index];
+                                    return GestureDetector(
+                                      onTap: () {
+                                        _showJoinSchemeDialog(context, controller, scheme);
+                                      },
+                                      child: Stack(
+                                        children: [
+                                          Shimmer.fromColors(
+                                            highlightColor: AppColors.primary.withOpacity(.3),
+                                            baseColor: Colors.transparent,
+                                            child: Container(
+                                              width: MediaQuery.of(context).size.width - 70,
+                                              margin: const EdgeInsets.symmetric(horizontal: 8),
+                                              decoration: BoxDecoration(
+                                                color: cardBackground,
+                                                borderRadius: BorderRadius.circular(20),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: isDark
+                                                        ? Colors.black.withOpacity(0.4)
+                                                        : Colors.black.withOpacity(0.05),
+                                                    blurRadius: 10,
+                                                    offset: const Offset(0, 4),
+                                                  ),
+                                                ],
+                                                border: Border.all(color: borderColor),
+                                              ),
+                                            ),
+                                          ),
+
+                                          Container(
+                                            width: MediaQuery.of(context).size.width - 70,
+                                            margin: const EdgeInsets.symmetric(horizontal: 8),
+                                            decoration: BoxDecoration(
+                                              color: Colors.transparent,
+                                              borderRadius: BorderRadius.circular(20),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: isDark
+                                                      ? Colors.black.withOpacity(0.4)
+                                                      : Colors.black.withOpacity(0.05),
+                                                  blurRadius: 10,
+                                                  offset: const Offset(0, 4),
+                                                ),
+                                              ],
+                                              border: Border.all(color: borderColor),
+                                            ),
+                                            child: Padding(
+                                              padding: EdgeInsetsGeometry.all(12),
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  Text(scheme.name, style: AppDesignConstants.displaySmall()),
+                                                  SizedBox(height: 5),
+                                                  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    children: [
+                                                      _buildSchemeInfoMini('EMI', '₹${scheme.emiAmount}'),
+
+                                                      _buildSchemeInfoMini('DURATION', '${scheme.durationMonths} Months'),
+                                                      _buildSchemeInfoMini('TOTAL', '₹${scheme.totalAmount}'),
+                                                    ],
+                                                  ),
+                                                  const SizedBox(height: 12),
+                                                  GestureDetector(
+                                                    onTap: () => _showJoinSchemeDialog(context, controller, scheme),
+                                                    child: Container(
+                                                      padding: EdgeInsets.symmetric(vertical: 4, horizontal: 12),
+                                                      decoration: BoxDecoration(
+                                                        // color: Colors.white.withOpacity(0.2),
+                                                        color: AppColors.getSurfaceColor(context),
+                                                        borderRadius: BorderRadius.circular(20),
+                                                      ),
+                                                      child: Text('Join Plan', style: AppDesignConstants.bodyMedium()),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    } else {
+                      return SizedBox.shrink();
+                    }
+                  }),
+
+                  const SizedBox(height: 24),
+
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Text('My Active Schemes', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                  ),
+
+                  _buildActiveSchemesList(controller),
+
+                  const SizedBox(height: 24),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: ElevatedButton.icon(
+                      onPressed: () => _showPaymentDialog(context, controller),
+                      icon: const Icon(Icons.payment),
+                      label: const Text('PAY EMI / REQUEST CASH PICKUP'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).colorScheme.primary,
+                        foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                        minimumSize: const Size(double.infinity, 54),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                       ),
-                    );
-                  },
-                );
-              }),
-            ),
-
-            const SizedBox(height: 24),
-
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text(
-                'My Active Schemes',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-              ),
-            ),
-
-            _buildActiveSchemesList(userController),
-
-            const SizedBox(height: 24),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: ElevatedButton.icon(
-                onPressed: () => _showPaymentDialog(context, userController),
-                icon: const Icon(Icons.payment),
-                label: const Text('PAY EMI / REQUEST CASH PICKUP'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).colorScheme.primary,
-                  foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                  minimumSize: const Size(double.infinity, 54),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 12),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: OutlinedButton.icon(
-                onPressed: () =>
-                    Get.snackbar('Info', 'Browse new schemes logic here'),
-                icon: const Icon(Icons.add_circle_outline),
-                label: const Text('JOIN NEW SCHEME'),
-                style: OutlinedButton.styleFrom(
-                  minimumSize: const Size(double.infinity, 54),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                  const SizedBox(height: 12),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: OutlinedButton.icon(
+                      onPressed: () => Get.snackbar('Info', 'Browse new schemes logic here'),
+                      icon: const Icon(Icons.add_circle_outline),
+                      label: const Text('JOIN NEW SCHEME'),
+                      style: OutlinedButton.styleFrom(
+                        minimumSize: const Size(double.infinity, 54),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      ),
+                    ),
                   ),
-                ),
+                  const SizedBox(height: 32),
+                ],
               ),
             ),
-            const SizedBox(height: 32),
-          ],
+          ),
         ),
       ),
     );
@@ -232,54 +272,29 @@ class UserDashboard extends StatelessWidget {
 
   Widget _buildSchemeInfoMini(String label, String value) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text(
-          label,
-          style: TextStyle(
-            color: Colors.white.withOpacity(0.7),
-            fontSize: 10,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        Text(
-          value,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        Text(label, style: AppDesignConstants.bodyLarge()),
+        Text(value, style: AppDesignConstants.bodyMedium()),
       ],
     );
   }
 
-  Widget _buildStatTile(String label, String value, IconData icon) {
+  Widget _buildStatTile(context, String label, String value, IconData icon) {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.getCardColor(navigatorKey.currentContext!),
         borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 10,
-          ),
-        ],
+        boxShadow: [BoxShadow(color: AppColors.getCardShadowColor(navigatorKey.currentContext!), blurRadius: 10)],
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(icon, color: Colors.amber.shade800, size: 24),
           const SizedBox(height: 8),
-          Text(
-            value,
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-          ),
-          Text(
-            label,
-            style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
-          ),
+          Text(value, style: AppDesignConstants.bodyMedium()),
+          Text(label, style: AppDesignConstants.bodyMedium()),
         ],
       ),
     );
@@ -288,27 +303,19 @@ class UserDashboard extends StatelessWidget {
   Widget _buildActiveSchemesList(UserController controller) {
     return Obx(() {
       if (controller.userSchemes.isEmpty) {
-        return const Padding(
-          padding: EdgeInsets.all(16.0),
-          child: Text('You haven\'t joined any schemes yet.'),
-        );
+        return const Padding(padding: EdgeInsets.all(16.0), child: Text('You haven\'t joined any schemes yet.'));
       }
       return ListView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         itemCount: controller.userSchemes.length,
         itemBuilder: (context, index) {
-          final scheme = controller.userSchemes[index];
+          final scheme = controller.userSchemes[index].scheme;
           return Card(
             margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: ListTile(
-              title: Text(
-                scheme.name,
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-              subtitle: Text(
-                '₹${scheme.emiAmount}/month for ${scheme.durationMonths} months',
-              ),
+              title: Text(scheme.name, style: const TextStyle(fontWeight: FontWeight.bold)),
+              subtitle: Text('₹${scheme.emiAmount}/month for ${scheme.durationMonths} months'),
               trailing: const Icon(Icons.chevron_right),
             ),
           );
@@ -328,10 +335,7 @@ class UserDashboard extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text(
-              'Choose Payment Method',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-            ),
+            const Text('Choose Payment Method', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
             const SizedBox(height: 24),
             ListTile(
               leading: const Icon(Icons.account_balance, color: Colors.blue),
@@ -355,6 +359,74 @@ class UserDashboard extends StatelessWidget {
             const SizedBox(height: 16),
           ],
         ),
+      ),
+    );
+  }
+
+  void _showJoinSchemeDialog(BuildContext context, UserController controller, Scheme scheme) {
+    Get.dialog(
+      AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        titlePadding: const EdgeInsets.all(0),
+        title: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: AppColors.primary,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+          ),
+          child: Text('Join ${scheme.name}', style: AppDesignConstants.displaySmall()),
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(scheme.description, style: AppDesignConstants.bodyMedium()),
+            const SizedBox(height: 20),
+            _buildDetailRow('Monthly EMI', '₹ ${scheme.emiAmount}'),
+            _buildDetailRow('Duration', '${scheme.durationMonths} Months'),
+            _buildDetailRow('Total Amount', '₹ ${scheme.totalAmount}'),
+            _buildDetailRow('Jeweller', scheme.jewellerName),
+            const SizedBox(height: 8),
+            const Divider(),
+            const SizedBox(height: 8),
+            Text(
+              'By joining this scheme, you agree to pay the monthly EMI on time.',
+              style: AppDesignConstants.bodyMedium(),
+            ),
+          ],
+        ),
+
+        actions: [
+          TextButton(
+            onPressed: () => Get.back(),
+            child: Text('Cancel', style: TextStyle(color: Colors.grey)),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Get.back();
+              controller.joinScheme(scheme.id);
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.primary,
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            ),
+            child: const Text('Confirm & Join'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDetailRow(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(label, style: AppDesignConstants.bodyLarge()),
+          Text(value, style: AppDesignConstants.bodyLarge()),
+        ],
       ),
     );
   }

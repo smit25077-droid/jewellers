@@ -9,7 +9,7 @@ import '../../data/models/login_response_model.dart';
 
 class AuthController extends BaseController<AuthRepositoryImpl> {
   final LoginUseCase loginUseCase;
-  final GetStorage _storage = GetStorage();
+  final GetStorage storage = GetStorage();
 
   AuthController({required this.loginUseCase});
 
@@ -22,8 +22,6 @@ class AuthController extends BaseController<AuthRepositoryImpl> {
   @override
   void onInit() {
     super.onInit();
-    // Call checkLoginStatus directly, not through another instance
-    checkLoginStatus();
     _loadUser();
   }
 
@@ -36,15 +34,15 @@ class AuthController extends BaseController<AuthRepositoryImpl> {
   }
 
   void _loadUser() {
-    final userData = _storage.read('user');
+    final userData = storage.read('user');
     if (userData != null) {
       user.value = User.fromJson(userData);
     }
   }
 
   void checkLoginStatus() {
-    final token = _storage.read('token');
-    final role = _storage.read('role');
+    final token = storage.read('token');
+    final role = storage.read('role');
 
     if (token != null && role != null) {
       Future.delayed(Duration.zero, () {
@@ -71,14 +69,14 @@ class AuthController extends BaseController<AuthRepositoryImpl> {
         final data = response.responseData!;
 
         // Save session
-        await _storage.write('token', data.token);
-        await _storage.write('user_id', data.user.id);
-        await _storage.write('role', data.user.role);
-        await _storage.write(
+        await storage.write('token', data.token);
+        await storage.write('user_id', data.user.id);
+        await storage.write('role', data.user.role);
+        await storage.write(
           'jeweller_code',
           data.user.jeweller?.code ?? 'super_admin',
         );
-        await _storage.write('user', data.user.toJson());
+        await storage.write('user', data.user.toJson());
         user.value = data.user;
 
         showSuccess('Login successful');
@@ -103,10 +101,10 @@ class AuthController extends BaseController<AuthRepositoryImpl> {
         Get.offAllNamed(AppRoutes.masterAdminDashboard);
         break;
       case 'customer':
-        Get.offAllNamed(AppRoutes.userDashboard);
+        Get.offAllNamed(AppRoutes.userHomeScreen);
         break;
       default:
-        Get.offAllNamed(AppRoutes.userDashboard);
+        Get.offAllNamed(AppRoutes.login);
         break;
     }
   }
@@ -114,7 +112,7 @@ class AuthController extends BaseController<AuthRepositoryImpl> {
   Future<void> logout() async {
     try {
       showLoading();
-      _storage.erase();
+      storage.erase();
       Get.offAllNamed(AppRoutes.login);
     } finally {
       hideLoading();

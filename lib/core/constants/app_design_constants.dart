@@ -1,3 +1,4 @@
+import 'package:digital_jeweller/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -116,11 +117,17 @@ class AppDesignConstants {
 
   // BorderRadius objects
   static BorderRadius get borderRadiusXS => BorderRadius.circular(radiusXS);
+
   static BorderRadius get borderRadiusS => BorderRadius.circular(radiusS);
+
   static BorderRadius get borderRadiusM => BorderRadius.circular(radiusM);
+
   static BorderRadius get borderRadius => BorderRadius.circular(radius);
+
   static BorderRadius get borderRadiusL => BorderRadius.circular(radiusL);
+
   static BorderRadius get borderRadiusXL => BorderRadius.circular(radiusXL);
+
   static BorderRadius get borderRadiusCircular =>
       BorderRadius.circular(radiusCircular);
 
@@ -162,155 +169,156 @@ class AppDesignConstants {
 
   // ==================== TEXT STYLES ====================
   /// Display text styles (for large headings)
-  static TextStyle displayLarge(BuildContext context) =>
-      GoogleFonts.playfairDisplay(
-        fontSize: 32,
-        fontWeight: FontWeight.bold,
-        color: Theme.of(context).brightness == Brightness.dark
-            ? Colors.white
-            : Colors.black87,
-      );
+  static TextStyle displayLarge() => GoogleFonts.playfairDisplay(
+    fontSize: 32,
+    fontWeight: FontWeight.bold,
+    color: Theme.of(navigatorKey.currentContext!).brightness == Brightness.dark
+        ? Colors.white
+        : Colors.black87,
+  );
 
-  static TextStyle displayMedium(BuildContext context) =>
+  static TextStyle displayMedium({bool primaryColor = false}) =>
       GoogleFonts.playfairDisplay(
         fontSize: 28,
         fontWeight: FontWeight.bold,
-        color: Theme.of(context).brightness == Brightness.dark
+        color: primaryColor == true
+            ? AppColors.primary
+            : Theme.of(navigatorKey.currentContext!).brightness ==
+                  Brightness.dark
             ? Colors.white
             : Colors.black87,
       );
 
-  static TextStyle displaySmall(BuildContext context) =>
-      GoogleFonts.playfairDisplay(
-        fontSize: 24,
-        fontWeight: FontWeight.w600,
-        color: Theme.of(context).brightness == Brightness.dark
-            ? Colors.white
-            : Colors.black87,
-      );
+  static TextStyle displaySmall() => GoogleFonts.playfairDisplay(
+    fontSize: 24,
+    fontWeight: FontWeight.w600,
+    color: Theme.of(navigatorKey.currentContext!).brightness == Brightness.dark
+        ? Colors.white
+        : Colors.black87,
+  );
 
   /// Headline text styles (for section headers)
-  static TextStyle headlineLarge(BuildContext context) => GoogleFonts.outfit(
+  static TextStyle headlineLarge() => GoogleFonts.outfit(
     fontSize: 22,
     fontWeight: FontWeight.bold,
-    color: Theme.of(context).brightness == Brightness.dark
+    color: Theme.of(navigatorKey.currentContext!).brightness == Brightness.dark
         ? Colors.white
         : Colors.black87,
   );
 
-  static TextStyle headlineMedium(BuildContext context) => GoogleFonts.outfit(
+  static TextStyle headlineMedium() => GoogleFonts.outfit(
     fontSize: 20,
     fontWeight: FontWeight.w600,
-    color: Theme.of(context).brightness == Brightness.dark
+    color: Theme.of(navigatorKey.currentContext!).brightness == Brightness.dark
         ? Colors.white
         : Colors.black87,
   );
 
-  static TextStyle headlineSmall(BuildContext context) => GoogleFonts.outfit(
+  static TextStyle headlineSmall() => GoogleFonts.outfit(
     fontSize: 18,
     fontWeight: FontWeight.w600,
-    color: Theme.of(context).brightness == Brightness.dark
+    color: Theme.of(navigatorKey.currentContext!).brightness == Brightness.dark
         ? Colors.white
         : Colors.black87,
   );
 
   /// Title text styles (for card titles, list items)
-  static TextStyle titleLarge(BuildContext context) => GoogleFonts.outfit(
+  static TextStyle titleLarge() => GoogleFonts.outfit(
     fontSize: 16,
     fontWeight: FontWeight.bold,
-    color: Theme.of(context).brightness == Brightness.dark
+    color: Theme.of(navigatorKey.currentContext!).brightness == Brightness.dark
         ? Colors.white
         : Colors.black87,
   );
 
-  static TextStyle titleMedium(BuildContext context) => GoogleFonts.outfit(
+  static TextStyle titleMedium() => GoogleFonts.outfit(
     fontSize: 15,
     fontWeight: FontWeight.w600,
-    color: Theme.of(context).brightness == Brightness.dark
+    color: Theme.of(navigatorKey.currentContext!).brightness == Brightness.dark
         ? Colors.white
         : Colors.black87,
   );
 
-  static TextStyle titleSmall(BuildContext context) => GoogleFonts.outfit(
+  static TextStyle titleSmall() => GoogleFonts.outfit(
     fontSize: 14,
     fontWeight: FontWeight.w600,
-    color: Theme.of(context).brightness == Brightness.dark
+    color: Theme.of(navigatorKey.currentContext!).brightness == Brightness.dark
         ? Colors.white
         : Colors.black87,
   );
 
   /// Body text styles (for regular content)
-  static TextStyle bodyLarge(BuildContext context) => GoogleFonts.outfit(
+  static TextStyle bodyLarge() => GoogleFonts.outfit(
     fontSize: 16,
     fontWeight: FontWeight.normal,
-    color: Theme.of(context).brightness == Brightness.dark
+    color: Theme.of(navigatorKey.currentContext!).brightness == Brightness.dark
         ? Colors.white70
         : Colors.black87,
   );
 
-  static TextStyle bodyMedium(BuildContext context) => GoogleFonts.outfit(
+  static TextStyle bodyMedium() => GoogleFonts.outfit(
     fontSize: 14,
     fontWeight: FontWeight.normal,
-    color: Theme.of(context).brightness == Brightness.dark
+    color: Theme.of(navigatorKey.currentContext!).brightness == Brightness.dark
         ? Colors.white70
         : Colors.black87,
   );
 
-  static TextStyle bodySmall(BuildContext context) => GoogleFonts.outfit(
+  static TextStyle bodySmall() => GoogleFonts.outfit(
     fontSize: 12,
     fontWeight: FontWeight.normal,
-    color: Theme.of(context).brightness == Brightness.dark
+    color: Theme.of(navigatorKey.currentContext!).brightness == Brightness.dark
         ? Colors.white60
         : Colors.black54,
   );
 
   /// Label text styles (for input labels, captions)
-  static TextStyle labelLarge(BuildContext context) => GoogleFonts.outfit(
+  static TextStyle labelLarge() => GoogleFonts.outfit(
     fontSize: 14,
     fontWeight: FontWeight.w500,
-    color: Theme.of(context).brightness == Brightness.dark
+    color: Theme.of(navigatorKey.currentContext!).brightness == Brightness.dark
         ? Colors.white60
         : Colors.black54,
   );
 
-  static TextStyle labelMedium(BuildContext context) => GoogleFonts.outfit(
+  static TextStyle labelMedium() => GoogleFonts.outfit(
     fontSize: 12,
     fontWeight: FontWeight.w500,
-    color: Theme.of(context).brightness == Brightness.dark
+    color: Theme.of(navigatorKey.currentContext!).brightness == Brightness.dark
         ? Colors.white54
         : Colors.black45,
   );
 
-  static TextStyle labelSmall(BuildContext context) => GoogleFonts.outfit(
+  static TextStyle labelSmall() => GoogleFonts.outfit(
     fontSize: 10,
     fontWeight: FontWeight.normal,
-    color: Theme.of(context).brightness == Brightness.dark
+    color: Theme.of(navigatorKey.currentContext!).brightness == Brightness.dark
         ? Colors.white38
         : Colors.black38,
   );
 
   // ==================== CUSTOM TEXT STYLES ====================
   /// Button text style
-  static TextStyle buttonText(BuildContext context) => GoogleFonts.outfit(
+  static TextStyle buttonText() => GoogleFonts.outfit(
     fontSize: 16,
     fontWeight: FontWeight.bold,
     letterSpacing: 0.5,
   );
 
   /// Input text style
-  static TextStyle inputText(BuildContext context) => GoogleFonts.outfit(
+  static TextStyle inputText() => GoogleFonts.outfit(
     fontSize: 16,
     fontWeight: FontWeight.normal,
-    color: Theme.of(context).brightness == Brightness.dark
+    color: Theme.of(navigatorKey.currentContext!).brightness == Brightness.dark
         ? Colors.white
         : Colors.black87,
   );
 
   /// Error text style
-  static TextStyle errorText(BuildContext context) => GoogleFonts.outfit(
+  static TextStyle errorText() => GoogleFonts.outfit(
     fontSize: 12,
     fontWeight: FontWeight.normal,
-    color: Theme.of(context).colorScheme.error,
+    color: Theme.of(navigatorKey.currentContext!).colorScheme.error,
   );
 
   // ==================== BOX SHADOWS ====================
@@ -372,8 +380,9 @@ class AppDesignConstants {
   ];
 
   /// Get appropriate shadow based on theme
-  static List<BoxShadow> getShadow(BuildContext context, {String size = 'M'}) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+  static List<BoxShadow> getShadow({String size = 'M'}) {
+    final isDark =
+        Theme.of(navigatorKey.currentContext!).brightness == Brightness.dark;
     switch (size) {
       case 'S':
         return isDark ? shadowDarkS : shadowS;

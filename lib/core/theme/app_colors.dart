@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
+
 class AppColors {
   // ==================== PRIMARY COLORS ====================
   /// Premium Jewellery Gold Palette
@@ -90,7 +93,7 @@ class AppColors {
   // ==================== HELPER METHODS ====================
   /// Get text color based on theme brightness
   static Color getTextColor(BuildContext context, {bool secondary = false}) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDark = Theme.of(navigatorKey.currentContext!).brightness == Brightness.dark;
     if (secondary) {
       return isDark ? textSecondaryDark : textSecondaryLight;
     }
@@ -99,36 +102,43 @@ class AppColors {
 
   /// Get background color based on theme brightness
   static Color getBackgroundColor(BuildContext context) {
-    return Theme.of(context).brightness == Brightness.dark
+    return Theme.of(navigatorKey.currentContext!).brightness == Brightness.dark
         ? backgroundDark
         : backgroundLight;
   }
 
   /// Get card color based on theme brightness
   static Color getCardColor(BuildContext context) {
-    return Theme.of(context).brightness == Brightness.dark
+    return Theme.of(navigatorKey.currentContext!).brightness == Brightness.dark
         ? cardDark
         : cardLight;
   }
 
   /// Get surface color based on theme brightness
   static Color getSurfaceColor(BuildContext context) {
-    return Theme.of(context).brightness == Brightness.dark
+    return Theme.of(navigatorKey.currentContext!).brightness == Brightness.dark
         ? surfaceDark
         : surfaceLight;
   }
 
   /// Get divider color based on theme brightness
   static Color getDividerColor(BuildContext context) {
-    return Theme.of(context).brightness == Brightness.dark
+    return Theme.of(navigatorKey.currentContext!).brightness == Brightness.dark
         ? dividerDark
         : dividerLight;
   }
 
   /// Get premium gradient based on theme brightness
   static LinearGradient getPremiumGradient(BuildContext context) {
-    return Theme.of(context).brightness == Brightness.dark
+    return Theme.of(navigatorKey.currentContext!).brightness == Brightness.dark
         ? premiumGradientDark
         : premiumGradientLight;
   }
+  /// Get card shadow color based on theme brightness
+  static Color getCardShadowColor(BuildContext context) {
+    return Theme.of(navigatorKey.currentContext!).brightness == Brightness.dark
+        ? shadowDark
+        : shadowLight;
+  }
+
 }

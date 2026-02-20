@@ -5,6 +5,7 @@ import 'package:digital_jeweller/features/admin/domain/entities/banner.dart'
     as entity;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class PremiumBannerCarousel extends StatelessWidget {
@@ -21,9 +22,19 @@ class PremiumBannerCarousel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (isLoading && banners.isEmpty) {
-      return const SizedBox(
+      return SizedBox(
         height: 200,
-        child: Center(child: CircularProgressIndicator()),
+        child: Shimmer.fromColors(
+          baseColor: Colors.grey.shade300,
+          highlightColor: Colors.grey.shade100,
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 12),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+        ),
       );
     }
 

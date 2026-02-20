@@ -1,3 +1,5 @@
+import 'package:digital_jeweller/features/user/domain/entities/joined_scheme.dart';
+
 import '../entities/scheme.dart';
 
 abstract class SchemeRepository {
@@ -20,4 +22,6 @@ abstract class SchemeRepository {
   });
 
   Future<void> deleteScheme(String id);
+  Future<void> joinScheme(String schemeId);
+  Future<List<JoinedScheme>> getJoinedSchemes();
 }

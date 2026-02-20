@@ -1,40 +1,40 @@
-import 'package:digital_jeweller/core/widgets/common_profile_page.dart';
-import 'package:digital_jeweller/features/auth/presentation/controllers/auth_controller.dart';
+import 'package:digital_jeweller/core/constants/app_routes.dart';
+import 'package:digital_jeweller/core/routes/app_pages.dart';
 import 'package:digital_jeweller/features/user/presentation/controllers/customer_home_controller.dart';
-import 'package:digital_jeweller/features/user/presentation/pages/user_dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class CustomerHomePage extends StatelessWidget {
+class CustomerHomePage extends GetWidget<CustomerHomeController> {
   const CustomerHomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(CustomerHomeController());
-    final authController = Get.find<AuthController>();
-
-    final List<Widget> pages = [
-      const UserDashboard(),
-      Obx(() {
-        final user = authController.user.value;
-        if (user == null)
-          return const Center(child: CircularProgressIndicator());
-        return CommonProfilePage(
-          name: user.name,
-          email: user.email,
-          phone: user.phone,
-          role: user.role,
-          jewellerCode: user.jeweller?.code,
-        );
-      }),
-    ];
-
     return Scaffold(
-      body: Obx(() => pages[controller.currentIndex.value]),
+      body: Navigator(
+        key: controller.customerNavigatorKey,
+        initialRoute: AppRoutes.userDashboardHome,
+        onGenerateRoute: (settings) {
+          final route = AppPages.routes.firstWhereOrNull(
+            (r) => r.name == settings.name,
+          );
+          if (route != null) {
+            return GetPageRoute(
+              page: route.page,
+              binding: route.binding,
+              bindings: route.bindings,
+              settings: settings,
+              transition: route.transition,
+              transitionDuration:
+                  route.transitionDuration ?? const Duration(milliseconds: 300),
+            );
+          }
+          return null;
+        },
+      ),
       bottomNavigationBar: Obx(
         () => BottomNavigationBar(
           currentIndex: controller.currentIndex.value,
-          onTap: controller.changeIndex,
+          onTap: (value) => controller.changeIndex(value),
           items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.dashboard_outlined),

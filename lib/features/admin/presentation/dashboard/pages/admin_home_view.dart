@@ -1,3 +1,4 @@
+import 'package:digital_jeweller/core/widgets/common_profile_page.dart';
 import 'package:digital_jeweller/features/admin/presentation/dashboard/jeweller_dashboard_page.dart';
 import 'package:digital_jeweller/features/admin/presentation/pages/admin_profile_page.dart';
 import 'package:digital_jeweller/features/admin/presentation/schemes/pages/admin_schemes_list_page.dart';
@@ -22,7 +23,7 @@ class _jewellerHomePageState extends State<jewellerHomePage> {
     const JewellerDashboardPage(),
     const AdminCustomerListPage(),
     const AdminSchemesListPage(),
-    const AdminProfilePage(),
+    const CommonProfilePage(),
   ];
 
   @override

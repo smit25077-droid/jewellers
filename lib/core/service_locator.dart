@@ -1,3 +1,4 @@
+import 'package:digital_jeweller/features/user/domain/usecases/joined_scheme_use_case.dart';
 import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart';
 import 'package:get_storage/get_storage.dart';
@@ -31,6 +32,7 @@ import '../features/admin/domain/usecases/get_schemes_usecase.dart';
 import '../features/admin/domain/usecases/create_scheme_usecase.dart';
 import '../features/admin/domain/usecases/update_scheme_usecase.dart';
 import '../features/admin/domain/usecases/delete_scheme_usecase.dart';
+import '../features/user/domain/usecases/join_scheme_use_case.dart';
 
 // Master Admin
 import '../features/master_admin/data/data_service/master_admin_service.dart';
@@ -130,6 +132,12 @@ Future<void> setupLocator() async {
   sl.registerLazySingleton(() => CreateSchemeUseCase(sl<SchemeRepository>()));
   sl.registerLazySingleton(() => UpdateSchemeUseCase(sl<SchemeRepository>()));
   sl.registerLazySingleton(() => DeleteSchemeUseCase(sl<SchemeRepository>()));
+  sl.registerLazySingleton(
+    () => JoinSchemeUseCase(repository: sl<SchemeRepository>()),
+  );
+  sl.registerLazySingleton(
+    () => JoinedSchemeUseCase(repository: sl<SchemeRepository>()),
+  );
 }
 
 /// Get a dependency from service locator

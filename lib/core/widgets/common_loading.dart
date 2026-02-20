@@ -11,31 +11,36 @@ class CommonLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          // SizedBox(
-          //   width: size,
-          //   height: size,
-          //   child: Image.asset('assets/loading/load.gif'),
-          // ),
-          SizedBox(
-            width: size,
-            height: size,
-            child: CircularProgressIndicator(),
-          ),
-          if (message != null) ...[
-            const SizedBox(height: 16),
-            Text(
-              message!,
-              style: Theme.of(
-                context,
-              ).textTheme.bodyMedium?.copyWith(color: Colors.grey),
-              textAlign: TextAlign.center,
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 500),
+      switchInCurve: Curves.easeIn,
+      switchOutCurve: Curves.easeOut,
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // SizedBox(
+            //   width: size,
+            //   height: size,
+            //   child: Image.asset('assets/loading/load.gif'),
+            // ),
+            SizedBox(
+              width: size,
+              height: size,
+              child: CircularProgressIndicator(),
             ),
+            if (message != null) ...[
+              const SizedBox(height: 16),
+              Text(
+                message!,
+                style: Theme.of(
+                  context,
+                ).textTheme.bodyMedium?.copyWith(color: Colors.grey),
+                textAlign: TextAlign.center,
+              ),
+            ],
           ],
-        ],
+        ),
       ),
     );
   }
@@ -50,12 +55,17 @@ class SmallLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: size,
-      height: size,
-      child: CircularProgressIndicator(
-        valueColor: AlwaysStoppedAnimation<Color>(color ?? AppColors.primary),
-        strokeWidth: 2,
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 500), // smooth half-second transition
+      switchInCurve: Curves.easeIn,
+      switchOutCurve: Curves.easeOut,
+      child: SizedBox(
+        width: size,
+        height: size,
+        child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(color ?? AppColors.primary),
+          strokeWidth: 2,
+        ),
       ),
     );
   }

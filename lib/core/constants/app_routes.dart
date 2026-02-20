@@ -1,4 +1,3 @@
-
 /// Application Routes Configuration
 class AppRoutes {
   // ==================== AUTH ROUTES ====================
@@ -11,7 +10,8 @@ class AppRoutes {
   // ==================== MASTER ADMIN ROUTES ====================
   static const String masterAdminDashboard = '/master-admin/dashboard';
   static const String masterAdminJewellerList = '/master-admin/jewellers';
-  static const String masterAdminJewellerAddUpdate = '/master-admin/jewellers/add-update';
+  static const String masterAdminJewellerAddUpdate =
+      '/master-admin/jewellers/add-update';
   static const String masterAdminSubscriptionPlans = '/master-admin/plans';
   static const String masterAdminProfile = '/master-admin/profile';
   // static const String masterAdminSettings = '/master-admin/settings';
@@ -22,7 +22,6 @@ class AppRoutes {
   static const String adminAddUser = '/admin/users/add';
   static const String adminUserList = '/admin/users';
   static const String adminUserDetails = '/admin/users/details';
-
 
   static const String adminListScheme = '/admin/schemes/List';
   static const String adminAddUpdateScheme = '/admin/schemes/add/update';
@@ -35,7 +34,9 @@ class AppRoutes {
   static const String adminSettings = '/admin/settings';
 
   // ==================== USER ROUTES ====================
+  static const String userHomeScreen = '/user/home-screen';
   static const String userDashboard = '/user/dashboard';
+  static const String userDashboardHome = '/user/dashboard/home';
   static const String userProfile = '/user/profile';
   static const String userEditProfile = '/user/profile/edit';
   static const String userSchemes = '/user/schemes';
