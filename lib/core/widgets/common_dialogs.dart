@@ -76,7 +76,7 @@ class LogoutConfirmDialog extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: AppColors.warning.withOpacity(0.1),
+                color: AppColors.warning.withAlpha(1),
                 shape: BoxShape.circle,
               ),
               child: Icon(Icons.logout, size: 48, color: AppColors.warning),
@@ -115,7 +115,7 @@ class LogoutConfirmDialog extends StatelessWidget {
                     style: OutlinedButton.styleFrom(
                       side: BorderSide(
                         color: isDark
-                            ? Colors.white.withOpacity(0.3)
+                            ? Colors.white.withAlpha(3)
                             : Colors.grey.shade300,
                       ),
                       padding: const EdgeInsets.symmetric(vertical: 14),
@@ -191,7 +191,7 @@ class DeleteConfirmDialog extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: AppColors.error.withOpacity(0.1),
+                color: AppColors.error.withAlpha(1),
                 shape: BoxShape.circle,
               ),
               child: Icon(
@@ -234,7 +234,7 @@ class DeleteConfirmDialog extends StatelessWidget {
                     style: OutlinedButton.styleFrom(
                       side: BorderSide(
                         color: isDark
-                            ? Colors.white.withOpacity(0.3)
+                            ? Colors.white.withAlpha(3)
                             : Colors.grey.shade300,
                       ),
                       padding: const EdgeInsets.symmetric(vertical: 14),

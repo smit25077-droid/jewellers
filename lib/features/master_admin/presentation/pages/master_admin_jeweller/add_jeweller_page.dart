@@ -1,24 +1,24 @@
+import 'package:digital_jeweller/features/master_admin/presentation/controllers/master_admin_controller.dart';
+import 'package:digital_jeweller/features/master_admin/presentation/controllers/master_admin_jeweller_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../controllers/master_admin_controller.dart';
-// import '../../domain/entities/jeweller.dart';
 
-class AddJewellerPage extends StatelessWidget {
+class AddJewellerPage extends GetWidget<MasterAdminJewellerController> {
   const AddJewellerPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final get = Get.find<MasterAdminController>();
+    final masterAdminCont = Get.find<MasterAdminController>();
     return Scaffold(
       appBar: AppBar(title: const Text('Add New Jeweller')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Form(
-          key: get.formKey,
+          key: masterAdminCont.formKey,
           child: Column(
             children: [
               _buildTextField(
-                get.nameController,
+                controller.nameController,
                 'Jeweller Name',
                 Icons.person,
                 validator: (value) {
@@ -28,26 +28,26 @@ class AddJewellerPage extends StatelessWidget {
                   return null;
                 },
               ),
-              _buildTextField(get.shopNameController, 'Shop Name', Icons.store),
+              _buildTextField(controller.shopNameController, 'Shop Name', Icons.store),
               _buildTextField(
-                get.addressController,
+                controller.addressController,
                 'Shop Address',
                 Icons.location_on,
               ),
               _buildTextField(
-                get.phoneController,
+                controller.phoneController,
                 'Mobile Number',
                 Icons.phone,
                 keyboardType: TextInputType.phone,
               ),
               _buildTextField(
-                get.emailController,
+                controller.emailController,
                 'Email',
                 Icons.email,
                 keyboardType: TextInputType.emailAddress,
               ),
               _buildTextField(
-                get.passwordController,
+                controller.passwordController,
                 'Password',
                 Icons.lock,
                 keyboardType: TextInputType.visiblePassword,
@@ -59,7 +59,7 @@ class AddJewellerPage extends StatelessWidget {
                 },
               ),
               _buildTextField(
-                get.jewellerCodeController,
+                controller.jewellerCodeController,
                 'Jeweller Code',
                 Icons.code,
                 validator: (value) {
@@ -70,10 +70,10 @@ class AddJewellerPage extends StatelessWidget {
                 },
               ),
               const Divider(height: 32),
-              _buildTextField(get.panController, 'PAN Card', Icons.credit_card),
-              _buildTextField(get.aadharController, 'Aadhar Card', Icons.badge),
+              _buildTextField(controller.panController, 'PAN Card', Icons.credit_card),
+              _buildTextField(controller.aadharController, 'Aadhar Card', Icons.badge),
               _buildTextField(
-                get.gstController,
+                controller.gstController,
                 'GST Number (27ABCDE1234F2Z5)',
                 Icons.description,
               ),
@@ -85,8 +85,8 @@ class AddJewellerPage extends StatelessWidget {
                   minimumSize: const Size(double.infinity, 50),
                 ),
                 onPressed: () {
-                  if (get.formKey.currentState!.validate()) {
-                    get.addJeweller();
+                  if (masterAdminCont.formKey.currentState!.validate()) {
+                    controller.addJeweller();
                   }
                 },
                 child: const Text('Save Jeweller'),

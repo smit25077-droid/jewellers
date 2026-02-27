@@ -12,6 +12,8 @@ import 'package:digital_jeweller/features/admin/presentation/schemes/pages/admin
 import 'package:digital_jeweller/features/admin/presentation/schemes/pages/admin_scheme_add_update.dart';
 import 'package:digital_jeweller/features/auth/presentation/binding/auth_biniding.dart';
 import 'package:digital_jeweller/features/master_admin/presentation/binding/master_admin_binding.dart';
+import 'package:digital_jeweller/features/master_admin/presentation/pages/dashboard/master_admin_dashboard_page.dart';
+import 'package:digital_jeweller/features/master_admin/presentation/pages/master_admin_home_page.dart';
 import 'package:digital_jeweller/features/user/presentation/bindings/user_dashboard_binding.dart';
 import 'package:digital_jeweller/features/user/presentation/pages/user_dashboard.dart';
 import 'package:get/get.dart';
@@ -21,12 +23,9 @@ import '../constants/app_routes.dart';
 
 // Auth Feature
 import '../../features/auth/presentation/pages/login_screen.dart';
-import '../../features/auth/presentation/pages/forgot_password_screen.dart';
 
 // Master Admin Feature
-import '../../features/master_admin/presentation/pages/master_admin_dashboard.dart';
-import '../../features/master_admin/presentation/pages/subscription_plans_page.dart';
-import '../../features/master_admin/presentation/pages/master_admin_profile_page.dart';
+import '../../features/master_admin/presentation/pages/subscription/subscription_plans_page.dart';
 
 // Admin Feature
 import '../../features/admin/presentation/pages/banner_management_page.dart';
@@ -45,17 +44,17 @@ class AppPages {
       transition: Transition.fadeIn,
       transitionDuration: const Duration(milliseconds: 300),
     ),
-    GetPage(
-      name: AppRoutes.forgotPassword,
-      page: () => const ForgotPasswordScreen(),
-      transition: Transition.rightToLeft,
-      transitionDuration: const Duration(milliseconds: 300),
-    ),
-
     // ==================== MASTER ADMIN ROUTES ====================
     GetPage(
+      name: AppRoutes.masterAdminHome,
+      page: () =>  MasterAdminHomePage(),
+      binding: MasterAdminBinding(),
+      transition: Transition.fadeIn,
+      transitionDuration: const Duration(milliseconds: 300),
+    ),
+    GetPage(
       name: AppRoutes.masterAdminDashboard,
-      page: () => const MasterAdminDashboard(),
+      page: () => const MasterAdminDashboardPage(),
       binding: MasterAdminBinding(),
       transition: Transition.fadeIn,
       transitionDuration: const Duration(milliseconds: 300),
@@ -80,17 +79,17 @@ class AppPages {
       transition: Transition.rightToLeft,
       transitionDuration: const Duration(milliseconds: 300),
     ),
-    GetPage(
-      name: AppRoutes.masterAdminProfile,
-      page: () => const MasterAdminProfilePage(),
-      transition: Transition.rightToLeft,
-      transitionDuration: const Duration(milliseconds: 300),
-    ),
+    // GetPage(
+    //   name: AppRoutes.masterAdminProfile,
+    //   page: () => const MasterAdminProfilePage(),
+    //   transition: Transition.rightToLeft,
+    //   transitionDuration: const Duration(milliseconds: 300),
+    // ),
 
     // ==================== ADMIN ROUTES ====================
     GetPage(
       name: AppRoutes.jewellerHome,
-      page: () => const jewellerHomePage(),
+      page: () => const JewellerHomePage(),
       bindings: [
         AdminDashboardBinding(),
         AdminCustomerListBinding(), // This should be from customer_add_update if that's what's used
@@ -180,7 +179,7 @@ class AppPages {
       transitionDuration: const Duration(milliseconds: 300),
     ),
     GetPage(
-      name: AppRoutes.userProfile,
+      name: AppRoutes.profile,
       page: () => const CommonProfilePage(),
       binding: AuthBinding(),
       transition: Transition.rightToLeft,

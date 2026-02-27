@@ -2,28 +2,17 @@ import 'package:digital_jeweller/features/admin/domain/entities/scheme.dart';
 
 class SchemeModel extends Scheme {
   SchemeModel({
-    required String id,
-    required String name,
-    required String description,
-    required double totalAmount,
-    required double emiAmount,
-    required int durationMonths,
-    required String jewellerName,
-    required bool isActive,
-    required DateTime startDate,
-    required DateTime endDate,
-  }) : super(
-         id: id,
-         name: name,
-         description: description,
-         totalAmount: totalAmount,
-         emiAmount: emiAmount,
-         durationMonths: durationMonths,
-         jewellerName: jewellerName,
-         isActive: isActive,
-         startDate: startDate,
-         endDate: endDate,
-       );
+    required super.id,
+    required super.name,
+    required super.description,
+    required super.totalAmount,
+    required super.emiAmount,
+    required super.durationMonths,
+    required super.jewellerName,
+    required super.isActive,
+    required super.startDate,
+    required super.endDate,
+  });
 
   factory SchemeModel.fromJson(Map<String, dynamic> json) {
     return SchemeModel(

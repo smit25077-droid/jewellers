@@ -30,7 +30,7 @@ class CustomerHomeController extends GetxController {
     if (index == 0) {
       Get.offNamed(AppRoutes.userDashboardHome, id: 1);
     } else {
-      Get.offNamed(AppRoutes.userProfile, id: 1);
+      Get.offNamed(AppRoutes.profile, id: 1);
     }
   }
 }

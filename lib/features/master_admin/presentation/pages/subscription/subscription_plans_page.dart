@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../domain/entities/subscription_plan.dart';
+import '../../../domain/entities/subscription_plan.dart';
 
 class SubscriptionPlansPage extends StatelessWidget {
   const SubscriptionPlansPage({super.key});

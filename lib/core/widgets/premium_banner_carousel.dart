@@ -70,7 +70,7 @@ class PremiumBannerCarousel extends StatelessWidget {
               dotHeight: 8,
               dotWidth: 8,
               activeDotColor: AppColors.primary,
-              dotColor: AppColors.primary.withOpacity(0.2),
+              dotColor: AppColors.primary.withAlpha(2),
               expansionFactor: 3,
             ),
           ),
@@ -86,7 +86,7 @@ class PremiumBannerCarousel extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.2),
+            color: Colors.black.withAlpha(2),
             blurRadius: 10,
             offset: const Offset(0, 5),
           ),
@@ -106,7 +106,7 @@ class PremiumBannerCarousel extends StatelessWidget {
                 child: const Center(child: CircularProgressIndicator()),
               ),
               errorWidget: (context, url, error) => Container(
-                color: AppColors.primary.withOpacity(0.1),
+                color: AppColors.primary.withAlpha(1),
                 child: const Icon(
                   Icons.image_not_supported,
                   color: AppColors.primary,
@@ -120,7 +120,7 @@ class PremiumBannerCarousel extends StatelessWidget {
                 gradient: LinearGradient(
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
-                  colors: [Colors.black.withOpacity(0.7), Colors.transparent],
+                  colors: [Colors.black.withAlpha(7), Colors.transparent],
                 ),
               ),
             ),

@@ -46,7 +46,7 @@ abstract class BaseController<R extends BaseRepository> extends GetxController {
           '',
           message,
           snackPosition: SnackPosition.TOP,
-          backgroundColor: Colors.green.withOpacity(0.9),
+          backgroundColor: Colors.green.withAlpha(9),
           colorText: Colors.white,
           margin: const EdgeInsets.all(8),
           borderRadius: 10,

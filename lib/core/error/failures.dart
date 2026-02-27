@@ -13,8 +13,7 @@ class ServerFailure extends Failure {
   final int? statusCode;
   final dynamic data;
 
-  ServerFailure({required String message, this.statusCode, this.data})
-    : super(message: message);
+  ServerFailure({required super.message, this.statusCode, this.data});
 
   @override
   String toString() => 'ServerFailure: $message (Status: $statusCode)';
@@ -22,7 +21,7 @@ class ServerFailure extends Failure {
 
 /// Cache Failure - Local storage errors
 class CacheFailure extends Failure {
-  CacheFailure({required String message}) : super(message: message);
+  CacheFailure({required super.message});
 
   @override
   String toString() => 'CacheFailure: $message';
@@ -30,7 +29,7 @@ class CacheFailure extends Failure {
 
 /// Network Failure - Connectivity errors
 class NetworkFailure extends Failure {
-  NetworkFailure({required String message}) : super(message: message);
+  NetworkFailure({required super.message});
 
   @override
   String toString() => 'NetworkFailure: $message';
@@ -40,8 +39,7 @@ class NetworkFailure extends Failure {
 class ValidationFailure extends Failure {
   final Map<String, String>? errors;
 
-  ValidationFailure({required String message, this.errors})
-    : super(message: message);
+  ValidationFailure({required super.message, this.errors});
 
   @override
   String toString() => 'ValidationFailure: $message';
@@ -49,7 +47,7 @@ class ValidationFailure extends Failure {
 
 /// Authentication Failure - Auth related errors
 class AuthenticationFailure extends Failure {
-  AuthenticationFailure({required String message}) : super(message: message);
+  AuthenticationFailure({required super.message});
 
   @override
   String toString() => 'AuthenticationFailure: $message';
@@ -57,7 +55,7 @@ class AuthenticationFailure extends Failure {
 
 /// Authorization Failure - Permission errors
 class AuthorizationFailure extends Failure {
-  AuthorizationFailure({required String message}) : super(message: message);
+  AuthorizationFailure({required super.message});
 
   @override
   String toString() => 'AuthorizationFailure: $message';

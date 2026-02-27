@@ -34,29 +34,29 @@ class AdminCustomerListController
 
   Future<void> loadCustomers() async {
     try {
-      print('🔄 AdminController: Starting loadCustomers...');
+      debugPrint('🔄 AdminController: Starting loadCustomers...');
       customers.clear();
-      print('🧹 AdminController: Cleared existing customers');
+      debugPrint('🧹 AdminController: Cleared existing customers');
       showLoading();
       customersError.value = null;
-      print('📡 AdminController: Calling repository.getCustomers()...');
+      debugPrint('📡 AdminController: Calling repository.getCustomers()...');
       final result = await repository.getCustomers();
-      print(
+      debugPrint(
         '✅ AdminController: Received ${result.length} customers from repository',
       );
-      print('📋 AdminController: Customers data: $result');
+      debugPrint('📋 AdminController: Customers data: $result');
       customers.assignAll(result);
-      print(
+      debugPrint(
         '✅ AdminController: Assigned customers to observable list. Current count: ${customers.length}',
       );
     } catch (e, stackTrace) {
-      print('❌ AdminController: Error loading customers: $e');
-      print('📚 AdminController: Stack trace: $stackTrace');
+      debugPrint('❌ AdminController: Error loading customers: $e');
+      debugPrint('📚 AdminController: Stack trace: $stackTrace');
       customersError.value = 'Failed to load customers';
       showError(customersError.value!);
     } finally {
       hideLoading();
-      print(
+      debugPrint(
         '🏁 AdminController: loadCustomers completed. Final count: ${customers.length}',
       );
     }

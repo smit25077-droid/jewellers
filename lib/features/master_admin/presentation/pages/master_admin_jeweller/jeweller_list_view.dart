@@ -1,16 +1,17 @@
+import 'package:digital_jeweller/core/theme/app_colors.dart';
+import 'package:digital_jeweller/features/master_admin/presentation/controllers/master_admin_controller.dart';
+import 'package:digital_jeweller/features/master_admin/presentation/widgets/jeweller_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../controllers/master_admin_controller.dart';
-import '../widgets/jeweller_card.dart';
 
-class JewellerListView extends StatelessWidget {
+
+class JewellerListView extends GetWidget<MasterAdminController> {
   const JewellerListView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<MasterAdminController>();
+    // final controller = Get.find<MasterAdminController>();
     return RefreshIndicator(
       color: AppColors.primary,
       onRefresh: () async {

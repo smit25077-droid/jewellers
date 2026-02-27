@@ -1,3 +1,5 @@
+import 'package:digital_jeweller/core/service_locator.dart';
+import 'package:digital_jeweller/features/auth/data/models/login_request_model.dart';
 import 'package:digital_jeweller/features/auth/domain/usecases/login_usecase.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -7,38 +9,111 @@ import 'package:digital_jeweller/core/base/base_controller.dart';
 import 'package:digital_jeweller/features/auth/data/repositories/auth_repository_impl.dart';
 import '../../data/models/login_response_model.dart';
 
-class AuthController extends BaseController<AuthRepositoryImpl> {
-  final LoginUseCase loginUseCase;
-  final GetStorage storage = GetStorage();
-
-  AuthController({required this.loginUseCase});
+class AuthController extends BaseController<AuthRepositoryImpl>
+    with GetTickerProviderStateMixin {
+  AuthController() : super();
+  LoginUseCase loginUseCase = sl<LoginUseCase>();
+  GetStorage storage = sl<GetStorage>();
 
   final user = Rxn<User>();
-
   final TextEditingController jewellerCodeController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
+  late AnimationController fadeController;
+  late AnimationController slideController;
+  late AnimationController scaleController;
+  late AnimationController shimmerController;
+  late AnimationController backgroundController;
+
+  late Animation<double> fadeAnimation;
+  late Animation<Offset> slideAnimation;
+  late Animation<double> scaleAnimation;
+  late Animation<double> shimmerAnimation;
+  late Animation<double> backgroundAnimation;
+
   @override
   void onInit() {
     super.onInit();
-    _loadUser();
+
+    fadeController = AnimationController(
+      duration: const Duration(milliseconds: 1200),
+      vsync: this,
+    );
+
+    slideController = AnimationController(
+      duration: const Duration(milliseconds: 1000),
+      vsync: this,
+    );
+
+    scaleController = AnimationController(
+      duration: const Duration(milliseconds: 800),
+      vsync: this,
+    );
+
+    shimmerController = AnimationController(
+      duration: const Duration(milliseconds: 2000),
+      vsync: this,
+    )..repeat();
+
+    backgroundController = AnimationController(
+      duration: const Duration(seconds: 10),
+      vsync: this,
+    )..repeat(reverse: true);
+
+    fadeAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: fadeController, curve: Curves.easeIn));
+
+    slideAnimation =
+        Tween<Offset>(begin: const Offset(0, 0.3), end: Offset.zero).animate(
+          CurvedAnimation(parent: slideController, curve: Curves.easeOutCubic),
+        );
+
+    scaleAnimation = Tween<double>(begin: 0.8, end: 1.0).animate(
+      CurvedAnimation(parent: scaleController, curve: Curves.easeOutBack),
+    );
+
+    shimmerAnimation = Tween<double>(
+      begin: -2.0,
+      end: 2.0,
+    ).animate(CurvedAnimation(parent: shimmerController, curve: Curves.linear));
+
+    backgroundAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: backgroundController, curve: Curves.easeInOut),
+    );
+
+    fadeController.forward();
+    slideController.forward();
+    scaleController.forward();
   }
 
   @override
   void onClose() {
+    fadeController.dispose();
+    slideController.dispose();
+    scaleController.dispose();
+    shimmerController.dispose();
+    backgroundController.dispose();
     jewellerCodeController.dispose();
     phoneController.dispose();
     passwordController.dispose();
     super.onClose();
   }
 
-  void _loadUser() {
-    final userData = storage.read('user');
-    if (userData != null) {
-      user.value = User.fromJson(userData);
-    }
-  }
+  // @override
+  // void onInit() {
+  //   super.onInit();
+  //   _loadUser();
+  // }
+
+  // void _loadUser() {
+  //   final userData = storage.read('user');
+  //   if (userData != null) {
+  //     user.value = User.fromJson(userData);
+  //   }
+  // }
 
   void checkLoginStatus() {
     final token = storage.read('token');
@@ -63,7 +138,13 @@ class AuthController extends BaseController<AuthRepositoryImpl> {
 
     try {
       showLoading();
-      final response = await loginUseCase(mobile, password, jewellerCode);
+      final response = await loginUseCase.call(
+        loginRequest: LoginRequestModel(
+          jewellerCode: jewellerCode,
+          mobileNumber: mobile,
+          password: password,
+        ),
+      );
 
       if (response.responseStatus == 200 && response.responseData != null) {
         final data = response.responseData!;

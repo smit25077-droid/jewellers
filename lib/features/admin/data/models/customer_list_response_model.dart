@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 import 'customer_model.dart';
 
 class CustomerListResponseModel {
@@ -38,37 +40,37 @@ class CustomerListResponseModel {
   ///   }
   /// }
   factory CustomerListResponseModel.fromJson(Map<String, dynamic> json) {
-    print('🔍 CustomerListResponseModel: Starting JSON parsing...');
-    print('🔍 Raw JSON keys: ${json.keys.toList()}');
+    debugPrint('🔍 CustomerListResponseModel: Starting JSON parsing...');
+    debugPrint('🔍 Raw JSON keys: ${json.keys.toList()}');
 
     // Try to locate the object that actually contains the customers array
     final Object? container = json['responseData'] ?? json['data'] ?? json;
 
-    print('🔍 Container type: ${container.runtimeType}');
+    debugPrint('🔍 Container type: ${container.runtimeType}');
 
     final data = (container is Map<String, dynamic>)
         ? container
         : <String, dynamic>{};
 
-    print('🔍 Data keys: ${data.keys.toList()}');
+    debugPrint('🔍 Data keys: ${data.keys.toList()}');
 
     final customersRaw = data['customers'] ?? json['customers'] ?? <dynamic>[];
 
-    print('🔍 CustomersRaw type: ${customersRaw.runtimeType}');
-    print(
+    debugPrint('🔍 CustomersRaw type: ${customersRaw.runtimeType}');
+    debugPrint(
       '🔍 CustomersRaw length: ${customersRaw is List ? customersRaw.length : 0}',
     );
 
     final customersJson = customersRaw is List ? customersRaw : <dynamic>[];
 
-    print('🔍 CustomersJson length: ${customersJson.length}');
+    debugPrint('🔍 CustomersJson length: ${customersJson.length}');
 
     final parsedCustomers = customersJson
         .whereType<Map<String, dynamic>>()
         .map(CustomerModel.fromJson)
         .toList();
 
-    print('✅ Parsed ${parsedCustomers.length} customers');
+    debugPrint('✅ Parsed ${parsedCustomers.length} customers');
 
     return CustomerListResponseModel(
       responseStatus: json['responseStatus'] is int

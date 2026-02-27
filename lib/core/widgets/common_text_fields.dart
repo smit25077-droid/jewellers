@@ -12,7 +12,7 @@ class CommonTextFields extends StatelessWidget {
   final int? maxLines;
 
 
-  CommonTextFields({
+  const CommonTextFields({
     super.key,
     this.keyboardType,
     this.prefixIcon,
@@ -25,7 +25,7 @@ class CommonTextFields extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final borderColor = isDark
-        ? Colors.white.withOpacity(0.2)
+        ? Colors.white.withAlpha(2)
         : Colors.grey.shade300;
     final fillColor = isDark
         ? const Color(0xFF3A3A3A)

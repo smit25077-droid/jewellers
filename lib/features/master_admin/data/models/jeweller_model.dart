@@ -26,9 +26,6 @@ class JewellerModel extends Jeweller {
       jewellerCode: json['jewellerCode'] ?? '',
       logo: json['logo'],
       isActive: json['isActive'],
-      // Password is typically not returned in list/fetch responses for security,
-      // but might be in create response inside 'credentials' object if needed.
-      // logic for that handled in datasources if necessary.
       panNumber: json['panNumber'] ?? '',
       aadhaarNumber: json['aadhaarNumber'] ?? '',
       gstNumber: json['gstNumber'] ?? '',
@@ -46,7 +43,6 @@ class JewellerModel extends Jeweller {
       'panNumber': panNumber,
       'aadhaarNumber': aadhaarNumber,
       'gstNumber': gstNumber,
-      // _id, logo, isActive usually server managed or not sent in create
     };
   }
 }

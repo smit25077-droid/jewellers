@@ -174,7 +174,7 @@ class CustomerAddUpdatePage extends GetView<CustomerAddUpdateController> {
                 child: LinearProgressIndicator(
                   minHeight: 2,
                   color: AppColors.primary,
-                  backgroundColor: AppColors.primary.withOpacity(0.2),
+                  backgroundColor: AppColors.primary.withAlpha(2),
                 ),
               ),
           ],
@@ -186,7 +186,7 @@ class CustomerAddUpdatePage extends GetView<CustomerAddUpdateController> {
   Widget _buildForm(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final borderColor = isDark
-        ? Colors.white.withOpacity(0.2)
+        ? Colors.white.withAlpha(2)
         : Colors.grey.shade300;
     final fillColor = isDark
         ? const Color(0xFF3A3A3A)
@@ -265,7 +265,7 @@ class CustomerAddUpdatePage extends GetView<CustomerAddUpdateController> {
             ),
             disabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(4),
-              borderSide: BorderSide(color: borderColor.withOpacity(0.5)),
+              borderSide: BorderSide(color: borderColor.withAlpha(5)),
             ),
           ),
           keyboardType: TextInputType.phone,

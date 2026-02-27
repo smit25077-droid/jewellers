@@ -19,12 +19,12 @@ class JewellerListResponseModel {
   });
 
   factory JewellerListResponseModel.fromJson(Map<String, dynamic> json) {
-    final List<dynamic> list = json['jewellers'] ?? [];
+    final List<dynamic> jewellersList = json['jewellers'] ?? [];
     return JewellerListResponseModel(
       count: json['count'] is int
           ? json['count'] as int
           : int.tryParse(json['count']?.toString() ?? '0') ?? 0,
-      jewellers: list
+      jewellers: jewellersList
           .map((e) => JewellerModel.fromJson(e as Map<String, dynamic>))
           .toList(),
     );

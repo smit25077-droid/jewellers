@@ -14,7 +14,7 @@ class SchemeCard extends StatelessWidget {
       width: 280,
       child: Card(
         elevation: 4,
-        shadowColor: Colors.black.withOpacity(0.1),
+        shadowColor: Colors.black.withAlpha(1),
         shape: RoundedRectangleBorder(
           borderRadius: AppDesignConstants.borderRadiusM,
         ),

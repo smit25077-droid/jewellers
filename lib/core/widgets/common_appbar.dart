@@ -48,8 +48,8 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
               ? [
                   BoxShadow(
                     color: isDark
-                        ? Colors.black.withOpacity(0.5)
-                        : AppColors.primary.withOpacity(0.08),
+                        ? Colors.black.withAlpha(5)
+                        : AppColors.primary.withAlpha(08),
                     blurRadius: 8,
                     offset: const Offset(0, 2),
                   ),

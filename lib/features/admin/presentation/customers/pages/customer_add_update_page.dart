@@ -277,7 +277,7 @@
 //       decoration: InputDecoration(
 //         hintText: hint,
 //         hintStyle: TextStyle(
-//           color: ClassicTheme.getTextSecondary(context).withOpacity(0.5),
+//           color: ClassicTheme.getTextSecondary(context).withAlpha(5),
 //           fontSize: 14,
 //         ),
 //         prefixIcon: Icon(icon, color: AppColors.primary, size: 20),

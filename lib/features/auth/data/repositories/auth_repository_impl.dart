@@ -1,21 +1,20 @@
 import 'package:digital_jeweller/core/base/base_repository.dart';
+import 'package:digital_jeweller/core/service_locator.dart';
+import 'package:digital_jeweller/features/auth/data/models/login_request_model.dart';
 
 import '../../domain/repositories/auth_repository.dart';
 import '../../data/models/login_response_model.dart';
-import '../../data/datasources/auth_remote_data_source.dart';
+import '../../data/datasources/auth_service.dart';
 
 class AuthRepositoryImpl extends BaseRepository implements AuthRepository {
-  final AuthRemoteDataSource remoteDataSource;
+  // final AuthService authService;
 
-  AuthRepositoryImpl({required this.remoteDataSource});
+  AuthRepositoryImpl();
 
   @override
-  Future<LoginResponseModel> login(
-    String mobile,
-    String password,
-    String jewellerCode,
+  Future<LoginResponseModel> login({required LoginRequestModel loginRequest}
   ) async {
-    return await remoteDataSource.login(mobile, password, jewellerCode);
+    return await sl<AuthService>().login(loginRequest: loginRequest);
   }
 
   @override

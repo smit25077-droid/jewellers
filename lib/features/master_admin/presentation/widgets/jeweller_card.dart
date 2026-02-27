@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../domain/entities/jeweller.dart';
-import '../pages/jeweller_details_page.dart';
+import '../pages/master_admin_jeweller/jeweller_details_page.dart';
 
 class JewellerCard extends StatelessWidget {
   final Jeweller jeweller;

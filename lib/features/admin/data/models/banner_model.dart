@@ -3,16 +3,11 @@ import 'package:digital_jeweller/features/admin/domain/entities/banner.dart';
 
 class BannerModel extends Banner {
   BannerModel({
-    required String id,
-    required String title,
-    required String imageUrl,
-    required String link,
-  }) : super(
-          id: id,
-          title: title,
-          imageUrl: imageUrl,
-          link: link,
-        );
+    required super.id,
+    required super.title,
+    required super.imageUrl,
+    required super.link,
+  });
 
   factory BannerModel.fromJson(Map<String, dynamic> json) {
     return BannerModel(

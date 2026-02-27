@@ -114,7 +114,7 @@ class _PremiumAnimatedBannerState extends State<PremiumAnimatedBanner>
                             gradient: LinearGradient(
                               colors: [
                                 Colors.transparent,
-                                Colors.white.withOpacity(0.2),
+                                Colors.white.withAlpha(2),
                                 Colors.transparent,
                               ],
                               stops: const [0.0, 0.5, 1.0],
@@ -135,7 +135,7 @@ class _PremiumAnimatedBannerState extends State<PremiumAnimatedBanner>
                           height: 100,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: Colors.white.withOpacity(0.1),
+                            color: Colors.white.withAlpha(1),
                           ),
                         ),
                       ),
@@ -151,7 +151,7 @@ class _PremiumAnimatedBannerState extends State<PremiumAnimatedBanner>
                           height: 120,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: Colors.white.withOpacity(0.08),
+                            color: Colors.white.withAlpha(08),
                           ),
                         ),
                       ),
@@ -164,8 +164,8 @@ class _PremiumAnimatedBannerState extends State<PremiumAnimatedBanner>
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [
-                            Colors.white.withOpacity(0.1),
-                            Colors.white.withOpacity(0.05),
+                            Colors.white.withAlpha(1),
+                            Colors.white.withAlpha(05),
                           ],
                         ),
                       ),
@@ -184,7 +184,7 @@ class _PremiumAnimatedBannerState extends State<PremiumAnimatedBanner>
                                 Icon(
                                   widget.icon,
                                   size: AppDesignConstants.iconXL,
-                                  color: Colors.black.withOpacity(0.7),
+                                  color: Colors.black.withAlpha(7),
                                 ),
                               if (widget.icon != null)
                                 SizedBox(height: AppDesignConstants.spaceS),
@@ -195,7 +195,7 @@ class _PremiumAnimatedBannerState extends State<PremiumAnimatedBanner>
                                       color: Colors.black87,
                                       shadows: [
                                         Shadow(
-                                          color: Colors.white.withOpacity(0.5),
+                                          color: Colors.white.withAlpha(5),
                                           offset: const Offset(1, 1),
                                           blurRadius: 2,
                                         ),
@@ -212,9 +212,7 @@ class _PremiumAnimatedBannerState extends State<PremiumAnimatedBanner>
                                           color: Colors.black54,
                                           shadows: [
                                             Shadow(
-                                              color: Colors.white.withOpacity(
-                                                0.3,
-                                              ),
+                                              color: Colors.white.withAlpha(3),
                                               offset: const Offset(1, 1),
                                               blurRadius: 1,
                                             ),
@@ -297,7 +295,7 @@ class _AnimatedStatsCardState extends State<AnimatedStatsCard>
               child: Container(
                 padding: AppDesignConstants.paddingM,
                 decoration: BoxDecoration(
-                  color: color.withOpacity(0.1),
+                  color: color.withAlpha(1),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
@@ -416,7 +414,7 @@ class _GradientParticleBannerState extends State<GradientParticleBanner>
                       height: 4 + (index % 3) * 2,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.white.withOpacity(0.3),
+                        color: Colors.white.withAlpha(3),
                       ),
                     ),
                   );

@@ -1,6 +1,5 @@
 import 'package:digital_jeweller/core/widgets/common_profile_page.dart';
 import 'package:digital_jeweller/features/admin/presentation/dashboard/jeweller_dashboard_page.dart';
-import 'package:digital_jeweller/features/admin/presentation/pages/admin_profile_page.dart';
 import 'package:digital_jeweller/features/admin/presentation/schemes/pages/admin_schemes_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -9,14 +8,14 @@ import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/widgets/classic_card.dart';
 import '../../customer_add_update/admin_customer_list_page.dart';
 
-class jewellerHomePage extends StatefulWidget {
-  const jewellerHomePage({super.key});
+class JewellerHomePage extends StatefulWidget {
+  const JewellerHomePage({super.key});
 
   @override
-  State<jewellerHomePage> createState() => _jewellerHomePageState();
+  State<JewellerHomePage> createState() => _JewellerHomePageState();
 }
 
-class _jewellerHomePageState extends State<jewellerHomePage> {
+class _JewellerHomePageState extends State<JewellerHomePage> {
   int _selectedIndex = 0;
 
   final List<Widget> _screens = [
@@ -47,7 +46,7 @@ class _jewellerHomePageState extends State<jewellerHomePage> {
         color: isDark ? AppColors.surfaceDark : Colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(isDark ? 0.3 : 0.1),
+            color: Colors.black.withAlpha(isDark ?  3 : 1),
             blurRadius: 20,
             offset: const Offset(0, -5),
           ),

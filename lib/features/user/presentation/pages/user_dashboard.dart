@@ -1,6 +1,5 @@
 import 'package:digital_jeweller/core/constants/app_design_constants.dart';
 import 'package:digital_jeweller/core/theme/app_colors.dart';
-import 'package:digital_jeweller/core/widgets/classic_card.dart';
 import 'package:digital_jeweller/core/widgets/premium_banner_carousel.dart';
 import 'package:digital_jeweller/features/admin/domain/entities/scheme.dart';
 import 'package:flutter/material.dart';
@@ -102,7 +101,7 @@ class UserDashboard extends GetWidget<UserController> {
                     if (controller.schemes.isNotEmpty) {
                       final isDark = Theme.of(context).brightness == Brightness.dark;
                       final cardBackground = isDark ? const Color(0xFF2C2C2C) : Colors.white;
-                      final borderColor = isDark ? Colors.white.withOpacity(0.1) : Colors.grey.shade200;
+                      final borderColor = isDark ? Colors.white.withAlpha(1) : Colors.grey.shade200;
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -135,7 +134,7 @@ class UserDashboard extends GetWidget<UserController> {
                                       child: Stack(
                                         children: [
                                           Shimmer.fromColors(
-                                            highlightColor: AppColors.primary.withOpacity(.3),
+                                            highlightColor: AppColors.primary.withAlpha(3),
                                             baseColor: Colors.transparent,
                                             child: Container(
                                               width: MediaQuery.of(context).size.width - 70,
@@ -146,8 +145,8 @@ class UserDashboard extends GetWidget<UserController> {
                                                 boxShadow: [
                                                   BoxShadow(
                                                     color: isDark
-                                                        ? Colors.black.withOpacity(0.4)
-                                                        : Colors.black.withOpacity(0.05),
+                                                        ? Colors.black.withAlpha(4)
+                                                        : Colors.black.withAlpha(05),
                                                     blurRadius: 10,
                                                     offset: const Offset(0, 4),
                                                   ),
@@ -166,8 +165,8 @@ class UserDashboard extends GetWidget<UserController> {
                                               boxShadow: [
                                                 BoxShadow(
                                                   color: isDark
-                                                      ? Colors.black.withOpacity(0.4)
-                                                      : Colors.black.withOpacity(0.05),
+                                                      ? Colors.black.withAlpha(4)
+                                                      : Colors.black.withAlpha(05),
                                                   blurRadius: 10,
                                                   offset: const Offset(0, 4),
                                                 ),
@@ -197,7 +196,7 @@ class UserDashboard extends GetWidget<UserController> {
                                                     child: Container(
                                                       padding: EdgeInsets.symmetric(vertical: 4, horizontal: 12),
                                                       decoration: BoxDecoration(
-                                                        // color: Colors.white.withOpacity(0.2),
+                                                        // color: Colors.white.withAlpha(2),
                                                         color: AppColors.getSurfaceColor(context),
                                                         borderRadius: BorderRadius.circular(20),
                                                       ),

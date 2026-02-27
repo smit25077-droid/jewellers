@@ -142,7 +142,7 @@
 //           style: TextStyle(
 //             fontSize: 10,
 //             fontWeight: FontWeight.bold,
-//             color: ClassicTheme.getTextSecondary(context).withOpacity(0.6),
+//             color: ClassicTheme.getTextSecondary(context).withAlpha(6),
 //             letterSpacing: 1,
 //           ),
 //         ),

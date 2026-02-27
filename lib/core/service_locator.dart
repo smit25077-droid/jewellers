@@ -1,3 +1,4 @@
+import 'package:digital_jeweller/features/master_admin/domain/usecases/master_admin_jeweller_usecase.dart';
 import 'package:digital_jeweller/features/user/domain/usecases/joined_scheme_use_case.dart';
 import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart';
@@ -7,7 +8,7 @@ import 'package:get_storage/get_storage.dart';
 import 'network/dio_client.dart';
 
 // Auth
-import '../features/auth/data/datasources/auth_remote_data_source.dart';
+import '../features/auth/data/datasources/auth_service.dart';
 import '../features/auth/data/repositories/auth_repository_impl.dart';
 import '../features/auth/domain/repositories/auth_repository.dart';
 import '../features/auth/domain/usecases/login_usecase.dart';
@@ -59,34 +60,24 @@ Future<void> setupLocator() async {
   // DATA SOURCES
   // ============================================
 
-  sl.registerLazySingleton<AuthRemoteDataSource>(
-    () => AuthRemoteDataSourceImpl(dioClient: sl<DioClient>()),
-  );
+  sl.registerLazySingleton<AuthService>(() => AuthServiceImpl());
 
   sl.registerLazySingleton<BannerRemoteDataSource>(
     () => BannerRemoteDataSourceImpl(dio: sl<Dio>(), storage: sl<GetStorage>()),
   );
 
-  sl.registerLazySingleton<AdminCustomerRemoteDataSource>(
-    () => AdminCustomerRemoteDataSource(),
-  );
+  sl.registerLazySingleton<AdminCustomerRemoteDataSource>(() => AdminCustomerRemoteDataSource());
 
-  sl.registerLazySingleton<SchemeRemoteDataSource>(
-    () => SchemeRemoteDataSourceImpl(dio: sl<Dio>()),
-  );
+  sl.registerLazySingleton<SchemeRemoteDataSource>(() => SchemeRemoteDataSourceImpl(dio: sl<Dio>()));
 
-  sl.registerLazySingleton<MasterAdminRemoteDataSource>(
-    () => MasterAdminRemoteDataSourceImpl(dioClient: sl<DioClient>()),
-  );
+  sl.registerLazySingleton<MasterAdminRemoteDataSource>(() => MasterAdminRemoteDataSourceImpl());
 
   // ============================================
   // REPOSITORIES
   // ============================================
 
   // Auth Repository
-  sl.registerLazySingleton<AuthRepositoryImpl>(
-    () => AuthRepositoryImpl(remoteDataSource: sl<AuthRemoteDataSource>()),
-  );
+  sl.registerLazySingleton<AuthRepositoryImpl>(() => AuthRepositoryImpl(/*authService: sl<AuthService>()*/));
   sl.registerLazySingleton<AuthRepository>(() => sl<AuthRepositoryImpl>());
 
   // Banner Repository
@@ -97,13 +88,9 @@ Future<void> setupLocator() async {
 
   // Admin Customer Repository
   sl.registerLazySingleton<AdminCustomerRepositoryImpl>(
-    () => AdminCustomerRepositoryImpl(
-      dataSource: sl<AdminCustomerRemoteDataSource>(),
-    ),
+    () => AdminCustomerRepositoryImpl(dataSource: sl<AdminCustomerRemoteDataSource>()),
   );
-  sl.registerLazySingleton<AdminCustomerRepository>(
-    () => sl<AdminCustomerRepositoryImpl>(),
-  );
+  sl.registerLazySingleton<AdminCustomerRepository>(() => sl<AdminCustomerRepositoryImpl>());
 
   // Scheme Repository
   sl.registerLazySingleton<SchemeRepositoryImpl>(
@@ -113,13 +100,9 @@ Future<void> setupLocator() async {
 
   // Master Admin Repository
   sl.registerLazySingleton<MasterAdminRepositoryImpl>(
-    () => MasterAdminRepositoryImpl(
-      remoteDataSource: sl<MasterAdminRemoteDataSource>(),
-    ),
+    () => MasterAdminRepositoryImpl(remoteDataSource: sl<MasterAdminRemoteDataSource>()),
   );
-  sl.registerLazySingleton<MasterAdminRepository>(
-    () => sl<MasterAdminRepositoryImpl>(),
-  );
+  sl.registerLazySingleton<MasterAdminRepository>(() => sl<MasterAdminRepositoryImpl>());
 
   // ============================================
   // USE CASES
@@ -132,12 +115,9 @@ Future<void> setupLocator() async {
   sl.registerLazySingleton(() => CreateSchemeUseCase(sl<SchemeRepository>()));
   sl.registerLazySingleton(() => UpdateSchemeUseCase(sl<SchemeRepository>()));
   sl.registerLazySingleton(() => DeleteSchemeUseCase(sl<SchemeRepository>()));
-  sl.registerLazySingleton(
-    () => JoinSchemeUseCase(repository: sl<SchemeRepository>()),
-  );
-  sl.registerLazySingleton(
-    () => JoinedSchemeUseCase(repository: sl<SchemeRepository>()),
-  );
+  sl.registerLazySingleton(() => JoinSchemeUseCase(repository: sl<SchemeRepository>()));
+  sl.registerLazySingleton(() => JoinedSchemeUseCase(repository: sl<SchemeRepository>()));
+  sl.registerLazySingleton(() => MasterAdminJewellerUsecase());
 }
 
 /// Get a dependency from service locator

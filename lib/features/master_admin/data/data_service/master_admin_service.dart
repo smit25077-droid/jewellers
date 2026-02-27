@@ -1,3 +1,4 @@
+import 'package:digital_jeweller/core/service_locator.dart';
 import 'package:dio/dio.dart';
 import 'package:digital_jeweller/core/network/dio_client.dart';
 import '../../domain/entities/jeweller.dart';
@@ -12,19 +13,20 @@ abstract class MasterAdminRemoteDataSource {
 }
 
 class MasterAdminRemoteDataSourceImpl implements MasterAdminRemoteDataSource {
-  final DioClient dioClient;
+  // final DioClient dioClient;
 
-  MasterAdminRemoteDataSourceImpl({required this.dioClient});
+  MasterAdminRemoteDataSourceImpl(/*{required this.dioClient}*/);
 
+   final dioClient = sl<DioClient>();
   @override
   Future<List<Jeweller>> getJewellers() async {
     try {
       final response = await dioClient.get('/jewellers');
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         final data =
             response.data['responseData'] as Map<String, dynamic>? ?? {};
-        final listResponse = JewellerListResponseModel.fromJson(data);
+        JewellerListResponseModel listResponse = JewellerListResponseModel.fromJson(data);
         return listResponse.jewellers;
       } else {
         throw DioException(
@@ -56,7 +58,7 @@ class MasterAdminRemoteDataSourceImpl implements MasterAdminRemoteDataSource {
 
       final response = await dioClient.post('/jewellers', data: model.toJson());
 
-      if (response.statusCode == 201) {
+      if (response.statusCode == 201 || response.statusCode == 200) {
         final data = response.data['responseData']['jeweller'];
         return JewellerModel.fromJson(data);
       } else {
@@ -75,7 +77,7 @@ class MasterAdminRemoteDataSourceImpl implements MasterAdminRemoteDataSource {
   Future deleteJeweller(String id) async {
     try {
       final response = await dioClient.delete('/jewellers/$id');
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         final data = response.data['responseMessage'];
         return data;
       } else {
@@ -98,7 +100,7 @@ class MasterAdminRemoteDataSourceImpl implements MasterAdminRemoteDataSource {
         data: {'isActive': isActive},
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         final data = response.data['responseData']['jeweller'];
         return JewellerModel.fromJson(data);
       } else {

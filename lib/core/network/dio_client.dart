@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'logger_interceptor.dart';
 import '../constants/api_endpoints.dart';
@@ -185,7 +186,7 @@ class DioClient {
     }
 
     // You can show error using Get.snackbar or any other method
-    print('API Error: $errorMessage');
+    debugPrint('API Error: $errorMessage');
   }
 
   String _handleStatusCode(int? statusCode) {

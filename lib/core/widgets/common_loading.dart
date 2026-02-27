@@ -103,7 +103,7 @@ class LoadingButton extends StatelessWidget {
           backgroundColor: backgroundColor ?? AppColors.primary,
           foregroundColor: textColor ?? Colors.black,
           disabledBackgroundColor: (backgroundColor ?? AppColors.primary)
-              .withOpacity(0.6),
+              .withAlpha(6),
         ),
         child: isLoading
             ? const SmallLoading(color: Colors.black)

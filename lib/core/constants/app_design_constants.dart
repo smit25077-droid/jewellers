@@ -324,7 +324,7 @@ class AppDesignConstants {
   // ==================== BOX SHADOWS ====================
   static List<BoxShadow> get shadowS => [
     BoxShadow(
-      color: Colors.black.withOpacity(0.05),
+      color: Colors.black.withAlpha(5),
       blurRadius: 4,
       offset: const Offset(0, 2),
     ),
@@ -332,7 +332,7 @@ class AppDesignConstants {
 
   static List<BoxShadow> get shadowM => [
     BoxShadow(
-      color: Colors.black.withOpacity(0.08),
+      color: Colors.black.withAlpha(8),
       blurRadius: 8,
       offset: const Offset(0, 4),
     ),
@@ -340,7 +340,7 @@ class AppDesignConstants {
 
   static List<BoxShadow> get shadowL => [
     BoxShadow(
-      color: Colors.black.withOpacity(0.12),
+      color: Colors.black.withAlpha(12),
       blurRadius: 12,
       offset: const Offset(0, 6),
     ),
@@ -348,7 +348,7 @@ class AppDesignConstants {
 
   static List<BoxShadow> get shadowXL => [
     BoxShadow(
-      color: Colors.black.withOpacity(0.15),
+      color: Colors.black.withAlpha(15),
       blurRadius: 20,
       offset: const Offset(0, 10),
     ),
@@ -357,7 +357,7 @@ class AppDesignConstants {
   // Dark theme shadows
   static List<BoxShadow> get shadowDarkS => [
     BoxShadow(
-      color: Colors.black.withOpacity(0.3),
+      color: Colors.black.withAlpha(3),
       blurRadius: 4,
       offset: const Offset(0, 2),
     ),
@@ -365,7 +365,7 @@ class AppDesignConstants {
 
   static List<BoxShadow> get shadowDarkM => [
     BoxShadow(
-      color: Colors.black.withOpacity(0.4),
+      color: Colors.black.withAlpha(4),
       blurRadius: 8,
       offset: const Offset(0, 4),
     ),
@@ -373,7 +373,7 @@ class AppDesignConstants {
 
   static List<BoxShadow> get shadowDarkL => [
     BoxShadow(
-      color: Colors.black.withOpacity(0.5),
+      color: Colors.black.withAlpha(5),
       blurRadius: 12,
       offset: const Offset(0, 6),
     ),

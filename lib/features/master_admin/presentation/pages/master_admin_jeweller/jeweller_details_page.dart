@@ -2,8 +2,8 @@ import 'package:digital_jeweller/features/master_admin/presentation/controllers/
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../domain/entities/jeweller.dart';
+import '../../../../../core/theme/app_colors.dart';
+import '../../../domain/entities/jeweller.dart';
 
 class JewellerDetailsPage extends StatelessWidget {
   final Jeweller jeweller;
@@ -154,7 +154,7 @@ class JewellerDetailsPage extends StatelessWidget {
                             updatedJeweller.isActive ?? false,
                           );
                         },
-                        activeColor: Colors.green,
+                        activeThumbColor: Colors.green,
                       ),
                     ),
                     const Divider(height: 1),
