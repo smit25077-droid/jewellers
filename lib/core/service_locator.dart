@@ -33,9 +33,19 @@ import '../features/admin/domain/usecases/get_schemes_usecase.dart';
 import '../features/admin/domain/usecases/create_scheme_usecase.dart';
 import '../features/admin/domain/usecases/update_scheme_usecase.dart';
 import '../features/admin/domain/usecases/delete_scheme_usecase.dart';
+import '../features/admin/domain/usecases/admin_schemes_add_update_usecase.dart';
 import '../features/user/domain/usecases/join_scheme_use_case.dart';
 
-// Master Admin
+// Master Admin - Jeweller Management
+import '../features/master_admin/jeweller_management/data/services/jeweller_service.dart';
+import '../features/master_admin/jeweller_management/data/repositories/jeweller_repository_impl.dart';
+import '../features/master_admin/jeweller_management/domain/repositories/jeweller_repository.dart';
+import '../features/master_admin/jeweller_management/domain/usecases/get_jewellers_usecase.dart';
+import '../features/master_admin/jeweller_management/domain/usecases/create_jeweller_usecase.dart';
+import '../features/master_admin/jeweller_management/domain/usecases/delete_jeweller_usecase.dart';
+import '../features/master_admin/jeweller_management/domain/usecases/toggle_jeweller_status_usecase.dart';
+
+// Master Admin - Legacy (to be removed)
 import '../features/master_admin/data/data_service/master_admin_service.dart';
 import '../features/master_admin/data/repositories/master_admin_repository_impl.dart';
 import '../features/master_admin/domain/repositories/master_admin_repository.dart';
@@ -70,6 +80,12 @@ Future<void> setupLocator() async {
 
   sl.registerLazySingleton<SchemeRemoteDataSource>(() => SchemeRemoteDataSourceImpl(dio: sl<Dio>()));
 
+  // Jeweller Management Service
+  sl.registerLazySingleton<JewellerService>(
+    () => JewellerServiceImpl(dioClient: sl<DioClient>()),
+  );
+
+  // Legacy Master Admin Data Source (to be removed)
   sl.registerLazySingleton<MasterAdminRemoteDataSource>(() => MasterAdminRemoteDataSourceImpl());
 
   // ============================================
@@ -98,7 +114,13 @@ Future<void> setupLocator() async {
   );
   sl.registerLazySingleton<SchemeRepository>(() => sl<SchemeRepositoryImpl>());
 
-  // Master Admin Repository
+  // Jeweller Repository
+  sl.registerLazySingleton<JewellerRepositoryImpl>(
+    () => JewellerRepositoryImpl(service: sl<JewellerService>()),
+  );
+  sl.registerLazySingleton<JewellerRepository>(() => sl<JewellerRepositoryImpl>());
+
+  // Legacy Master Admin Repository (to be removed)
   sl.registerLazySingleton<MasterAdminRepositoryImpl>(
     () => MasterAdminRepositoryImpl(remoteDataSource: sl<MasterAdminRemoteDataSource>()),
   );
@@ -117,6 +139,15 @@ Future<void> setupLocator() async {
   sl.registerLazySingleton(() => DeleteSchemeUseCase(sl<SchemeRepository>()));
   sl.registerLazySingleton(() => JoinSchemeUseCase(repository: sl<SchemeRepository>()));
   sl.registerLazySingleton(() => JoinedSchemeUseCase(repository: sl<SchemeRepository>()));
+  sl.registerLazySingleton(() => AdminSchemesAddUpdateUsecase(sl<SchemeRepository>()));
+  
+  // Jeweller Management Use Cases
+  sl.registerLazySingleton(() => GetJewellersUseCase(repository: sl<JewellerRepository>()));
+  sl.registerLazySingleton(() => CreateJewellerUseCase(repository: sl<JewellerRepository>()));
+  sl.registerLazySingleton(() => DeleteJewellerUseCase(repository: sl<JewellerRepository>()));
+  sl.registerLazySingleton(() => ToggleJewellerStatusUseCase(repository: sl<JewellerRepository>()));
+  
+  // Legacy Master Admin Use Case (to be removed)
   sl.registerLazySingleton(() => MasterAdminJewellerUsecase());
 }
 
