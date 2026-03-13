@@ -1,7 +1,7 @@
 import 'package:digital_jeweller/core/service_locator.dart';
 import 'package:digital_jeweller/features/master_admin/domain/repositories/master_admin_repository.dart';
 
-import '../entities/jeweller.dart';
+import 'package:digital_jeweller/features/master_admin/jeweller/domain/entities/jeweller.dart';
 
 class MasterAdminJewellerUsecase {
   MasterAdminJewellerUsecase();

@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:digital_jeweller/core/theme/app_colors.dart';
-import 'package:digital_jeweller/features/admin/domain/entities/banner.dart'
+import 'package:digital_jeweller/features/admin/banner/domain/entities/banner.dart'
     as entity;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,19 +9,19 @@ import 'package:shimmer/shimmer.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class PremiumBannerCarousel extends StatelessWidget {
-  final List<entity.Banner> banners;
+  final List<entity.Banner> dashboardBanners;
   final bool isLoading;
   final RxInt currentIndex = 0.obs;
 
   PremiumBannerCarousel({
     super.key,
-    required this.banners,
+    required this.dashboardBanners,
     this.isLoading = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    if (isLoading && banners.isEmpty) {
+    if (isLoading && dashboardBanners.isEmpty) {
       return SizedBox(
         height: 200,
         child: Shimmer.fromColors(
@@ -38,14 +38,14 @@ class PremiumBannerCarousel extends StatelessWidget {
       );
     }
 
-    if (banners.isEmpty) {
+    if (dashboardBanners.isEmpty) {
       return const SizedBox.shrink();
     }
 
     return Column(
       children: [
         CarouselSlider.builder(
-          itemCount: banners.length,
+          itemCount: dashboardBanners.length,
           options: CarouselOptions(
             height: 200,
             viewportFraction: 0.92,
@@ -57,7 +57,7 @@ class PremiumBannerCarousel extends StatelessWidget {
             },
           ),
           itemBuilder: (context, index, realIndex) {
-            final banner = banners[index];
+            final banner = dashboardBanners[index];
             return _buildBannerCard(context, banner);
           },
         ),
@@ -65,7 +65,7 @@ class PremiumBannerCarousel extends StatelessWidget {
         Obx(
           () => AnimatedSmoothIndicator(
             activeIndex: currentIndex.value,
-            count: banners.length,
+            count: dashboardBanners.length,
             effect: ExpandingDotsEffect(
               dotHeight: 8,
               dotWidth: 8,

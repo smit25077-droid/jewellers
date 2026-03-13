@@ -1,9 +1,9 @@
 import 'package:digital_jeweller/core/constants/app_design_constants.dart';
 import 'package:digital_jeweller/core/theme/app_colors.dart';
+import 'package:flutter/material.dart' hide Banner;
+import 'package:get/get.dart';
 import 'package:digital_jeweller/core/widgets/premium_banner_carousel.dart';
 import 'package:digital_jeweller/features/admin/domain/entities/scheme.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 import '../controllers/user_controller.dart';
 
@@ -32,16 +32,19 @@ class UserDashboard extends GetWidget<UserController> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('Welcome To,', style: AppDesignConstants.displaySmall()),
-                  Text('Digital Jeweller', style: AppDesignConstants.displayLarge()),
+                  Text(
+                    'Digital Jeweller',
+                    style: AppDesignConstants.displayLarge(),
+                  ),
 
                   const SizedBox(height: 16),
                   // Promotional Banner Carousel
-                  Obx(
-                    () => PremiumBannerCarousel(
-                      banners: controller.banners,
-                      isLoading: controller.isLoadingBanners.value,
-                    ),
-                  ),
+                  // Obx(
+                  //   () => PremiumBannerCarousel(
+                  //     banners: controller.banners,
+                  //     isLoading: controller.isLoadingBanners.value,
+                  //   ),
+                  // ),
 
                   const SizedBox(height: 8),
                   // Stats Grid
@@ -62,9 +65,24 @@ class UserDashboard extends GetWidget<UserController> {
                             '₹${controller.totalAmount.value}',
                             Icons.account_balance_wallet,
                           ),
-                          _buildStatTile(context, 'Paid EMIs', '${controller.totalEmiPaid.value}', Icons.check_circle),
-                          _buildStatTile(context, 'Active Schemes', '${controller.userSchemes.length}', Icons.list_alt),
-                          _buildStatTile(context, 'Jeweller', 'ABC Shop', Icons.store),
+                          _buildStatTile(
+                            context,
+                            'Paid EMIs',
+                            '${controller.totalEmiPaid.value}',
+                            Icons.check_circle,
+                          ),
+                          _buildStatTile(
+                            context,
+                            'Active Schemes',
+                            '${controller.userSchemes.length}',
+                            Icons.list_alt,
+                          ),
+                          _buildStatTile(
+                            context,
+                            'Jeweller',
+                            'ABC Shop',
+                            Icons.store,
+                          ),
                         ],
                       ),
                     ),
@@ -86,7 +104,9 @@ class UserDashboard extends GetWidget<UserController> {
                                 baseColor: Colors.grey.shade300,
                                 highlightColor: Colors.grey.shade100,
                                 child: Container(
-                                  margin: const EdgeInsets.symmetric(horizontal: 12),
+                                  margin: const EdgeInsets.symmetric(
+                                    horizontal: 12,
+                                  ),
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(12),
@@ -99,9 +119,14 @@ class UserDashboard extends GetWidget<UserController> {
                       );
                     }
                     if (controller.schemes.isNotEmpty) {
-                      final isDark = Theme.of(context).brightness == Brightness.dark;
-                      final cardBackground = isDark ? const Color(0xFF2C2C2C) : Colors.white;
-                      final borderColor = isDark ? Colors.white.withAlpha(1) : Colors.grey.shade200;
+                      final isDark =
+                          Theme.of(context).brightness == Brightness.dark;
+                      final cardBackground = isDark
+                          ? const Color(0xFF2C2C2C)
+                          : Colors.white;
+                      final borderColor = isDark
+                          ? Colors.white.withAlpha(1)
+                          : Colors.grey.shade200;
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -109,7 +134,9 @@ class UserDashboard extends GetWidget<UserController> {
                             padding: EdgeInsets.symmetric(horizontal: 16.0),
                             child: Text(
                               'Featured Schemes',
-                              style: AppDesignConstants.displayMedium(primaryColor: true),
+                              style: AppDesignConstants.displayMedium(
+                                primaryColor: true,
+                              ),
                             ),
                           ),
                           const SizedBox(height: 12),
@@ -118,89 +145,163 @@ class UserDashboard extends GetWidget<UserController> {
                             onTapUp: (_) => controller.isPressed.value = false,
                             child: AnimatedContainer(
                               duration: Duration(milliseconds: 200),
-                              transform: Matrix4.identity()..scale(controller.isPressed.value ? 0.95 : 1.0),
+                              transform: Matrix4.identity()
+                                ..scale(
+                                  controller.isPressed.value ? 0.95 : 1.0,
+                                ),
                               child: SizedBox(
                                 height: 180,
                                 child: ListView.builder(
-                                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 8,
+                                  ),
                                   scrollDirection: Axis.horizontal,
                                   itemCount: controller.schemes.length,
                                   itemBuilder: (context, index) {
                                     final scheme = controller.schemes[index];
                                     return GestureDetector(
                                       onTap: () {
-                                        _showJoinSchemeDialog(context, controller, scheme);
+                                        _showJoinSchemeDialog(
+                                          context,
+                                          controller,
+                                          scheme,
+                                        );
                                       },
                                       child: Stack(
                                         children: [
                                           Shimmer.fromColors(
-                                            highlightColor: AppColors.primary.withAlpha(3),
+                                            highlightColor: AppColors.primary
+                                                .withAlpha(3),
                                             baseColor: Colors.transparent,
                                             child: Container(
-                                              width: MediaQuery.of(context).size.width - 70,
-                                              margin: const EdgeInsets.symmetric(horizontal: 8),
+                                              width:
+                                                  MediaQuery.of(
+                                                    context,
+                                                  ).size.width -
+                                                  70,
+                                              margin:
+                                                  const EdgeInsets.symmetric(
+                                                    horizontal: 8,
+                                                  ),
                                               decoration: BoxDecoration(
                                                 color: cardBackground,
-                                                borderRadius: BorderRadius.circular(20),
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
                                                 boxShadow: [
                                                   BoxShadow(
                                                     color: isDark
-                                                        ? Colors.black.withAlpha(4)
-                                                        : Colors.black.withAlpha(05),
+                                                        ? Colors.black
+                                                              .withAlpha(4)
+                                                        : Colors.black
+                                                              .withAlpha(05),
                                                     blurRadius: 10,
                                                     offset: const Offset(0, 4),
                                                   ),
                                                 ],
-                                                border: Border.all(color: borderColor),
+                                                border: Border.all(
+                                                  color: borderColor,
+                                                ),
                                               ),
                                             ),
                                           ),
 
                                           Container(
-                                            width: MediaQuery.of(context).size.width - 70,
-                                            margin: const EdgeInsets.symmetric(horizontal: 8),
+                                            width:
+                                                MediaQuery.of(
+                                                  context,
+                                                ).size.width -
+                                                70,
+                                            margin: const EdgeInsets.symmetric(
+                                              horizontal: 8,
+                                            ),
                                             decoration: BoxDecoration(
                                               color: Colors.transparent,
-                                              borderRadius: BorderRadius.circular(20),
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
                                               boxShadow: [
                                                 BoxShadow(
                                                   color: isDark
-                                                      ? Colors.black.withAlpha(4)
-                                                      : Colors.black.withAlpha(05),
+                                                      ? Colors.black.withAlpha(
+                                                          4,
+                                                        )
+                                                      : Colors.black.withAlpha(
+                                                          05,
+                                                        ),
                                                   blurRadius: 10,
                                                   offset: const Offset(0, 4),
                                                 ),
                                               ],
-                                              border: Border.all(color: borderColor),
+                                              border: Border.all(
+                                                color: borderColor,
+                                              ),
                                             ),
                                             child: Padding(
-                                              padding: EdgeInsetsGeometry.all(12),
+                                              padding: EdgeInsetsGeometry.all(
+                                                12,
+                                              ),
                                               child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
-                                                  Text(scheme.name, style: AppDesignConstants.displaySmall()),
+                                                  Text(
+                                                    scheme.name,
+                                                    style:
+                                                        AppDesignConstants.displaySmall(),
+                                                  ),
                                                   SizedBox(height: 5),
                                                   Row(
-                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
                                                     children: [
-                                                      _buildSchemeInfoMini('EMI', '₹${scheme.emiAmount}'),
+                                                      _buildSchemeInfoMini(
+                                                        'EMI',
+                                                        '₹${scheme.emiAmount}',
+                                                      ),
 
-                                                      _buildSchemeInfoMini('DURATION', '${scheme.durationMonths} Months'),
-                                                      _buildSchemeInfoMini('TOTAL', '₹${scheme.totalAmount}'),
+                                                      _buildSchemeInfoMini(
+                                                        'DURATION',
+                                                        '${scheme.durationMonths} Months',
+                                                      ),
+                                                      _buildSchemeInfoMini(
+                                                        'TOTAL',
+                                                        '₹${scheme.totalAmount}',
+                                                      ),
                                                     ],
                                                   ),
                                                   const SizedBox(height: 12),
                                                   GestureDetector(
-                                                    onTap: () => _showJoinSchemeDialog(context, controller, scheme),
+                                                    onTap: () =>
+                                                        _showJoinSchemeDialog(
+                                                          context,
+                                                          controller,
+                                                          scheme,
+                                                        ),
                                                     child: Container(
-                                                      padding: EdgeInsets.symmetric(vertical: 4, horizontal: 12),
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                            vertical: 4,
+                                                            horizontal: 12,
+                                                          ),
                                                       decoration: BoxDecoration(
                                                         // color: Colors.white.withAlpha(2),
-                                                        color: AppColors.getSurfaceColor(context),
-                                                        borderRadius: BorderRadius.circular(20),
+                                                        color:
+                                                            AppColors.getSurfaceColor(
+                                                              context,
+                                                            ),
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                              20,
+                                                            ),
                                                       ),
-                                                      child: Text('Join Plan', style: AppDesignConstants.bodyMedium()),
+                                                      child: Text(
+                                                        'Join Plan',
+                                                        style:
+                                                            AppDesignConstants.bodyMedium(),
+                                                      ),
                                                     ),
                                                   ),
                                                 ],
@@ -226,7 +327,13 @@ class UserDashboard extends GetWidget<UserController> {
 
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Text('My Active Schemes', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                    child: Text(
+                      'My Active Schemes',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
                   ),
 
                   _buildActiveSchemesList(controller),
@@ -240,9 +347,13 @@ class UserDashboard extends GetWidget<UserController> {
                       label: const Text('PAY EMI / REQUEST CASH PICKUP'),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).colorScheme.primary,
-                        foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                        foregroundColor: Theme.of(
+                          context,
+                        ).colorScheme.onPrimary,
                         minimumSize: const Size(double.infinity, 54),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                       ),
                     ),
                   ),
@@ -250,12 +361,15 @@ class UserDashboard extends GetWidget<UserController> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: OutlinedButton.icon(
-                      onPressed: () => Get.snackbar('Info', 'Browse new schemes logic here'),
+                      onPressed: () =>
+                          Get.snackbar('Info', 'Browse new schemes logic here'),
                       icon: const Icon(Icons.add_circle_outline),
                       label: const Text('JOIN NEW SCHEME'),
                       style: OutlinedButton.styleFrom(
                         minimumSize: const Size(double.infinity, 54),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                       ),
                     ),
                   ),
@@ -285,7 +399,12 @@ class UserDashboard extends GetWidget<UserController> {
       decoration: BoxDecoration(
         color: AppColors.getCardColor(navigatorKey.currentContext!),
         borderRadius: BorderRadius.circular(12),
-        boxShadow: [BoxShadow(color: AppColors.getCardShadowColor(navigatorKey.currentContext!), blurRadius: 10)],
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.getCardShadowColor(navigatorKey.currentContext!),
+            blurRadius: 10,
+          ),
+        ],
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -302,7 +421,10 @@ class UserDashboard extends GetWidget<UserController> {
   Widget _buildActiveSchemesList(UserController controller) {
     return Obx(() {
       if (controller.userSchemes.isEmpty) {
-        return const Padding(padding: EdgeInsets.all(16.0), child: Text('You haven\'t joined any schemes yet.'));
+        return const Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Text('You haven\'t joined any schemes yet.'),
+        );
       }
       return ListView.builder(
         shrinkWrap: true,
@@ -313,8 +435,13 @@ class UserDashboard extends GetWidget<UserController> {
           return Card(
             margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: ListTile(
-              title: Text(scheme.name, style: const TextStyle(fontWeight: FontWeight.bold)),
-              subtitle: Text('₹${scheme.emiAmount}/month for ${scheme.durationMonths} months'),
+              title: Text(
+                scheme.name,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              subtitle: Text(
+                '₹${scheme.emiAmount}/month for ${scheme.durationMonths} months',
+              ),
               trailing: const Icon(Icons.chevron_right),
             ),
           );
@@ -334,7 +461,10 @@ class UserDashboard extends GetWidget<UserController> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text('Choose Payment Method', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+            const Text(
+              'Choose Payment Method',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            ),
             const SizedBox(height: 24),
             ListTile(
               leading: const Icon(Icons.account_balance, color: Colors.blue),
@@ -362,7 +492,11 @@ class UserDashboard extends GetWidget<UserController> {
     );
   }
 
-  void _showJoinSchemeDialog(BuildContext context, UserController controller, Scheme scheme) {
+  void _showJoinSchemeDialog(
+    BuildContext context,
+    UserController controller,
+    Scheme scheme,
+  ) {
     Get.dialog(
       AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -373,7 +507,10 @@ class UserDashboard extends GetWidget<UserController> {
             color: AppColors.primary,
             borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
           ),
-          child: Text('Join ${scheme.name}', style: AppDesignConstants.displaySmall()),
+          child: Text(
+            'Join ${scheme.name}',
+            style: AppDesignConstants.displaySmall(),
+          ),
         ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
@@ -408,7 +545,9 @@ class UserDashboard extends GetWidget<UserController> {
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primary,
               foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
             ),
             child: const Text('Confirm & Join'),
           ),

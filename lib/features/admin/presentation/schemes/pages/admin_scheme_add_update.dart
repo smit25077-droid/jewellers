@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:digital_jeweller/core/constants/app_design_constants.dart';
+
 import 'package:digital_jeweller/core/widgets/classic_card.dart';
 import 'package:digital_jeweller/core/widgets/common_text_fields.dart';
 import 'package:digital_jeweller/core/theme/app_colors.dart';
@@ -47,6 +50,84 @@ class AdminSchemeAddUpdatePage
                     ),
                   ),
                   const SizedBox(height: 20),
+                  // Scheme Image Picker
+                  Obx(
+                    () => GestureDetector(
+                      onTap: () => controller.pickSchemeImage(context),
+                      child: Center(
+                        child: Stack(
+                          children: [
+                            Container(
+                              width: double.infinity,
+                              height: 150,
+                              decoration: BoxDecoration(
+                                color: Colors.grey.shade200,
+                                borderRadius: BorderRadius.circular(8),
+                                image:
+                                    controller.selectedSchemeImagePath.value !=
+                                        null
+                                    ? DecorationImage(
+                                        image: FileImage(
+                                          File(
+                                            controller
+                                                .selectedSchemeImagePath
+                                                .value!,
+                                          ),
+                                        ),
+                                        fit: BoxFit.cover,
+                                      )
+                                    : (controller.scheme.value?.schemeImage !=
+                                              null &&
+                                          controller
+                                              .scheme
+                                              .value!
+                                              .schemeImage!
+                                              .isNotEmpty)
+                                    ? DecorationImage(
+                                        image: NetworkImage(
+                                          controller.scheme.value!.schemeImage!,
+                                        ),
+                                        fit: BoxFit.cover,
+                                      )
+                                    : null,
+                              ),
+                              child:
+                                  controller.selectedSchemeImagePath.value ==
+                                          null &&
+                                      (controller.scheme.value?.schemeImage ==
+                                              null ||
+                                          controller
+                                              .scheme
+                                              .value!
+                                              .schemeImage!
+                                              .isEmpty)
+                                  ? const Icon(
+                                      Icons.add_photo_alternate,
+                                      size: 50,
+                                      color: Colors.grey,
+                                    )
+                                  : null,
+                            ),
+                            Positioned(
+                              bottom: 8,
+                              right: 8,
+                              child: CircleAvatar(
+                                radius: 18,
+                                backgroundColor: AppColors.primary,
+                                child: const Icon(
+                                  Icons.camera_alt,
+                                  size: 18,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+
                   CommonTextFields(
                     controller: controller.nameController,
                     labelText: 'Scheme Name',
@@ -103,13 +184,13 @@ class AdminSchemeAddUpdatePage
                   ),
                   const SizedBox(height: 16),
                   Obx(
-                        () => controller.isUpdate.value
+                    () => controller.isUpdate.value
                         ? const SizedBox.shrink()
                         : CommonTextFields(
-                      controller: controller.jewellerCodeController,
-                      labelText: 'Jeweller Code',
-                      prefixIcon: const Icon(Icons.store),
-                    ),
+                            controller: controller.jewellerCodeController,
+                            labelText: 'Jeweller Code',
+                            prefixIcon: const Icon(Icons.store),
+                          ),
                   ),
                   // Row(
                   //   children: [

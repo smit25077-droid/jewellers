@@ -1,12 +1,11 @@
-import 'package:digital_jeweller/core/widgets/common_profile_page.dart';
-import 'package:digital_jeweller/features/admin/presentation/dashboard/jeweller_dashboard_page.dart';
-import 'package:digital_jeweller/features/admin/presentation/schemes/pages/admin_schemes_list_page.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../../../core/constants/app_routes.dart';
+import '../../../../../core/routes/app_pages.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/widgets/classic_card.dart';
-import '../../customer_add_update/admin_customer_list_page.dart';
 
 class JewellerHomePage extends StatefulWidget {
   const JewellerHomePage({super.key});
@@ -18,21 +17,48 @@ class JewellerHomePage extends StatefulWidget {
 class _JewellerHomePageState extends State<JewellerHomePage> {
   int _selectedIndex = 0;
 
-  final List<Widget> _screens = [
-    const JewellerDashboardPage(),
-    const AdminCustomerListPage(),
-    const AdminSchemesListPage(),
-    const CommonProfilePage(),
+  /// Maps each tab index to its corresponding named route.
+  final List<String> _routes = [
+    AppRoutes.adminDashboard,
+    AppRoutes.adminUserList,
+    AppRoutes.adminListScheme,
+    AppRoutes.profile,
   ];
+
+  void _onTabChanged(int index) {
+    if (index == _selectedIndex) return; // avoid re-navigating to the same tab
+
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    // Navigate using Get.offNamed with nested navigator (id: 1)
+    // offNamed replaces the current page so we don't stack pages
+    Get.offNamed(_routes[index], id: 1);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.getBackgroundColor(context),
-      body: IndexedStack(
-        key: const ValueKey('admin_dashboard_stack'),
-        index: _selectedIndex,
-        children: _screens,
+      body: Navigator(
+        key: Get.nestedKey(1),
+        initialRoute: AppRoutes.adminDashboard,
+        onGenerateRoute: (settings) {
+          // Find the matching GetPage from AppPages
+          final page = GetPages.findPage(settings.name);
+          if (page != null) {
+            return GetPageRoute(
+              settings: settings,
+              page: page.page,
+              binding: page.binding,
+              bindings: page.bindings,
+              transition: Transition.fade,
+              transitionDuration: const Duration(milliseconds: 200),
+            );
+          }
+          return null;
+        },
       ),
       bottomNavigationBar: _buildBottomNav(),
     );
@@ -46,7 +72,7 @@ class _JewellerHomePageState extends State<JewellerHomePage> {
         color: isDark ? AppColors.surfaceDark : Colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withAlpha(isDark ?  3 : 1),
+            color: Colors.black.withAlpha(isDark ? 3 : 1),
             blurRadius: 20,
             offset: const Offset(0, -5),
           ),
@@ -54,7 +80,7 @@ class _JewellerHomePageState extends State<JewellerHomePage> {
       ),
       child: BottomNavigationBar(
         currentIndex: _selectedIndex,
-        onTap: (index) => setState(() => _selectedIndex = index),
+        onTap: _onTabChanged,
         elevation: 0,
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.transparent,
@@ -89,5 +115,17 @@ class _JewellerHomePageState extends State<JewellerHomePage> {
         ],
       ),
     );
+  }
+}
+
+/// Helper to find GetPage from registered routes.
+class GetPages {
+  static GetPage? findPage(String? name) {
+    if (name == null) return null;
+    try {
+      return AppPages.routes.firstWhere((page) => page.name == name);
+    } catch (_) {
+      return null;
+    }
   }
 }

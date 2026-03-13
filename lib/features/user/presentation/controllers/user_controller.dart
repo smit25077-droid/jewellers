@@ -1,9 +1,12 @@
-import 'package:digital_jeweller/features/admin/domain/entities/banner.dart'
+import 'package:digital_jeweller/core/service_locator.dart';
+import 'package:digital_jeweller/features/admin/banner/domain/entities/banner.dart'
     as entity;
 import 'package:digital_jeweller/features/admin/domain/entities/scheme.dart';
-import 'package:digital_jeweller/features/admin/domain/usecases/get_banners_use_case.dart';
+import 'package:digital_jeweller/features/admin/banner/domain/usecases/get_banners_usecase.dart';
 import 'package:digital_jeweller/features/admin/domain/usecases/get_schemes_usecase.dart';
+import 'package:digital_jeweller/features/user/domain/entities/customer_dashboard.dart';
 import 'package:digital_jeweller/features/user/domain/entities/joined_scheme.dart';
+import 'package:digital_jeweller/features/user/domain/usecases/get_customer_dashboard_usecase.dart';
 import 'package:digital_jeweller/features/user/domain/usecases/join_scheme_use_case.dart';
 import 'package:digital_jeweller/features/user/domain/usecases/joined_scheme_use_case.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +34,8 @@ class UserController extends GetxController {
   final isLoading = true.obs;
   final isLoadingBanners = true.obs;
   final userSchemes = <JoinedScheme>[].obs;
+
+  final dashboardData = Rx<CustomerDashboard?>(null);
 
   // Added properties to match UI requirements in UserDashboard
   final totalAmount = 0.0.obs;
@@ -140,6 +145,32 @@ class UserController extends GetxController {
       isLoading.value = true;
       final response = await _joinedSchemeUseCase.call();
       userSchemes.value = response;
+    } catch (e) {
+      Get.snackbar(
+        'Error',
+        e.toString(),
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  final dashboardUseCase = sl<GetCustomerDashboardUseCase>();
+
+  List<CustomerDashboardScheme> jewellerSchemes =
+      <CustomerDashboardScheme>[].obs;
+
+   List<PaymentStat> paymentStats = <PaymentStat>[].obs;
+
+  Future<void> fetchData() async {
+    try {
+      isLoading.value = true;
+      final response = await dashboardUseCase.call();
+      dashboardData.value = response;
+      jewellerSchemes = dashboardData.value?.jewellerSchemes ?? [];
+      paymentStats = dashboardData.value?.paymentStats ?? [];
     } catch (e) {
       Get.snackbar(
         'Error',

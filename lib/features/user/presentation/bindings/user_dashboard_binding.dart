@@ -1,5 +1,5 @@
 import 'package:digital_jeweller/core/service_locator.dart';
-import 'package:digital_jeweller/features/admin/domain/usecases/get_banners_use_case.dart';
+import 'package:digital_jeweller/features/admin/banner/domain/usecases/get_banners_usecase.dart';
 import 'package:digital_jeweller/features/admin/domain/usecases/get_schemes_usecase.dart';
 import 'package:digital_jeweller/features/user/domain/usecases/join_scheme_use_case.dart';
 import 'package:digital_jeweller/features/user/domain/usecases/joined_scheme_use_case.dart';

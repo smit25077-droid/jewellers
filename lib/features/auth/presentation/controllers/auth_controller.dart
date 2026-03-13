@@ -1,15 +1,14 @@
 import 'package:digital_jeweller/core/service_locator.dart';
-import 'package:digital_jeweller/features/auth/data/models/login_request_model.dart';
-import 'package:digital_jeweller/features/auth/domain/usecases/login_usecase.dart';
+import 'package:digital_jeweller/features/auth/login/data/models/login_model.dart';
+import 'package:digital_jeweller/features/auth/login/domain/usecases/login_usecase.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:digital_jeweller/core/constants/app_routes.dart';
 import 'package:digital_jeweller/core/base/base_controller.dart';
-import 'package:digital_jeweller/features/auth/data/repositories/auth_repository_impl.dart';
-import '../../data/models/login_response_model.dart';
+import 'package:digital_jeweller/features/auth/login/data/repositories/login_repository_impl.dart';
 
-class AuthController extends BaseController<AuthRepositoryImpl>
+class AuthController extends BaseController<LoginRepositoryImpl>
     with GetTickerProviderStateMixin {
   AuthController() : super();
   LoginUseCase loginUseCase = sl<LoginUseCase>();
@@ -141,8 +140,10 @@ class AuthController extends BaseController<AuthRepositoryImpl>
       final response = await loginUseCase.call(
         loginRequest: LoginRequestModel(
           jewellerCode: jewellerCode,
-          mobileNumber: mobile,
+          phone: mobile,
           password: password,
+          fcmToken: 'dummyData',
+          platform: 'android',
         ),
       );
 

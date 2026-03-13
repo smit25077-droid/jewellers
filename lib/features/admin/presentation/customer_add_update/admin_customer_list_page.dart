@@ -71,6 +71,7 @@ class AdminCustomerListPage extends GetWidget<AdminCustomerListController> {
               final customer = controller.customers[index];
               return ClassicCustomerCard(
                 name: customer.name,
+                profileImageUrl: customer.profileImage,
                 status: customer.role ?? '',
                 statusColor: AppColors.primary,
                 email: customer.email,
@@ -96,6 +97,7 @@ class AdminCustomerListPage extends GetWidget<AdminCustomerListController> {
 /// Classic customer card using common components
 class ClassicCustomerCard extends StatelessWidget {
   final String name;
+  final String? profileImageUrl;
   final String status;
   final Color statusColor;
   final String? email;
@@ -106,6 +108,7 @@ class ClassicCustomerCard extends StatelessWidget {
   const ClassicCustomerCard({
     super.key,
     required this.name,
+    this.profileImageUrl,
     required this.status,
     required this.statusColor,
     this.email,
@@ -124,7 +127,7 @@ class ClassicCustomerCard extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ClassicAvatar(name: name),
+              ClassicAvatar(name: name, profileImageUrl: profileImageUrl),
               const SizedBox(width: 20),
               // Name and Status
               Expanded(

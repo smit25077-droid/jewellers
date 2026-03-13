@@ -32,6 +32,8 @@ class ApiEndpoints {
 
   // Admin Endpoints
   static const String adminDashboard = '/admin/dashboard';
+  static const String jewellerDashboard = '/dashboard/jeweller';
+  static const String customerDashboard = '/dashboard/customer';
   static const String getProducts = '/admin/products';
   static const String createProduct = '/admin/products/create';
   static const String updateProduct = '/admin/products/update'; // Add /{id}
@@ -39,6 +41,7 @@ class ApiEndpoints {
   static const String getSchemeList = '/schemes'; // Add /{id}
   static const String joinScheme = '/schemes'; // Add /{id}/join
   static const String getJoinedSchemes = '/schemes/me/joined';
+  static const String getDrawWinnerSchemes = 'draw/my-jeweller';
 
   // Customer Endpoints (Admin - Jeweller side)
   static const String customers = '/customers';
@@ -88,5 +91,25 @@ class ApiEndpoints {
         .join('&');
 
     return '$endpoint?$query';
+  }
+
+  // Helper method to build full image URL
+  static String getImageUrl(String? imagePath) {
+    if (imagePath == null || imagePath.isEmpty) {
+      return '';
+    }
+
+    // If already a full URL, return as is
+    if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+      return imagePath;
+    }
+
+    // Remove /api from baseUrl for image paths
+    final imageBaseUrl = baseUrl.replaceAll('/api', '');
+
+    // Remove leading slash if present
+    final cleanPath = imagePath.startsWith('/') ? imagePath : '/$imagePath';
+
+    return '$imageBaseUrl$cleanPath';
   }
 }

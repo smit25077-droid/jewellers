@@ -11,6 +11,7 @@ class CustomerModel extends Customer {
     super.fcmToken,
     super.platform,
     super.createdAt,
+    super.profileImage,
   });
 
   factory CustomerModel.fromJson(Map<String, dynamic> json) {
@@ -23,6 +24,7 @@ class CustomerModel extends Customer {
       jewellerId: (json['jeweller'] ?? '').toString(),
       fcmToken: json['fcmToken']?.toString(),
       platform: json['platform']?.toString(),
+      profileImage: json['photo']?.toString(),
       createdAt: json['createdAt'] != null
           ? DateTime.tryParse(json['createdAt'].toString())
           : null,
@@ -44,4 +46,3 @@ class CustomerModel extends Customer {
     };
   }
 }
-

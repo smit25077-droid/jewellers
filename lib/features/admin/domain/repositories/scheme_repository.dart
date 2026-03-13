@@ -14,11 +14,13 @@ abstract class SchemeRepository {
     required int durationMonths,
     required String startDate,
     required String endDate,
+    String? schemeImagePath,
   });
 
   Future<Scheme> updateScheme({
     required String id,
     Map<String, dynamic>? updateData,
+    String? schemeImagePath,
   });
 
   Future<void> deleteScheme(String id);

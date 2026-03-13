@@ -9,7 +9,12 @@ class UpdateSchemeUseCase {
   Future<Scheme> execute({
     required String id,
     Map<String, dynamic>? updateData,
+    String? schemeImagePath,
   }) async {
-    return await repository.updateScheme(id: id, updateData: updateData);
+    return await repository.updateScheme(
+      id: id,
+      updateData: updateData,
+      schemeImagePath: schemeImagePath,
+    );
   }
 }

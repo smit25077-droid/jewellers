@@ -15,6 +15,7 @@ class CreateSchemeUseCase {
     required int durationMonths,
     required String startDate,
     required String endDate,
+    String? schemeImagePath,
   }) async {
     return await repository.createScheme(
       name: name,
@@ -25,6 +26,7 @@ class CreateSchemeUseCase {
       durationMonths: durationMonths,
       startDate: startDate,
       endDate: endDate,
+      schemeImagePath: schemeImagePath,
     );
   }
 }

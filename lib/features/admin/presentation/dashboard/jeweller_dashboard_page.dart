@@ -1,9 +1,9 @@
 import 'package:digital_jeweller/core/widgets/premium_banner_carousel.dart';
 import 'package:digital_jeweller/features/admin/presentation/dashboard/admin_dashboard_controller.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Banner;
 import 'package:get/get.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/constants/app_design_constants.dart';
+import 'package:digital_jeweller/core/theme/app_colors.dart';
+import 'package:digital_jeweller/core/constants/app_design_constants.dart';
 
 class JewellerDashboardPage extends GetView<AdminDashboardController> {
   const JewellerDashboardPage({super.key});
@@ -37,21 +37,11 @@ class JewellerDashboardPage extends GetView<AdminDashboardController> {
                             SizedBox(height: AppDesignConstants.spaceXS),
                             Text(
                               'Jeweller Dashboard',
-                              style: AppDesignConstants.displayLarge(
-                              ).copyWith(color: AppColors.primary),
+                              style: AppDesignConstants.displayLarge().copyWith(
+                                color: AppColors.primary,
+                              ),
                             ),
                           ],
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            Get.changeThemeMode(
-                              isDark ? ThemeMode.light : ThemeMode.dark,
-                            );
-                          },
-                          icon: Icon(
-                            isDark ? Icons.light_mode : Icons.dark_mode,
-                            color: AppColors.primary,
-                          ),
                         ),
                       ],
                     ),
@@ -75,12 +65,12 @@ class JewellerDashboardPage extends GetView<AdminDashboardController> {
                 ),
               ),
             ),
-            Obx(
-              () => PremiumBannerCarousel(
-                banners: controller.banners,
-                isLoading: controller.isLoading.value,
-              ),
-            ),
+            // Obx(
+            //   () => PremiumBannerCarousel(
+            //     dashboardBanners: controller.banners,
+            //     isLoading: controller.isLoading.value,
+            //   ),
+            // ),
             SliverToBoxAdapter(
               child: Padding(
                 padding: AppDesignConstants.paddingHorizontal,
@@ -109,14 +99,14 @@ class JewellerDashboardPage extends GetView<AdminDashboardController> {
                   ),
                   delegate: SliverChildListDelegate([
                     AnimatedStatsCard(
-                      label: 'Total Customers',
-                      value: '0', // Placeholder
+                      label: 'Total Enrollment',
+                      value: controller.totalEnrollments.value.toString(),
                       icon: Icons.people_rounded,
                       color: AppColors.primary,
                     ),
                     AnimatedStatsCard(
                       label: 'Active Schemes',
-                      value: '0', // Placeholder
+                      value: controller.totalSchemes.value.toString(),
                       icon: Icons.list_alt_rounded,
                       color: AppColors.info,
                     ),
@@ -127,9 +117,9 @@ class JewellerDashboardPage extends GetView<AdminDashboardController> {
                       color: AppColors.warning,
                     ),
                     AnimatedStatsCard(
-                      label: 'Revenue',
-                      value: '₹0', // Placeholder
-                      icon: Icons.account_balance_wallet_rounded,
+                      label: 'Total Winners',
+                      value: controller.totalWinners.value.toString(),
+                      icon: Icons.emoji_events_rounded,
                       color: AppColors.success,
                     ),
                   ]),

@@ -1,13 +1,10 @@
 import 'package:get/get.dart';
-import '../../features/auth/presentation/controllers/auth_controller.dart';
+import 'package:digital_jeweller/features/auth/login/presentation/controllers/login_controller.dart';
 
 class InitialBinding extends Bindings {
   @override
   void dependencies() {
-    // AuthController is needed globally for user state and profile
-    Get.put<AuthController>(
-      AuthController(),
-      permanent: true,
-    );
+    // LoginController is needed globally for user state and profile
+    Get.put<LoginController>(LoginController(), permanent: true);
   }
 }

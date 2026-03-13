@@ -12,6 +12,7 @@ class SchemeModel extends Scheme {
     required super.isActive,
     required super.startDate,
     required super.endDate,
+    super.schemeImage,
   });
 
   factory SchemeModel.fromJson(Map<String, dynamic> json) {
@@ -32,6 +33,7 @@ class SchemeModel extends Scheme {
       endDate: json['endDate'] != null
           ? DateTime.parse(json['endDate'])
           : DateTime.now(),
+      schemeImage: json['schemeImage'],
     );
   }
 }

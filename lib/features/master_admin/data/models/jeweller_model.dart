@@ -1,4 +1,4 @@
-import '../../domain/entities/jeweller.dart';
+import '../../jeweller/domain/entities/jeweller.dart';
 
 class JewellerModel extends Jeweller {
   JewellerModel({

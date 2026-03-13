@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 
+import 'package:digital_jeweller/core/service_locator.dart';
 import 'package:digital_jeweller/features/auth/presentation/controllers/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -57,8 +58,11 @@ class _CommonProfilePageState extends State<CommonProfilePage>
   late Animation<Offset> _slideAnim;
   late Animation<double> _scaleAnim;
   late Animation<double> _pulseAnim;
+  // final _auth = Get.put(AuthController());
+  // AuthController get _auth => Get.put(AuthController());
 
-  AuthController get _auth => Get.find<AuthController>();
+  final _auth = sl<AuthController>();
+
 
   @override
   void initState() {
@@ -282,7 +286,6 @@ class _CommonProfilePageState extends State<CommonProfilePage>
       );
     }).toList();
   }
-
 
   // ─────────────────────────────────────────────────────────────────────────
   //  AVATAR with multi-ring glow

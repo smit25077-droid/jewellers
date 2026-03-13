@@ -10,6 +10,7 @@ abstract class AdminCustomerRepository {
     required String phone,
     required String email,
     required String password,
+    String? photoPath,
   });
 
   Future<Customer> updateCustomer({
@@ -17,8 +18,8 @@ abstract class AdminCustomerRepository {
     required String name,
     required String mobile,
     required String email,
+    String? photoPath,
   });
 
   Future<void> deleteCustomer(String id);
 }
-

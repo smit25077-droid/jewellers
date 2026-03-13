@@ -8,7 +8,7 @@ class ClassicCard extends StatelessWidget {
   final EdgeInsetsGeometry? margin;
   final VoidCallback? onTap;
   final double? width;
-  final Colors? colors;
+  final Color? color;
 
   const ClassicCard({
     super.key,
@@ -17,15 +17,15 @@ class ClassicCard extends StatelessWidget {
     this.margin,
     this.onTap,
     this.width,
-    this.colors,
+    this.color,
   });
 
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final cardBackground = isDark ? const Color(0xFF2C2C2C) : Colors.white;
+    final cardBackground = color ?? (isDark ? const Color(0xFF2C2C2C) : Colors.white);
     final borderColor = isDark
-        ? Colors.white.withAlpha(1)
+        ? Colors.white.withAlpha(20)
         : Colors.grey.shade200;
 
     Widget cardContent = Container(
@@ -37,8 +37,8 @@ class ClassicCard extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             color: isDark
-                ? Colors.black.withAlpha( 4)
-                : Colors.black.withAlpha( 05),
+                ? Colors.black.withAlpha(20)
+                : Colors.black.withAlpha(10),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -51,7 +51,7 @@ class ClassicCard extends StatelessWidget {
     if (onTap != null) {
       cardContent = InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: BorderRadius.circular(20),
         child: cardContent,
       );
     }
@@ -90,11 +90,7 @@ class ClassicInfoRow extends StatelessWidget {
 
     return Row(
       children: [
-        Icon(
-          icon,
-          size: 20,
-          color: (iconColor ?? accentBrown).withAlpha( 6),
-        ),
+        Icon(icon, size: 20, color: (iconColor ?? accentBrown).withAlpha(150)),
         const SizedBox(width: 16),
         Expanded(
           child: Text(
@@ -114,6 +110,7 @@ class ClassicInfoRow extends StatelessWidget {
 /// Classic avatar widget
 class ClassicAvatar extends StatelessWidget {
   final String name;
+  final String? profileImageUrl;
   final double size;
   final Color? backgroundColor;
   final Color? textColor;
@@ -121,6 +118,7 @@ class ClassicAvatar extends StatelessWidget {
   const ClassicAvatar({
     super.key,
     required this.name,
+    this.profileImageUrl,
     this.size = 60,
     this.backgroundColor,
     this.textColor,
@@ -144,7 +142,7 @@ class ClassicAvatar extends StatelessWidget {
         : const Color(0xFF8B6B4E);
     final avatarBg = isDark ? const Color(0xFF3A3A3A) : const Color(0xFFF5F5F5);
     final borderColor = isDark
-        ? Colors.white.withAlpha( 1)
+        ? Colors.white.withAlpha(20)
         : Colors.grey.shade200;
 
     return Container(
@@ -154,18 +152,26 @@ class ClassicAvatar extends StatelessWidget {
         color: backgroundColor ?? avatarBg,
         shape: BoxShape.circle,
         border: Border.all(color: borderColor, width: 1),
+        image: profileImageUrl != null && profileImageUrl!.isNotEmpty
+            ? DecorationImage(
+                image: NetworkImage(profileImageUrl!),
+                fit: BoxFit.cover,
+              )
+            : null,
       ),
-      child: Center(
-        child: Text(
-          _getInitials(name),
-          style: TextStyle(
-            fontSize: size * 0.33,
-            fontWeight: FontWeight.w400,
-            color: textColor ?? accentBrown,
-            fontFamily: 'Serif',
-          ),
-        ),
-      ),
+      child: profileImageUrl == null || profileImageUrl!.isEmpty
+          ? Center(
+              child: Text(
+                _getInitials(name),
+                style: TextStyle(
+                  fontSize: size * 0.33,
+                  fontWeight: FontWeight.w400,
+                  color: textColor ?? accentBrown,
+                  fontFamily: 'Serif',
+                ),
+              ),
+            )
+          : null,
     );
   }
 }
@@ -188,7 +194,7 @@ class ClassicStatusBadge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: backgroundColor ?? color.withAlpha( 1),
+        color: backgroundColor ?? color.withAlpha(20),
         borderRadius: BorderRadius.circular(4),
       ),
       child: Text(
@@ -230,7 +236,7 @@ class ClassicOutlinedButton extends StatelessWidget {
         ? const Color(0xFFB8956A)
         : const Color(0xFF8B6B4E);
     final buttonBorder = isDark
-        ? const Color(0xFFB8956A).withAlpha(5)
+        ? const Color(0xFFB8956A).withAlpha(50)
         : const Color(0xFFD4C4B5);
 
     return Container(
@@ -241,7 +247,9 @@ class ClassicOutlinedButton extends StatelessWidget {
         style: OutlinedButton.styleFrom(
           side: BorderSide(color: borderColor ?? buttonBorder, width: 1),
           padding: const EdgeInsets.symmetric(vertical: 14),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

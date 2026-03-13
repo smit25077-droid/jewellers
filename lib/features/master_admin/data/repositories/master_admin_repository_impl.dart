@@ -1,6 +1,6 @@
 import 'package:digital_jeweller/features/master_admin/data/data_service/master_admin_service.dart';
 
-import '../../domain/entities/jeweller.dart';
+import '../../jeweller/domain/entities/jeweller.dart';
 import '../../domain/repositories/master_admin_repository.dart';
 
 class MasterAdminRepositoryImpl implements MasterAdminRepository {

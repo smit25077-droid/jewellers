@@ -9,6 +9,7 @@ class Scheme {
   final bool isActive;
   final DateTime startDate;
   final DateTime endDate;
+  final String? schemeImage;
 
   Scheme({
     required this.id,
@@ -21,5 +22,6 @@ class Scheme {
     required this.isActive,
     required this.startDate,
     required this.endDate,
+    this.schemeImage,
   });
 }

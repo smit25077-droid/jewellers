@@ -1,18 +1,15 @@
 import 'package:digital_jeweller/core/service_locator.dart';
 import 'package:digital_jeweller/features/master_admin/domain/repositories/master_admin_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:digital_jeweller/features/master_admin/jeweller/domain/entities/jeweller.dart';
 import 'package:get/get.dart';
-import '../../domain/entities/jeweller.dart';
 
 class MasterAdminController extends GetxController {
   // final MasterAdminRepository adminRepo;
 
   MasterAdminController(/*{required this.adminRepo}*/);
 
-
-
-
-   final adminRepo = sl<MasterAdminRepository>();
+  final adminRepo = sl<MasterAdminRepository>();
   final jewellers = <Jeweller>[].obs;
 
   var selectedIndex = 0.obs;
@@ -20,8 +17,6 @@ class MasterAdminController extends GetxController {
   void changePage(int index) {
     selectedIndex.value = index;
   }
-
-
 
   // Loading and error states for list & create screens
   final isLoadingJewellers = false.obs;

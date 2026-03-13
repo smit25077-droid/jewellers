@@ -16,11 +16,13 @@ abstract class SchemeRemoteDataSource {
     required int durationMonths,
     required String startDate,
     required String endDate,
+    String? schemeImagePath,
   });
 
   Future<SchemeModel> updateScheme({
     required String id,
     Map<String, dynamic>? updateData,
+    String? schemeImagePath,
   });
 
   Future<void> deleteScheme(String id);
@@ -62,20 +64,30 @@ class SchemeRemoteDataSourceImpl implements SchemeRemoteDataSource {
     required int durationMonths,
     required String startDate,
     required String endDate,
+    String? schemeImagePath,
   }) async {
     try {
+      final fields = <String, dynamic>{
+        "name": name,
+        "description": description,
+        "totalAmount": totalAmount,
+        "emiAmount": emiAmount,
+        "jewellerCode": jewellerCode,
+        "durationMonths": durationMonths,
+        "startDate": startDate,
+        "endDate": endDate,
+      };
+
+      if (schemeImagePath != null && schemeImagePath.isNotEmpty) {
+        fields['schemeImage'] = await MultipartFile.fromFile(
+          schemeImagePath,
+          filename: schemeImagePath.split('/').last,
+        );
+      }
+
       final response = await dio.post(
         '${ApiEndpoints.baseUrl}/schemes',
-        data: {
-          "name": name,
-          "description": description,
-          "totalAmount": totalAmount,
-          "emiAmount": emiAmount,
-          "jewellerCode": jewellerCode,
-          "durationMonths": durationMonths,
-          "startDate": startDate,
-          "endDate": endDate,
-        },
+        data: FormData.fromMap(fields),
       );
       final responseData = response.data['responseData'];
       if (responseData != null) {
@@ -94,11 +106,21 @@ class SchemeRemoteDataSourceImpl implements SchemeRemoteDataSource {
   Future<SchemeModel> updateScheme({
     required String id,
     Map<String, dynamic>? updateData,
+    String? schemeImagePath,
   }) async {
     try {
+      final fields = Map<String, dynamic>.from(updateData ?? {});
+
+      if (schemeImagePath != null && schemeImagePath.isNotEmpty) {
+        fields['schemeImage'] = await MultipartFile.fromFile(
+          schemeImagePath,
+          filename: schemeImagePath.split('/').last,
+        );
+      }
+
       final response = await dio.put(
         '${ApiEndpoints.baseUrl}/schemes/$id',
-        data: updateData,
+        data: FormData.fromMap(fields),
       );
       final responseData = response.data['responseData'];
       if (responseData != null) {

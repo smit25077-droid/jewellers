@@ -26,6 +26,7 @@ class SchemeRepositoryImpl extends BaseRepository implements SchemeRepository {
     required int durationMonths,
     required String startDate,
     required String endDate,
+    String? schemeImagePath,
   }) async {
     return execute(() async {
       return await remoteDataSource.createScheme(
@@ -37,6 +38,7 @@ class SchemeRepositoryImpl extends BaseRepository implements SchemeRepository {
         durationMonths: durationMonths,
         startDate: startDate,
         endDate: endDate,
+        schemeImagePath: schemeImagePath,
       );
     });
   }
@@ -45,11 +47,13 @@ class SchemeRepositoryImpl extends BaseRepository implements SchemeRepository {
   Future<Scheme> updateScheme({
     required String id,
     Map<String, dynamic>? updateData,
+    String? schemeImagePath,
   }) async {
     return execute(() async {
       return await remoteDataSource.updateScheme(
         id: id,
         updateData: updateData,
+        schemeImagePath: schemeImagePath,
       );
     });
   }

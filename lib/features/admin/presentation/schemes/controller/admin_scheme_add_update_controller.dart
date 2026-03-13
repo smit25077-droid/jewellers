@@ -7,6 +7,7 @@ import 'package:digital_jeweller/features/admin/domain/usecases/delete_scheme_us
 import 'package:digital_jeweller/features/admin/domain/usecases/update_scheme_usecase.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 class AdminSchemeAddUpdateController extends BaseController {
@@ -31,6 +32,8 @@ class AdminSchemeAddUpdateController extends BaseController {
   TextEditingController jewellerCodeController = TextEditingController();
   TextEditingController startDateController = TextEditingController();
   TextEditingController endDateController = TextEditingController();
+  final selectedSchemeImagePath = RxnString();
+  final _imagePicker = ImagePicker();
 
   var scheme = Rxn<Scheme>();
 
@@ -81,6 +84,51 @@ class AdminSchemeAddUpdateController extends BaseController {
     }
   }
 
+  Future<void> pickSchemeImage(BuildContext context) async {
+    final source = await showModalBottomSheet<ImageSource>(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (_) => SafeArea(
+        child: Wrap(
+          children: [
+            ListTile(
+              leading: const Icon(Icons.photo_library_outlined),
+              title: const Text('Choose from Gallery'),
+              onTap: () => Navigator.pop(context, ImageSource.gallery),
+            ),
+            ListTile(
+              leading: const Icon(Icons.camera_alt_outlined),
+              title: const Text('Take a Photo'),
+              onTap: () => Navigator.pop(context, ImageSource.camera),
+            ),
+            if (selectedSchemeImagePath.value != null)
+              ListTile(
+                leading: const Icon(Icons.delete_outline, color: Colors.red),
+                title: const Text(
+                  'Remove Image',
+                  style: TextStyle(color: Colors.red),
+                ),
+                onTap: () {
+                  selectedSchemeImagePath.value = null;
+                  Navigator.pop(context);
+                },
+              ),
+          ],
+        ),
+      ),
+    );
+    if (source != null) {
+      final picked = await _imagePicker.pickImage(
+        source: source,
+        imageQuality: 85,
+        maxWidth: 800,
+      );
+      if (picked != null) selectedSchemeImagePath.value = picked.path;
+    }
+  }
+
   Future<void> createScheme({
     required String name,
     required String description,
@@ -90,6 +138,7 @@ class AdminSchemeAddUpdateController extends BaseController {
     required int durationMonths,
     required String startDate,
     required String endDate,
+    String? schemeImagePath,
   }) async {
     try {
       showLoading();
@@ -102,6 +151,7 @@ class AdminSchemeAddUpdateController extends BaseController {
         durationMonths: durationMonths,
         startDate: startDate,
         endDate: endDate,
+        schemeImagePath: schemeImagePath,
       );
       Get.back();
       showSuccess('Scheme created successfully');
@@ -118,10 +168,15 @@ class AdminSchemeAddUpdateController extends BaseController {
   Future<void> updateScheme({
     required String id,
     Map<String, dynamic>? updateData,
+    String? schemeImagePath,
   }) async {
     try {
       showLoading();
-      await updateSchemeUseCase.execute(id: id, updateData: updateData);
+      await updateSchemeUseCase.execute(
+        id: id,
+        updateData: updateData,
+        schemeImagePath: schemeImagePath,
+      );
       Get.back();
       showSuccess('Scheme updated successfully');
       if (Get.isRegistered<SchemeController>()) {
@@ -164,6 +219,7 @@ class AdminSchemeAddUpdateController extends BaseController {
           "startDate": startDateController.text,
           "endDate": endDateController.text,
         },
+        schemeImagePath: selectedSchemeImagePath.value,
       );
     } else {
       createScheme(
@@ -175,6 +231,7 @@ class AdminSchemeAddUpdateController extends BaseController {
         durationMonths: int.tryParse(durationMonthsController.text) ?? 0,
         startDate: startDateController.text,
         endDate: endDateController.text,
+        schemeImagePath: selectedSchemeImagePath.value,
       );
     }
   }

@@ -41,6 +41,7 @@ class AdminCustomerRepositoryImpl extends BaseRepository
     required String phone,
     required String email,
     required String password,
+    String? photoPath,
   }) async {
     return await execute(() async {
       final Response response = await dataSource.createCustomer(
@@ -48,6 +49,7 @@ class AdminCustomerRepositoryImpl extends BaseRepository
         phone: phone,
         email: email,
         password: password,
+        photoPath: photoPath,
       );
       final createResponse = CustomerResponseModel.fromJson(
         response.data as Map<String, dynamic>,
@@ -62,6 +64,7 @@ class AdminCustomerRepositoryImpl extends BaseRepository
     required String name,
     required String mobile,
     required String email,
+    String? photoPath,
   }) async {
     return await execute(() async {
       final Response response = await dataSource.updateCustomer(
@@ -69,6 +72,7 @@ class AdminCustomerRepositoryImpl extends BaseRepository
         name: name,
         mobile: mobile,
         email: email,
+        photoPath: photoPath,
       );
       final updateResponse = CustomerResponseModel.fromJson(
         response.data as Map<String, dynamic>,

@@ -1,22 +1,18 @@
-import 'package:digital_jeweller/core/constants/app_routes.dart';
-import 'package:digital_jeweller/core/widgets/common_profile_page.dart';
-import 'package:digital_jeweller/features/admin/presentation/customer_add_update/admin_customer_list_page.dart';
-import 'package:digital_jeweller/features/auth/presentation/binding/auth_biniding.dart';
-import 'package:digital_jeweller/features/master_admin/presentation/binding/master_admin_binding.dart';
-import 'package:digital_jeweller/features/master_admin/presentation/binding/master_admin_dashboard_binding.dart';
-import 'package:digital_jeweller/features/master_admin/presentation/binding/master_admin_jeweller_binding.dart';
-import 'package:digital_jeweller/features/master_admin/presentation/binding/master_admin_subscription_binding.dart';
-import 'package:digital_jeweller/features/master_admin/presentation/controllers/master_admin_jeweller_controller.dart';
-import 'package:digital_jeweller/features/master_admin/presentation/controllers/master_admin_subsciption_controller.dart';
-import 'package:digital_jeweller/features/master_admin/presentation/pages/dashboard/master_admin_dashboard_page.dart';
-import 'package:digital_jeweller/features/master_admin/presentation/pages/master_admin_jeweller/add_jeweller_page.dart';
-import 'package:digital_jeweller/features/master_admin/presentation/pages/master_admin_jeweller/jeweller_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../controllers/master_admin_controller.dart';
-import 'subscription/subscription_plans_page.dart';
+import 'package:digital_jeweller/core/constants/app_routes.dart';
+import 'package:digital_jeweller/core/widgets/common_profile_page.dart';
+import 'package:digital_jeweller/core/theme/app_colors.dart';
+import 'package:digital_jeweller/features/auth/login/presentation/bindings/login_binding.dart';
+import 'package:digital_jeweller/features/master_admin/jeweller/presentation/pages/jeweller_page.dart';
+import 'package:digital_jeweller/features/master_admin/jeweller/presentation/pages/add_jeweller_page.dart';
+import 'package:digital_jeweller/features/master_admin/presentation/pages/dashboard/master_admin_dashboard_page.dart';
+import 'package:digital_jeweller/features/master_admin/presentation/pages/subscription/subscription_plans_page.dart';
+import 'package:digital_jeweller/features/master_admin/presentation/binding/master_admin_dashboard_binding.dart';
+import 'package:digital_jeweller/features/master_admin/presentation/binding/master_admin_jeweller_binding.dart';
+import 'package:digital_jeweller/features/master_admin/presentation/binding/master_admin_subscription_binding.dart';
+import 'package:digital_jeweller/features/master_admin/presentation/controllers/master_admin_controller.dart';
 
 //
 // class MasterAdminHomePage extends StatefulWidget {
@@ -125,7 +121,7 @@ import 'subscription/subscription_plans_page.dart';
 // }
 
 class MasterAdminHomePage extends GetWidget<MasterAdminController> {
-  // final BottomNavController controller = Get.put(BottomNavController());
+  const MasterAdminHomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -155,9 +151,8 @@ class MasterAdminHomePage extends GetWidget<MasterAdminController> {
                 pages: [
                   GetPage(
                     name: AppRoutes.masterAdminJewellerList,
-                    page: () => const JewellerListView(),
+                    page: () => const JewellerPage(),
                     binding: MasterAdminJewellerBinding(),
-                    // settings: RouteSettings(name: AppRoutes.masterAdminDashboard),
                   ),
                 ],
               ),
@@ -186,7 +181,7 @@ class MasterAdminHomePage extends GetWidget<MasterAdminController> {
                   GetPage(
                     name: AppRoutes.profile,
                     page: () => const CommonProfilePage(),
-                    binding: AuthBinding(),
+                    binding: LoginBinding(),
                     // settings: RouteSettings(name: AppRoutes.masterAdminDashboard),
                   ),
                 ],

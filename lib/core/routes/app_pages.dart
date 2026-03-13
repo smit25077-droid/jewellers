@@ -10,7 +10,7 @@ import 'package:digital_jeweller/features/admin/presentation/pages/add_banner_pa
 import 'package:digital_jeweller/features/admin/presentation/schemes/binding/scheme_binding.dart';
 import 'package:digital_jeweller/features/admin/presentation/schemes/pages/admin_schemes_list_page.dart';
 import 'package:digital_jeweller/features/admin/presentation/schemes/pages/admin_scheme_add_update.dart';
-import 'package:digital_jeweller/features/auth/presentation/binding/auth_biniding.dart';
+import 'package:digital_jeweller/features/auth/login/presentation/bindings/login_binding.dart';
 import 'package:digital_jeweller/features/master_admin/presentation/binding/master_admin_binding.dart';
 import 'package:digital_jeweller/features/master_admin/presentation/pages/dashboard/master_admin_dashboard_page.dart';
 import 'package:digital_jeweller/features/master_admin/presentation/pages/master_admin_home_page.dart';
@@ -22,7 +22,7 @@ import 'package:digital_jeweller/features/user/presentation/bindings/user_bindin
 import '../constants/app_routes.dart';
 
 // Auth Feature
-import '../../features/auth/presentation/pages/login_screen.dart';
+import '../../features/auth/login/presentation/pages/login_page.dart';
 
 // Master Admin Feature
 import '../../features/master_admin/presentation/pages/subscription/subscription_plans_page.dart';
@@ -39,15 +39,15 @@ class AppPages {
     // ==================== AUTH ROUTES ====================
     GetPage(
       name: AppRoutes.login,
-      page: () => LoginScreen(),
-      binding: AuthBinding(),
+      page: () => const LoginPage(),
+      binding: LoginBinding(),
       transition: Transition.fadeIn,
       transitionDuration: const Duration(milliseconds: 300),
     ),
     // ==================== MASTER ADMIN ROUTES ====================
     GetPage(
       name: AppRoutes.masterAdminHome,
-      page: () =>  MasterAdminHomePage(),
+      page: () => MasterAdminHomePage(),
       binding: MasterAdminBinding(),
       transition: Transition.fadeIn,
       transitionDuration: const Duration(milliseconds: 300),
@@ -92,8 +92,9 @@ class AppPages {
       page: () => const JewellerHomePage(),
       bindings: [
         AdminDashboardBinding(),
-        AdminCustomerListBinding(), // This should be from customer_add_update if that's what's used
-        SchemeBinding(),
+        // AdminCustomerListBinding(),
+        // This should be from customer_add_update if that's what's used
+        // SchemeBinding(),
       ],
       transition: Transition.fadeIn,
       transitionDuration: const Duration(milliseconds: 300),
@@ -103,8 +104,8 @@ class AppPages {
       page: () => const JewellerDashboardPage(),
       bindings: [
         AdminDashboardBinding(),
-        AdminCustomerListBinding(),
-        SchemeBinding(),
+        // AdminCustomerListBinding(),
+        // SchemeBinding(),
       ],
       transition: Transition.fadeIn,
       transitionDuration: const Duration(milliseconds: 300),
@@ -120,9 +121,8 @@ class AppPages {
 
     GetPage(
       name: AppRoutes.adminAddUser,
-      page: () => CustomerAddUpdatePage(
-        customer: Get.arguments, // Accept customer from arguments
-      ),
+      page: () => CustomerAddUpdatePage(),
+      arguments: Get.arguments,
       binding: AdminCustomerAddUpdateBinding(),
       transition: Transition.rightToLeft,
       transitionDuration: const Duration(milliseconds: 300),
@@ -181,7 +181,7 @@ class AppPages {
     GetPage(
       name: AppRoutes.profile,
       page: () => const CommonProfilePage(),
-      binding: AuthBinding(),
+      binding: LoginBinding(),
       transition: Transition.rightToLeft,
       transitionDuration: const Duration(milliseconds: 300),
     ),

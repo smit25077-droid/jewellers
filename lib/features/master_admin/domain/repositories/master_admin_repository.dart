@@ -1,4 +1,4 @@
-import '../../domain/entities/jeweller.dart';
+import 'package:digital_jeweller/features/master_admin/jeweller/domain/entities/jeweller.dart';
 
 abstract class MasterAdminRepository {
   Future<List<Jeweller>> getJewellers();
