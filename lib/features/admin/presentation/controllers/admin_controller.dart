@@ -106,7 +106,12 @@ class AdminController extends BaseController<AdminCustomerRepositoryImpl> {
         phoneController.text.isEmpty ||
         emailController.text.isEmpty ||
         passwordController.text.isEmpty) {
-      Get.snackbar('Error', 'Please fill all required fields');
+      showError('Please fill all required fields');
+      return;
+    }
+
+    if (phoneController.text.length != 10) {
+      showError('Mobile number must be 10 digits');
       return;
     }
 

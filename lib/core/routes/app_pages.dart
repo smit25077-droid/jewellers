@@ -27,6 +27,10 @@ import '../../features/auth/login/presentation/pages/login_page.dart';
 // Master Admin Feature
 import '../../features/master_admin/presentation/pages/subscription/subscription_plans_page.dart';
 
+// Super Admin Feature
+import '../../features/super_admin/presentation/pages/super_admin_web_layout.dart';
+import '../../features/super_admin/presentation/controllers/super_admin_dashboard_binding.dart';
+
 // Admin Feature
 import '../../features/admin/presentation/pages/banner_management_page.dart';
 
@@ -85,6 +89,15 @@ class AppPages {
     //   transition: Transition.rightToLeft,
     //   transitionDuration: const Duration(milliseconds: 300),
     // ),
+
+    // ==================== SUPER ADMIN ROUTES ====================
+    GetPage(
+      name: AppRoutes.superAdminWebDashboard,
+      page: () => const SuperAdminWebLayout(),
+      binding: SuperAdminDashboardBinding(),
+      transition: Transition.fadeIn,
+      transitionDuration: const Duration(milliseconds: 300),
+    ),
 
     // ==================== ADMIN ROUTES ====================
     GetPage(

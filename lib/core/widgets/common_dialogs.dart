@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import '../theme/app_colors.dart';
 import 'classic_card.dart';
+import '../utils/snackbar_utils.dart';
 
 /// Common logout dialog with theme support
 class CommonDialogs {
@@ -29,30 +29,12 @@ class CommonDialogs {
 
   /// Show success message
   static void showSuccess(String message) {
-    Get.snackbar(
-      'Success',
-      message,
-      backgroundColor: AppColors.success,
-      colorText: Colors.white,
-      snackPosition: SnackPosition.TOP,
-      duration: const Duration(seconds: 2),
-      margin: const EdgeInsets.all(16),
-      borderRadius: 4,
-    );
+    debugPrint('Success: $message');
   }
 
   /// Show error message
   static void showError(String message) {
-    Get.snackbar(
-      'Error',
-      message,
-      backgroundColor: AppColors.error,
-      colorText: Colors.white,
-      snackPosition: SnackPosition.TOP,
-      duration: const Duration(seconds: 3),
-      margin: const EdgeInsets.all(16),
-      borderRadius: 4,
-    );
+    SnackBarUtils.showError(message);
   }
 }
 

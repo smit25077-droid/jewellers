@@ -4,6 +4,8 @@ import 'package:digital_jeweller/core/network/dio_client.dart';
 import '../../jeweller/domain/entities/jeweller.dart';
 import '../models/jeweller_model.dart';
 import '../models/jeweller_list_response_model.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:image_picker/image_picker.dart';
 
 abstract class MasterAdminRemoteDataSource {
   Future<List<Jeweller>> getJewellers();
@@ -58,11 +60,20 @@ class MasterAdminRemoteDataSourceImpl implements MasterAdminRemoteDataSource {
 
       if (jeweller.logo != null &&
           jeweller.logo!.isNotEmpty &&
-          !jeweller.logo!.startsWith('http')) {
-        fields['logo'] = await MultipartFile.fromFile(
-          jeweller.logo!,
-          filename: jeweller.logo!.split('/').last,
-        );
+          !jeweller.logo!.startsWith('http') &&
+          !jeweller.logo!.startsWith('https')) {
+        if (kIsWeb) {
+          final XFile file = XFile(jeweller.logo!);
+          fields['logo'] = MultipartFile.fromBytes(
+            await file.readAsBytes(),
+            filename: file.name,
+          );
+        } else {
+          fields['logo'] = await MultipartFile.fromFile(
+            jeweller.logo!,
+            filename: jeweller.logo!.split('/').last,
+          );
+        }
       }
 
       final response = await dioClient.post(

@@ -83,7 +83,10 @@ class ShowImage extends StatelessWidget {
     if (localPath != null && localPath!.isNotEmpty) {
       imageProvider = FileImage(File(localPath!));
     } else if (networkUrl != null && networkUrl!.isNotEmpty) {
-      imageProvider = NetworkImage(ApiEndpoints.baseUrl+networkUrl!);
+      final fullUrl = ApiEndpoints.getImageUrl(networkUrl!);
+      if (fullUrl.isNotEmpty) {
+        imageProvider = NetworkImage(fullUrl);
+      }
     }
 
     return CircleAvatar(

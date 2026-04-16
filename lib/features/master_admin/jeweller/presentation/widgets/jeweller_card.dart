@@ -4,8 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:digital_jeweller/core/theme/app_colors.dart';
 import 'package:digital_jeweller/core/constants/api_endpoints.dart';
 import '../../domain/entities/jeweller.dart';
-import '../pages/jeweller_details_page.dart';
 import '../controllers/jeweller_controller.dart';
+import '../pages/add_jeweller_page.dart';
+import '../pages/jeweller_details_page.dart';
 
 class JewellerCard extends StatelessWidget {
   final Jeweller jeweller;
@@ -139,27 +140,100 @@ class JewellerCard extends StatelessWidget {
                       ],
                     ),
                   ),
-                  // Status Badge
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: (jeweller.isActive ?? false)
-                          ? Colors.green.withValues(alpha: 0.1)
-                          : Colors.grey.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Text(
-                      (jeweller.isActive ?? false) ? 'Active' : 'Inactive',
-                      style: TextStyle(
-                        color: (jeweller.isActive ?? false) ? Colors.green : Colors.grey,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
+                  // Actions (Edit/Delete)
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.edit_outlined, color: Colors.blue, size: 20),
+                        onPressed: () {
+                          final controller = Get.find<JewellerController>();
+                          controller.loadJewellerForEdit(jeweller);
+                          Get.to(() => const AddJewellerPage());
+                        },
+                        tooltip: 'Edit Jeweller',
                       ),
-                    ),
+                      IconButton(
+                        icon: const Icon(Icons.delete_outline_rounded, color: Colors.redAccent, size: 20),
+                        onPressed: () => _showDeleteDialog(context),
+                        tooltip: 'Delete Jeweller',
+                      ),
+                      const SizedBox(width: 8),
+                      // Status Badge
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: (jeweller.isActive ?? false)
+                              ? Colors.green.withValues(alpha: 0.1)
+                              : Colors.grey.withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Text(
+                          (jeweller.isActive ?? false) ? 'Active' : 'Inactive',
+                          style: TextStyle(
+                            color: (jeweller.isActive ?? false) ? Colors.green : Colors.grey,
+                            fontSize: 10,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
             ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showDeleteDialog(BuildContext context) {
+    Get.dialog(
+      Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.warning_amber_rounded, color: Colors.red, size: 48),
+              const SizedBox(height: 16),
+              Text(
+                'Delete Jeweller',
+                style: GoogleFonts.outfit(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              const Text(
+                'Are you sure you want to remove this jeweller?',
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.grey),
+              ),
+              const SizedBox(height: 24),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextButton(
+                      onPressed: () => Get.back(),
+                      child: const Text('Cancel'),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Get.find<JewellerController>().deleteJeweller(jeweller.id, popDetails: false);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red,
+                        foregroundColor: Colors.white,
+                      ),
+                      child: const Text('Delete'),
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ),

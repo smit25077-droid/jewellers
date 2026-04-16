@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/common_loading.dart';
+import 'package:digital_jeweller/core/utils/input_formatters.dart';
 
 class CustomerAddUpdatePage extends GetView<CustomerAddUpdateController> {
   const CustomerAddUpdatePage({super.key});
@@ -154,6 +155,8 @@ class CustomerAddUpdatePage extends GetView<CustomerAddUpdateController> {
       children: [
         TextField(
           controller: controller.nameController,
+          textCapitalization: TextCapitalization.words,
+          inputFormatters: [AppInputFormatters.autoCapitalizeAfterSpace],
           style: TextStyle(color: ClassicTheme.getTextPrimary(context), fontFamily: 'Serif'),
           decoration: InputDecoration(
             labelText: 'Name',
@@ -179,6 +182,7 @@ class CustomerAddUpdatePage extends GetView<CustomerAddUpdateController> {
         TextField(
           controller: controller.phoneController,
           enabled: controller.customer.value == null,
+          inputFormatters: [AppInputFormatters.phone, AppInputFormatters.digitsOnly],
           style: TextStyle(color: ClassicTheme.getTextPrimary(context), fontFamily: 'Serif'),
           decoration: InputDecoration(
             labelText: 'Mobile Number',
@@ -205,7 +209,6 @@ class CustomerAddUpdatePage extends GetView<CustomerAddUpdateController> {
             ),
           ),
           keyboardType: TextInputType.phone,
-          maxLength: 10,
         ),
         const SizedBox(height: 16),
         TextField(

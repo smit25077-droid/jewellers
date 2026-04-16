@@ -1,6 +1,7 @@
 import 'package:digital_jeweller/features/admin/banner/domain/entities/banner.dart';
 import 'package:digital_jeweller/features/admin/banner/domain/usecases/get_banners_usecase.dart';
 import 'package:get/get.dart';
+import 'package:digital_jeweller/core/utils/snackbar_utils.dart';
 
 
 class BannerController extends GetxController {
@@ -29,7 +30,7 @@ class BannerController extends GetxController {
       result.fold(
         (failure) {
           errorMessage.value = failure.message;
-          Get.snackbar('Error', failure.message);
+          SnackBarUtils.showError(failure.message);
         },
         (bannerList) {
           banners.assignAll(bannerList);
@@ -37,7 +38,7 @@ class BannerController extends GetxController {
       );
     } catch (e) {
       errorMessage.value = 'An unexpected error occurred';
-      Get.snackbar('Error', 'Failed to fetch banners');
+      SnackBarUtils.showError('Failed to fetch banners');
     } finally {
       isLoading.value = false;
     }

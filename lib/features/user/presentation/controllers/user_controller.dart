@@ -11,6 +11,7 @@ import 'package:digital_jeweller/features/user/domain/usecases/join_scheme_use_c
 import 'package:digital_jeweller/features/user/domain/usecases/joined_scheme_use_case.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:digital_jeweller/core/utils/snackbar_utils.dart';
 
 class UserController extends GetxController {
   final GetSchemesUseCase _getSchemesUseCase;
@@ -72,13 +73,7 @@ class UserController extends GetxController {
   // }
 
   void requestEmiPayment(double amount, bool isOnline) {
-    Get.snackbar(
-      'Payment Requested',
-      isOnline
-          ? 'Redirecting to payment gateway...'
-          : 'Cash pickup request sent to jeweller.',
-      snackPosition: SnackPosition.BOTTOM,
-    );
+    debugPrint('Payment Requested: ${isOnline ? 'Online' : 'Cash'}');
   }
 
   Future<void> fetchSchemes() async {
@@ -87,7 +82,7 @@ class UserController extends GetxController {
       final result = await _getSchemesUseCase.call();
       schemes.value = result;
     } catch (e) {
-      Get.snackbar('Error loading schemes', e.toString());
+      SnackBarUtils.showError(e.toString());
       schemes.clear();
     } finally {
       isLoading.value = false;
@@ -100,7 +95,7 @@ class UserController extends GetxController {
       final result = await _getBannersUseCase.call();
       result.fold(
         (failure) {
-          Get.snackbar('Error loading banners', failure.message);
+          SnackBarUtils.showError(failure.message);
           banners.clear();
         },
         (bannerList) {
@@ -108,7 +103,7 @@ class UserController extends GetxController {
         },
       );
     } catch (e) {
-      Get.snackbar('Error loading banners', e.toString());
+      SnackBarUtils.showError(e.toString());
       banners.clear();
     } finally {
       isLoadingBanners.value = false;
@@ -119,22 +114,12 @@ class UserController extends GetxController {
     try {
       isLoading.value = true;
       await _joinSchemeUseCase.call(schemeId);
-      Get.snackbar(
-        'Success',
-        'Joined scheme successfully',
-        backgroundColor: Colors.green,
-        colorText: Colors.white,
-      );
+      debugPrint('Success: Joined scheme successfully');
       joinedScheme();
       // Refresh user schemes or dashboard data if needed
       // _loadUserMockData();
     } catch (e) {
-      Get.snackbar(
-        'Error',
-        e.toString(),
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
+      SnackBarUtils.showError(e.toString());
     } finally {
       isLoading.value = false;
     }
@@ -146,12 +131,7 @@ class UserController extends GetxController {
       final response = await _joinedSchemeUseCase.call();
       userSchemes.value = response;
     } catch (e) {
-      Get.snackbar(
-        'Error',
-        e.toString(),
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
+      SnackBarUtils.showError(e.toString());
     } finally {
       isLoading.value = false;
     }
@@ -172,12 +152,7 @@ class UserController extends GetxController {
       jewellerSchemes = dashboardData.value?.jewellerSchemes ?? [];
       paymentStats = dashboardData.value?.paymentStats ?? [];
     } catch (e) {
-      Get.snackbar(
-        'Error',
-        e.toString(),
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
+      SnackBarUtils.showError(e.toString());
     } finally {
       isLoading.value = false;
     }

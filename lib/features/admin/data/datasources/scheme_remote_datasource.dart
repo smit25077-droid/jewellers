@@ -3,6 +3,8 @@ import 'package:digital_jeweller/core/error/exceptions.dart';
 import 'package:digital_jeweller/features/admin/data/models/scheme_model.dart';
 import 'package:digital_jeweller/features/user/data/models/joined_scheme_model.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:image_picker/image_picker.dart';
 
 abstract class SchemeRemoteDataSource {
   Future<List<SchemeModel>> getSchemes();
@@ -79,10 +81,18 @@ class SchemeRemoteDataSourceImpl implements SchemeRemoteDataSource {
       };
 
       if (schemeImagePath != null && schemeImagePath.isNotEmpty) {
-        fields['schemeImage'] = await MultipartFile.fromFile(
-          schemeImagePath,
-          filename: schemeImagePath.split('/').last,
-        );
+        if (kIsWeb) {
+          final XFile file = XFile(schemeImagePath);
+          fields['schemeImage'] = MultipartFile.fromBytes(
+            await file.readAsBytes(),
+            filename: file.name,
+          );
+        } else {
+          fields['schemeImage'] = await MultipartFile.fromFile(
+            schemeImagePath,
+            filename: schemeImagePath.split('/').last,
+          );
+        }
       }
 
       final response = await dio.post(
@@ -112,10 +122,18 @@ class SchemeRemoteDataSourceImpl implements SchemeRemoteDataSource {
       final fields = Map<String, dynamic>.from(updateData ?? {});
 
       if (schemeImagePath != null && schemeImagePath.isNotEmpty) {
-        fields['schemeImage'] = await MultipartFile.fromFile(
-          schemeImagePath,
-          filename: schemeImagePath.split('/').last,
-        );
+        if (kIsWeb) {
+          final XFile file = XFile(schemeImagePath);
+          fields['schemeImage'] = MultipartFile.fromBytes(
+            await file.readAsBytes(),
+            filename: file.name,
+          );
+        } else {
+          fields['schemeImage'] = await MultipartFile.fromFile(
+            schemeImagePath,
+            filename: schemeImagePath.split('/').last,
+          );
+        }
       }
 
       final response = await dio.put(

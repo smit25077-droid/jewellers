@@ -9,18 +9,21 @@ import '../../domain/usecases/get_jewellers_usecase.dart';
 import '../../domain/usecases/create_jeweller_usecase.dart';
 import '../../domain/usecases/delete_jeweller_usecase.dart';
 import '../../domain/usecases/update_jeweller_usecase.dart';
+import '../../domain/usecases/update_jeweller_details_usecase.dart';
 
 class JewellerController extends BaseController {
   final GetJewellersUseCase getJewellersUseCase;
   final CreateJewellerUseCase createJewellerUseCase;
   final DeleteJewellerUseCase deleteJewellerUseCase;
   final UpdateJewellerStatusUseCase toggleJewellerStatusUseCase;
+  final UpdateJewellerDetailsUseCase updateJewellerDetailsUseCase;
 
   JewellerController({
     required this.getJewellersUseCase,
     required this.createJewellerUseCase,
     required this.deleteJewellerUseCase,
     required this.toggleJewellerStatusUseCase,
+    required this.updateJewellerDetailsUseCase,
   });
 
   // Form key
@@ -103,6 +106,16 @@ class JewellerController extends BaseController {
       return;
     }
 
+    if (phoneController.text.length != 10) {
+      showError('Mobile number must be 10 digits');
+      return;
+    }
+
+    if (aadharController.text.isNotEmpty && aadharController.text.length != 12) {
+      showError('Aadhar number must be 12 digits');
+      return;
+    }
+
     final newJeweller = Jeweller(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       name: nameController.text.trim(),
@@ -151,6 +164,16 @@ class JewellerController extends BaseController {
       return;
     }
 
+    if (phoneController.text.length != 10) {
+      showError('Mobile number must be 10 digits');
+      return;
+    }
+
+    if (aadharController.text.isNotEmpty && aadharController.text.length != 12) {
+      showError('Aadhar number must be 12 digits');
+      return;
+    }
+
     if (editingJewellerId.value == null) {
       showError('No jeweller selected for update');
       return;
@@ -175,10 +198,7 @@ class JewellerController extends BaseController {
       isCreatingJeweller.value = true;
       errorMessage.value = null;
 
-      final result = await toggleJewellerStatusUseCase.call(
-        updatedJeweller.id,
-        updatedJeweller.isActive ?? true,
-      );
+      final result = await updateJewellerDetailsUseCase.call(updatedJeweller);
 
       // Update in list
       final index = jewellers.indexWhere((j) => j.id == updatedJeweller.id);
@@ -248,7 +268,7 @@ class JewellerController extends BaseController {
   }
 
   /// Delete a jeweller
-  Future<void> deleteJeweller(String id) async {
+  Future<void> deleteJeweller(String id, {bool popDetails = true}) async {
     try {
       isDeletingJeweller.value = true;
 
@@ -256,7 +276,7 @@ class JewellerController extends BaseController {
       jewellers.removeWhere((j) => j.id == id);
 
       Get.back(); // Close confirmation dialog
-      Get.back(); // Go back to list screen
+      if (popDetails) Get.back(); // Go back to list screen if needed
       showSuccess(message);
 
       // Reload list to ensure consistency

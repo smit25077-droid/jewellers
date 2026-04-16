@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
       case 'jewellers_admin':
         return AppRoutes.jewellerHome;
       case 'super_admin':
-        return AppRoutes.masterAdminHome;
+        return AppRoutes.superAdminWebDashboard;
       case 'customer':
         return AppRoutes.userHomeScreen;
       default:

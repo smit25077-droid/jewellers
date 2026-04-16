@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:digital_jeweller/features/master_admin/presentation/pages/master_admin_home_page.dart';
 import 'package:digital_jeweller/features/master_admin/presentation/controllers/master_admin_controller.dart';
 import 'package:digital_jeweller/core/service_locator.dart';
+import 'package:digital_jeweller/core/routes/app_pages.dart';
 
 void main() {
   setUpAll(() async {
@@ -24,6 +25,7 @@ void main() {
       await tester.pumpWidget(
         GetMaterialApp(
           home: MasterAdminHomePage(key: Key('master_admin_home')),
+          getPages: AppPages.routes,
         ),
       );
       await tester.pumpAndSettle();
@@ -42,6 +44,7 @@ void main() {
       await tester.pumpWidget(
         GetMaterialApp(
           home: MasterAdminHomePage(key: Key('master_admin_home')),
+          getPages: AppPages.routes,
         ),
       );
       await tester.pumpAndSettle();
@@ -64,6 +67,7 @@ void main() {
       await tester.pumpWidget(
         GetMaterialApp(
           home: MasterAdminHomePage(key: Key('master_admin_home')),
+          getPages: AppPages.routes,
         ),
       );
       await tester.pumpAndSettle();
@@ -88,6 +92,7 @@ void main() {
       await tester.pumpWidget(
         GetMaterialApp(
           home: MasterAdminHomePage(key: Key('master_admin_home')),
+          getPages: AppPages.routes,
         ),
       );
       await tester.pumpAndSettle();
@@ -112,13 +117,14 @@ void main() {
       await tester.pumpWidget(
         GetMaterialApp(
           home: MasterAdminHomePage(key: Key('master_admin_home')),
+          getPages: AppPages.routes,
         ),
       );
       await tester.pumpAndSettle();
 
-      // Test all tabs
+      final tabs = ['Dashboard', 'Jewellers', 'Plans', 'Profile'];
       for (int i = 0; i < 4; i++) {
-        await tester.tap(find.byType(BottomNavigationBarItem).at(i));
+        await tester.tap(find.text(tabs[i]));
         await tester.pumpAndSettle();
         expect(controller.selectedIndex.value, i);
       }

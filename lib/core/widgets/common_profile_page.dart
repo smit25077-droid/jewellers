@@ -76,7 +76,11 @@ class _CommonProfilePageState extends State<CommonProfilePage>
     _pulseCtrl = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 2200),
-    )..repeat(reverse: true);
+    );
+
+    if (!Get.testMode) {
+      _pulseCtrl.repeat(reverse: true);
+    }
 
     _fadeAnim = CurvedAnimation(parent: _entryCtrl, curve: Curves.easeOut);
     _slideAnim = Tween<Offset>(

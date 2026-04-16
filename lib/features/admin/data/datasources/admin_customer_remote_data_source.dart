@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:image_picker/image_picker.dart';
 
 import '../../../../core/base/base_service.dart';
 import '../../../../core/constants/api_endpoints.dart';
@@ -37,10 +39,18 @@ class AdminCustomerRemoteDataSource extends BaseService {
     };
 
     if (photoPath != null && photoPath.isNotEmpty) {
-      fields['photo'] = await MultipartFile.fromFile(
-        photoPath,
-        filename: photoPath.split('/').last,
-      );
+      if (kIsWeb) {
+        final XFile file = XFile(photoPath);
+        fields['photo'] = MultipartFile.fromBytes(
+          await file.readAsBytes(),
+          filename: file.name,
+        );
+      } else {
+        fields['photo'] = await MultipartFile.fromFile(
+          photoPath,
+          filename: photoPath.split('/').last,
+        );
+      }
     }
 
     return await post(ApiEndpoints.customers, data: FormData.fromMap(fields));
@@ -61,10 +71,15 @@ class AdminCustomerRemoteDataSource extends BaseService {
       'mobile': mobile,
       'email': email,
       if (photoPath != null)
-        'photo': await MultipartFile.fromFile(
-          photoPath,
-          filename: photoPath.split('/').last,
-        ),
+        'photo': kIsWeb
+          ? MultipartFile.fromBytes(
+              await (await XFile(photoPath)).readAsBytes(),
+              filename: 'photo.png',
+            )
+          : await MultipartFile.fromFile(
+              photoPath,
+              filename: photoPath.split('/').last,
+            ),
     });
 
     return await put(

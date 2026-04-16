@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:digital_jeweller/core/constants/api_endpoints.dart';
 
 /// Common classic card widget with theme-aware design
 /// Used across admin features for consistent look and feel
@@ -145,6 +146,10 @@ class ClassicAvatar extends StatelessWidget {
         ? Colors.white.withAlpha(20)
         : Colors.grey.shade200;
 
+    final fullUrl = profileImageUrl != null && profileImageUrl!.isNotEmpty 
+        ? ApiEndpoints.getImageUrl(profileImageUrl!) 
+        : '';
+
     return Container(
       width: size,
       height: size,
@@ -152,14 +157,14 @@ class ClassicAvatar extends StatelessWidget {
         color: backgroundColor ?? avatarBg,
         shape: BoxShape.circle,
         border: Border.all(color: borderColor, width: 1),
-        image: profileImageUrl != null && profileImageUrl!.isNotEmpty
+        image: fullUrl.isNotEmpty
             ? DecorationImage(
-                image: NetworkImage(profileImageUrl!),
+                image: NetworkImage(fullUrl),
                 fit: BoxFit.cover,
               )
             : null,
       ),
-      child: profileImageUrl == null || profileImageUrl!.isEmpty
+      child: fullUrl.isEmpty
           ? Center(
               child: Text(
                 _getInitials(name),

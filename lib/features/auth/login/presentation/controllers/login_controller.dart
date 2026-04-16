@@ -18,6 +18,7 @@ class LoginController extends BaseController<LoginRepositoryImpl>
   final TextEditingController jewellerCodeController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final isPasswordVisible = false.obs;
 
   late AnimationController fadeController;
   late AnimationController slideController;
@@ -115,10 +116,16 @@ class LoginController extends BaseController<LoginRepositoryImpl>
   Future<void> login(
     String jewellerCode,
     String mobile,
-    String password,
-  ) async {
+    String password, {
+    String platform = 'android',
+  }) async {
     if (mobile.isEmpty || password.isEmpty) {
       showError('Phone and password are required');
+      return;
+    }
+
+    if (mobile.length != 10) {
+      showError('Mobile number must be 10 digits');
       return;
     }
 
@@ -126,11 +133,11 @@ class LoginController extends BaseController<LoginRepositoryImpl>
       showLoading();
       final response = await loginUseCase.call(
         loginRequest: LoginRequestModel(
-          jewellerCode: jewellerCode,
+          jewellerCode: jewellerCode.isEmpty ? null : jewellerCode,
           phone: mobile,
           password: password,
-          fcmToken: 'dummyData',
-          platform: 'android',
+          fcmToken: 'dummy_token',
+          platform: platform,
         ),
       );
 
@@ -167,7 +174,7 @@ class LoginController extends BaseController<LoginRepositoryImpl>
         Get.offAllNamed(AppRoutes.jewellerHome);
         break;
       case 'super_admin':
-        Get.offAllNamed(AppRoutes.masterAdminDashboard);
+        Get.offAllNamed(AppRoutes.superAdminWebDashboard);
         break;
       case 'customer':
         Get.offAllNamed(AppRoutes.userHomeScreen);

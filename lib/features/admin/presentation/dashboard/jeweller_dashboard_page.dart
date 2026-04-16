@@ -1,4 +1,3 @@
-import 'package:digital_jeweller/core/widgets/premium_banner_carousel.dart';
 import 'package:digital_jeweller/features/admin/presentation/dashboard/admin_dashboard_controller.dart';
 import 'package:flutter/material.dart' hide Banner;
 import 'package:get/get.dart';
@@ -10,8 +9,6 @@ class JewellerDashboardPage extends GetView<AdminDashboardController> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
     return Scaffold(
       backgroundColor: AppColors.getBackgroundColor(context),
       body: SafeArea(

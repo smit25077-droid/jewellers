@@ -59,6 +59,7 @@ import 'package:digital_jeweller/features/master_admin/jeweller/domain/usecases/
 import 'package:digital_jeweller/features/master_admin/jeweller/domain/usecases/create_jeweller_usecase.dart';
 import 'package:digital_jeweller/features/master_admin/jeweller/domain/usecases/delete_jeweller_usecase.dart';
 import 'package:digital_jeweller/features/master_admin/jeweller/domain/usecases/update_jeweller_usecase.dart';
+import 'package:digital_jeweller/features/master_admin/jeweller/domain/usecases/update_jeweller_details_usecase.dart';
 
 // Master Admin - Jeweller Management Feature
 import 'package:digital_jeweller/features/master_admin/jeweller_management/data/services/jeweller_service.dart' as jm;
@@ -285,6 +286,9 @@ Future<void> setupLocator() async {
   );
   sl.registerLazySingleton<UpdateJewellerStatusUseCase>(
     () => UpdateJewellerStatusUseCase(repository: sl<JewellerRepository>()),
+  );
+  sl.registerLazySingleton<UpdateJewellerDetailsUseCase>(
+    () => UpdateJewellerDetailsUseCase(repository: sl<JewellerRepository>()),
   );
 
   // Jeweller Management Use Cases (new)

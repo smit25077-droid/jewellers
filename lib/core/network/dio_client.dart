@@ -4,6 +4,7 @@ import 'package:get_storage/get_storage.dart';
 import 'logger_interceptor.dart';
 import '../constants/api_endpoints.dart';
 import '../utils/loading_overlay.dart';
+import '../utils/snackbar_utils.dart';
 
 /// Dio HTTP Client with interceptors and error handling
 class DioClient {
@@ -28,7 +29,10 @@ class DioClient {
       InterceptorsWrapper(
         onRequest: (options, handler) {
           final token = _storage.read('token');
-          if (token != null) {
+          // Don't add token for login or register endpoints
+          bool isAuthRequest = options.path.contains('login') || options.path.contains('register');
+          
+          if (token != null && !isAuthRequest) {
             options.headers['Authorization'] = 'Bearer $token';
           }
           return handler.next(options);
@@ -185,8 +189,9 @@ class DioClient {
         errorMessage = 'Unexpected error occurred';
     }
 
-    // You can show error using Get.snackbar or any other method
+    // Show error using centralized utility
     debugPrint('API Error: $errorMessage');
+    SnackBarUtils.showError(errorMessage);
   }
 
   String _handleStatusCode(int? statusCode) {

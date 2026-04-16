@@ -78,8 +78,11 @@ class LoadingDialog {
 
     _isShowing = true;
     Get.dialog(
-      WillPopScope(
-        onWillPop: () async => false,
+      PopScope(
+        canPop: false,
+        onPopInvokedWithResult: (didPop, result) async {
+          if (didPop) return;
+        },
         child: Center(
           child: Container(
             padding: const EdgeInsets.all(24),

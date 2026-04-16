@@ -265,23 +265,23 @@ class LoginScreen extends GetWidget<AuthController> {
             padding: const EdgeInsets.all(40),
             decoration: BoxDecoration(
               color: isDark
-                  ? Colors.white.withAlpha(05)
-                  : Colors.white.withAlpha(9),
+                  ? Colors.white.withValues(alpha: 0.05)
+                  : Colors.white.withValues(alpha: 0.09),
               borderRadius: BorderRadius.circular(24),
               border: Border.all(
-                color: AppColors.primary.withAlpha(2),
+                color: AppColors.primary.withValues(alpha: 0.02),
                 width: 1.5,
               ),
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.primary.withAlpha(15),
+                  color: AppColors.primary.withValues(alpha: 0.15),
                   blurRadius: 40,
                   offset: const Offset(0, 20),
                 ),
                 BoxShadow(
                   color: isDark
-                      ? Colors.black.withAlpha(3)
-                      : Colors.grey.withAlpha(1),
+                      ? Colors.black.withValues(alpha: 0.03)
+                      : Colors.grey.withValues(alpha: 0.01),
                   blurRadius: 60,
                   offset: const Offset(0, 30),
                 ),

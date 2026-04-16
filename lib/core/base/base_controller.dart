@@ -2,6 +2,7 @@ import 'package:digital_jeweller/core/base/base_repository.dart';
 import 'package:digital_jeweller/core/service_locator.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:digital_jeweller/core/utils/snackbar_utils.dart';
 
 abstract class BaseController<R extends BaseRepository> extends GetxController {
   /// The repository instance for this controller.
@@ -15,50 +16,11 @@ abstract class BaseController<R extends BaseRepository> extends GetxController {
   void hideLoading() => isLoading.value = false;
 
   void showError(String message) {
-    try {
-      if (Get.context != null) {
-        Get.snackbar(
-          titleText: const SizedBox.shrink(),
-          '',
-          message,
-          snackPosition: SnackPosition.TOP,
-          backgroundColor: Colors.red.withAlpha(9),
-          colorText: Colors.white,
-          margin: const EdgeInsets.all(8),
-          borderRadius: 10,
-        );
-      } else {
-        debugPrint(
-          '⚠️ BaseController: Cannot show error snackbar (no context): $message',
-        );
-      }
-    } catch (e) {
-      debugPrint('⚠️ BaseController: Error showing snackbar: $e');
-      debugPrint('⚠️ BaseController: Original error message: $message');
-    }
+    SnackBarUtils.showError(message);
   }
 
   void showSuccess(String message) {
-    try {
-      if (Get.context != null) {
-        Get.snackbar(
-          titleText: const SizedBox.shrink(),
-          '',
-          message,
-          snackPosition: SnackPosition.TOP,
-          backgroundColor: Colors.green.withAlpha(9),
-          colorText: Colors.white,
-          margin: const EdgeInsets.all(8),
-          borderRadius: 10,
-        );
-      } else {
-        debugPrint(
-          '⚠️ BaseController: Cannot show success snackbar (no context): $message',
-        );
-      }
-    } catch (e) {
-      debugPrint('⚠️ BaseController: Error showing snackbar: $e');
-      debugPrint('⚠️ BaseController: Original success message: $message');
-    }
+    // According to user request: not show any flushbar for success
+    debugPrint('Success: $message');
   }
 }

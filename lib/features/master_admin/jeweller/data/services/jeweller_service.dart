@@ -2,6 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:digital_jeweller/core/network/dio_client.dart';
 import '../models/jeweller_model.dart';
 import 'package:digital_jeweller/features/master_admin/jeweller/domain/entities/jeweller.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:image_picker/image_picker.dart';
 
 abstract class JewellerService {
   Future<List<Jeweller>> getJewellers();
@@ -61,14 +63,28 @@ class JewellerServiceImpl implements JewellerService {
       );
 
       dynamic data;
-      if (jeweller.logo != null && !jeweller.logo!.startsWith('http')) {
-        data = FormData.fromMap({
-          ...model.toJson(),
-          'logo': await MultipartFile.fromFile(
-            jeweller.logo!,
-            filename: jeweller.logo!.split('/').last,
-          ),
-        });
+      if (jeweller.logo != null &&
+          !jeweller.logo!.startsWith('http') &&
+          !jeweller.logo!.startsWith('https')) {
+        if (kIsWeb) {
+          final XFile file = XFile(jeweller.logo!);
+          final bytes = await file.readAsBytes();
+          data = FormData.fromMap({
+            ...model.toJson(),
+            'logo': MultipartFile.fromBytes(
+              bytes,
+              filename: file.name,
+            ),
+          });
+        } else {
+          data = FormData.fromMap({
+            ...model.toJson(),
+            'logo': await MultipartFile.fromFile(
+              jeweller.logo!,
+              filename: jeweller.logo!.split('/').last,
+            ),
+          });
+        }
       } else {
         data = model.toJson();
       }
@@ -169,14 +185,27 @@ class JewellerServiceImpl implements JewellerService {
       dynamic data;
       if (jeweller.logo != null &&
           jeweller.logo!.isNotEmpty &&
-          !jeweller.logo!.startsWith('http')) {
-        data = FormData.fromMap({
-          ...model.toJson(),
-          'logo': await MultipartFile.fromFile(
-            jeweller.logo!,
-            filename: jeweller.logo!.split('/').last,
-          ),
-        });
+          !jeweller.logo!.startsWith('http') &&
+          !jeweller.logo!.startsWith('https')) {
+        if (kIsWeb) {
+          final XFile file = XFile(jeweller.logo!);
+          final bytes = await file.readAsBytes();
+          data = FormData.fromMap({
+            ...model.toJson(),
+            'logo': MultipartFile.fromBytes(
+              bytes,
+              filename: file.name,
+            ),
+          });
+        } else {
+          data = FormData.fromMap({
+            ...model.toJson(),
+            'logo': await MultipartFile.fromFile(
+              jeweller.logo!,
+              filename: jeweller.logo!.split('/').last,
+            ),
+          });
+        }
       } else {
         data = model.toJson();
       }

@@ -185,7 +185,12 @@ class CustomerAddUpdateController extends BaseController {
         phoneController.text.isEmpty ||
         emailController.text.isEmpty ||
         passwordController.text.isEmpty) {
-      Get.snackbar('Error', 'Please fill all required fields');
+      showError('Please fill all required fields');
+      return;
+    }
+
+    if (phoneController.text.length != 10) {
+      showError('Mobile number must be 10 digits');
       return;
     }
 
@@ -232,6 +237,11 @@ class CustomerAddUpdateController extends BaseController {
   // }
 
   Future<Customer> createCustomer() async {
+    if (phoneController.text.length != 10) {
+      showError('Mobile number must be 10 digits');
+      throw Exception('Invalid phone');
+    }
+
     try {
       showLoading();
       final created = await customerRepository.createCustomer(

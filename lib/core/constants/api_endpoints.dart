@@ -95,7 +95,7 @@ class ApiEndpoints {
 
   // Helper method to build full image URL
   static String getImageUrl(String? imagePath) {
-    if (imagePath == null || imagePath.isEmpty) {
+    if (imagePath == null || imagePath.isEmpty || imagePath == 'no-photo.jpg') {
       return '';
     }
 

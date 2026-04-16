@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:io';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:digital_jeweller/core/constants/api_endpoints.dart';
+import 'package:digital_jeweller/core/utils/input_formatters.dart';
+import 'package:flutter/services.dart';
 import '../controllers/jeweller_controller.dart';
 
 class AddJewellerPage extends GetWidget<JewellerController> {
@@ -29,6 +32,7 @@ class AddJewellerPage extends GetWidget<JewellerController> {
                 controller.nameController,
                 'Jeweller Name',
                 Icons.person,
+                textCapitalization: TextCapitalization.words,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter Jeweller Name';
@@ -40,17 +44,20 @@ class AddJewellerPage extends GetWidget<JewellerController> {
                 controller.shopNameController,
                 'Shop Name',
                 Icons.store,
+                textCapitalization: TextCapitalization.words,
               ),
               _buildTextField(
                 controller.addressController,
                 'Shop Address',
                 Icons.location_on,
+                textCapitalization: TextCapitalization.words,
               ),
               _buildTextField(
                 controller.phoneController,
                 'Mobile Number',
                 Icons.phone,
                 keyboardType: TextInputType.phone,
+                inputFormatters: [AppInputFormatters.phone, AppInputFormatters.digitsOnly],
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter Mobile Number';
@@ -105,6 +112,8 @@ class AddJewellerPage extends GetWidget<JewellerController> {
                 controller.jewellerCodeController,
                 'Jeweller Code',
                 Icons.code,
+                inputFormatters: [AppInputFormatters.uppercase],
+                textCapitalization: TextCapitalization.characters,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter Jeweller Code';
@@ -117,6 +126,8 @@ class AddJewellerPage extends GetWidget<JewellerController> {
                 controller.panController,
                 'PAN Card',
                 Icons.credit_card,
+                inputFormatters: [AppInputFormatters.uppercase, LengthLimitingTextInputFormatter(10)],
+                textCapitalization: TextCapitalization.characters,
                 validator: (value) {
                   if (value != null && value.isNotEmpty) {
                     if (value.length != 10) {
@@ -131,6 +142,7 @@ class AddJewellerPage extends GetWidget<JewellerController> {
                 'Aadhar Card',
                 Icons.badge,
                 keyboardType: TextInputType.number,
+                inputFormatters: [AppInputFormatters.aadhar, AppInputFormatters.digitsOnly],
                 validator: (value) {
                   if (value != null && value.isNotEmpty) {
                     if (value.length != 12) {
@@ -144,6 +156,8 @@ class AddJewellerPage extends GetWidget<JewellerController> {
                 controller.gstController,
                 'GST Number (27ABCDE1234F2Z5)',
                 Icons.description,
+                inputFormatters: [AppInputFormatters.uppercase, LengthLimitingTextInputFormatter(15)],
+                textCapitalization: TextCapitalization.characters,
                 validator: (value) {
                   if (value != null && value.isNotEmpty) {
                     if (value.length != 15) {
@@ -231,12 +245,19 @@ class AddJewellerPage extends GetWidget<JewellerController> {
                             );
                           },
                         )
-                      : Image.file(
-                          File(logoPath),
-                          height: 150,
-                          width: 150,
-                          fit: BoxFit.cover,
-                        ),
+                      : (kIsWeb || logoPath.startsWith('blob:'))
+                        ? Image.network(
+                            logoPath,
+                            height: 150,
+                            width: 150,
+                            fit: BoxFit.cover,
+                          )
+                        : Image.file(
+                            File(logoPath),
+                            height: 150,
+                            width: 150,
+                            fit: BoxFit.cover,
+                          ),
                   ),
                   Positioned(
                     top: 8,
@@ -292,6 +313,8 @@ class AddJewellerPage extends GetWidget<JewellerController> {
     TextInputType? keyboardType,
     String? Function(String?)? validator,
     bool obscureText = false,
+    List<TextInputFormatter>? inputFormatters,
+    TextCapitalization textCapitalization = TextCapitalization.none,
   }) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16.0),
@@ -305,6 +328,8 @@ class AddJewellerPage extends GetWidget<JewellerController> {
         validator: validator,
         keyboardType: keyboardType,
         obscureText: obscureText,
+        inputFormatters: inputFormatters,
+        textCapitalization: textCapitalization,
       ),
     );
   }

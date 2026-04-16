@@ -3,6 +3,8 @@ import 'package:digital_jeweller/core/error/exceptions.dart';
 import '../models/banner_model.dart';
 import 'package:dio/dio.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:image_picker/image_picker.dart';
 
 abstract class BannerService {
   Future<void> createBanner({
@@ -31,10 +33,15 @@ class BannerServiceImpl implements BannerService {
       final formData = FormData.fromMap({
         'title': title,
         'link': link,
-        'imageUrl': await MultipartFile.fromFile(
-          imageUrl,
-          filename: imageUrl.split('/').last,
-        ),
+        'imageUrl': kIsWeb
+          ? MultipartFile.fromBytes(
+              await (await XFile(imageUrl)).readAsBytes(),
+              filename: 'banner.png',
+            )
+          : await MultipartFile.fromFile(
+              imageUrl,
+              filename: imageUrl.split('/').last,
+            ),
       });
 
       await dio.post(

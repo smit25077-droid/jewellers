@@ -11,6 +11,10 @@ class AppRoutes {
   static const String masterAdminJewellerAddUpdate =
       '/master-admin/jewellers/add-update';
   static const String masterAdminSubscriptionPlans = '/master-admin/plans';
+  
+  // ==================== SUPER ADMIN ROUTES ====================
+  static const String superAdminWebDashboard = '/super-admin/web-dashboard';
+
   // ==================== ADMIN ROUTES ====================
   static const String jewellerHome = '/admin/home';
   static const String adminDashboard = '/admin/dashboard';
